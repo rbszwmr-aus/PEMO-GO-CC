@@ -45,8 +45,8 @@ func TestCaseActsAgainstDatabase(t *testing.T) {
 	const org, unit = "org_wingfu_holdings", "unit_wfg_a_12_a1"
 	acts := New(Deps{HelpdeskDB: helpdeskDB, CaseDB: caseDB, PlatformDB: owner,
 		ServingScopeNodes: func(context.Context, string, string) ([]string, error) { return nil, nil },
-		MayReport: func(context.Context, string, string, helpdesk.ReportTarget) (bool, error) { return true, nil },
-		OwnerCovers: func(context.Context, string, string, []string) (bool, error) { return true, nil },
+		MayReport:         func(context.Context, string, string, helpdesk.ReportTarget) (bool, error) { return true, nil },
+		OwnerCovers:       func(context.Context, string, string, []string) (bool, error) { return true, nil },
 		TicketsOfCase: func(ctx context.Context, o, c string) ([]string, error) {
 			ts, err := helpdesk.New(helpdeskDB).TicketsForCase(ctx, o, c)
 			ids := make([]string, len(ts))
@@ -97,9 +97,18 @@ func TestCaseActsAgainstDatabase(t *testing.T) {
 	if r, _ := acts.CloseCase(ctx, cs.CaseID, as.Version, "work_completed", actor, scope); r.Kind != "case-not-closable" {
 		t.Fatalf("close from assigned: %+v", r)
 	}
-	ip, err := acts.SetCaseStatus(ctx, cs.CaseID, as.Version, "resolved", nil, actor, scope)
+	// The two acts that write service_case tables directly (note, external link)
+	// must work on the helpdesk login (review finding 6).
+	if note, err := acts.AddCaseNote(ctx, cs.CaseID, NoteInput{ClientKey: "n1", Body: "Called the contractor."}, actor, scope); err != nil || note.Kind != "ok" {
+		t.Fatalf("case note: %+v %v", note, err)
+	}
+	aw, err := acts.SetCaseStatus(ctx, cs.CaseID, as.Version, "awaiting_external", &ExternalLink{ExternalSystem: "cmms", ExternalRef: "WO-" + key}, actor, scope)
+	if err != nil || aw.Kind != "ok" {
+		t.Fatalf("awaiting external with link: %+v %v", aw, err)
+	}
+	ip, err := acts.RecordExternalCompletion(ctx, cs.CaseID, aw.Version, "contractor done", actor, scope)
 	if err != nil || ip.Kind != "ok" {
-		t.Fatalf("resolve case: %+v %v", ip, err)
+		t.Fatalf("external completion: %+v %v", ip, err)
 	}
 	if r, _ := acts.ResolveTicketFromCase(ctx, cs.CaseID, ip.Version, "not_a_code", "done", actor, scope); r.Kind != "invalid-reason" {
 		t.Fatalf("reason: %+v", r)
@@ -113,7 +122,7 @@ func TestCaseActsAgainstDatabase(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if n := row.Int("n"); n != 6 { // submit, triage, open, assign, set status, resolve
+	if n := row.Int("n"); n != 8 { // submit, triage, open, assign, note, set status, external completion, resolve
 		t.Fatalf("audit rows: %d", n)
 	}
 }

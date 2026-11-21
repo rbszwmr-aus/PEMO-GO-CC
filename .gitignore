@@ -72,3 +72,4 @@ backend/bin/
 *.exe
 *.test
 *.out
+_import/

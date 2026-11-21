@@ -106,6 +106,16 @@ BEGIN
     -- Restricted read projection for the helpdesk case commands (same transaction).
     EXECUTE format('GRANT USAGE ON SCHEMA service_case TO %I', priv_prefix || 'helpdesk');
     EXECUTE format('GRANT SELECT ON ALL TABLES IN SCHEMA service_case TO %I', priv_prefix || 'helpdesk');
+    -- Go build: case notes and external links are plain inserts (no versioned
+    -- assertion behind them), written by the helpdesk case acts on their own
+    -- transaction. INSERT only on those two tables; the case itself stays
+    -- definer-only (open_from_ticket / append_assertion).
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'service_case' AND table_name = 'case_note') THEN
+      EXECUTE format('GRANT INSERT ON service_case.case_note TO %I', priv_prefix || 'helpdesk');
+    END IF;
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'service_case' AND table_name = 'case_external_link') THEN
+      EXECUTE format('GRANT INSERT ON service_case.case_external_link TO %I', priv_prefix || 'helpdesk');
+    END IF;
   END IF;
 
   -- EXECUTE: audit/idempotency to every production login; case commands to helpdesk only.

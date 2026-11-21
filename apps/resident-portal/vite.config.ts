@@ -49,6 +49,9 @@ export default defineConfig(({ command }) => {
       // 23282: clear of the Node build's 5176 and every other project's ports.
       port: 23282,
       strictPort: true,
+      // A repo on a Windows drive under WSL (/mnt/<drive>) gets no file-change events, so edits made from
+      // Windows never reach the dev server. Poll there; everywhere else keep native watching.
+      watch: process.cwd().startsWith('/mnt/') ? { usePolling: true, interval: 500 } : undefined,
       proxy,
     },
     preview: { proxy, host: '127.0.0.1' },

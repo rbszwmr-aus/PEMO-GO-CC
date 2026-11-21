@@ -40,6 +40,7 @@ export const S1Detail = screen(() => import('./S1HomeSafety.tsx'), 'S1Detail');
 export const S1List = screen(() => import('./S1HomeSafety.tsx'), 'S1List');
 export const S1Source = screen(() => import('./S1HomeSafety.tsx'), 'S1Source');
 export const S2Overview = screen(() => import('./S2Overview.tsx'), 'S2Overview');
+export const Dashboard = screen(() => import('./Dashboard.tsx'), 'Dashboard');
 export const VisitorFrontCounter = screen(() => import('./VisitorFrontCounter.tsx'), 'VisitorFrontCounter', ['frontCounter', 'lookups']);
 export const S3Tree = screen(() => import('./S3Properties.tsx'), 'S3Tree');
 export const S3Unit = screen(() => import('./S3Properties.tsx'), 'S3Unit');
@@ -89,7 +90,7 @@ export const ChainHost = screen(() => import('./ChainHost.tsx'), 'ChainHost');
 /** The screens each route renders; `preloadScreen` fetches them before the first render so no route starts blank. */
 const ROUTE_SCREENS: Record<string, readonly { preload: () => Promise<void> }[]> = {
   s1: [S1List, S1Detail, S1Delivery, S1Source],
-  s2: [S2Overview],
+  s2: [Dashboard],
   s3: [S3Tree, S3Unit],
   s4: [S4Cases],
   s5: [S5List],

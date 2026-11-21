@@ -384,6 +384,18 @@ type AcknowledgeResult struct {
 // Acknowledge records the acknowledgement once per (event, resident); the
 // same key replays, a different key is a duplicate.
 func (h *HomeSafety) Acknowledge(ctx context.Context, in AcknowledgeInput) (AcknowledgeResult, error) {
+	res, err := h.acknowledgeOnce(ctx, in)
+	// Two submissions racing (an offline replay arriving twice) both pass the
+	// reads and one INSERT hits the unique constraint. Read again: the winner's
+	// row now answers it as a replay (same key) or a duplicate (other key),
+	// instead of a 500.
+	if err != nil && platform.PgCode(err) == "23505" {
+		return h.acknowledgeOnce(ctx, in)
+	}
+	return res, err
+}
+
+func (h *HomeSafety) acknowledgeOnce(ctx context.Context, in AcknowledgeInput) (AcknowledgeResult, error) {
 	byKey, err := h.DB.QueryOne(ctx, `SELECT * FROM acknowledgement WHERE acknowledgement_key = $1`, in.AcknowledgementKey)
 	if err != nil {
 		return AcknowledgeResult{}, err

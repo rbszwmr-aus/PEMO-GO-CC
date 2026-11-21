@@ -95,6 +95,17 @@ real SMTP server (a fake one is used in tests), and running on Windows.
 - **The database container is renamed** to `pemo-go-dev-db` (volume `pemo-go-dev-db-data`, compose project `pemo-go-dev`). `docker compose down -v` here can never delete the Node build's database.
 - **MCP:** `pemo.list_charges` reads the live `/strata/charges` in live mode; the Node MCP always served the fixture. The default MCP port is 23284, and the server refuses all the reserved ports.
 
+### Fixed after an independent code review (2026-11-21)
+
+- **Header injection in notice emails**: a CR/LF in a notice title could add mail headers (for example `Reply-To`). Header values are now stripped of control characters, and mail carries `Date` and `Message-ID`.
+- **Sends survive a closed browser tab**: a claimed message is delivered and its outcome recorded even when the request is cancelled; the mail worker finishes the message it is on before shutting down.
+- **Rate limiting behind the dev proxy**: `/health` and `/ready` are never limited. Behind a trusted proxy (`PEMO_TRUSTED_PROXIES`, default loopback) the client from `X-Forwarded-For`, or else the caller's credential, is the bucket, so users behind one proxy no longer share one.
+- **Bodies with trailing junk** (`{}}`) are refused with 400, as `JSON.parse` did.
+- **An ignored error** in the notice acknowledgements read could panic; it is handled.
+- **Case notes and external links** could not be written by the helpdesk login; `010-grants.sql` grants INSERT on exactly those two tables, and the DB test now covers both acts.
+- **Racing acknowledgements** with the same key answer as a replay instead of a 500; a **blank `Idempotency-Key`** on a notice response is treated as no key (Node used `""` as a real key shared by all residents).
+- The server write timeout is 5 minutes, so an email batch cannot outlive its response.
+
 ## 4. Kept exactly as the Node build did it (deliberately)
 
 - Every response body, key order, timestamp format (`+08:00` local with optional milliseconds; JS-style UTC `…Z` with milliseconds), problem type and message.

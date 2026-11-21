@@ -226,7 +226,9 @@ func readJSONBody(r *http.Request) (map[string]any, error) {
 	if err := dec.Decode(&v); err != nil {
 		return nil, &bodyError{"malformed"}
 	}
-	if dec.More() {
+	// Exactly one JSON value: `{}}` or `{"a":1}]` is malformed, as JSON.parse says.
+	// (dec.More() is false before a stray `}` or `]`, so it cannot be the check.)
+	if _, err := dec.Token(); err != io.EOF {
 		return nil, &bodyError{"malformed"}
 	}
 	m, ok := v.(map[string]any)
@@ -359,7 +361,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		s.sendProblem(w, r, problems.EventNotFound())
 		return
 	}
-	if !s.limiter.allow(clientIP(r)) {
+	if !isProbe(r) && !s.limiter.allow(s.clientKey(r)) {
 		w.Header().Set("Retry-After", "60")
 		if isManagement(r) {
 			s.sendStaffProblem(w, r, staffProblems.TooManyRequests())
@@ -400,6 +402,51 @@ func clientIP(r *http.Request) string {
 		return r.RemoteAddr
 	}
 	return host
+}
+
+// isProbe: liveness and readiness are never rate limited (a busy UI must not
+// make a load balancer think the API is down).
+func isProbe(r *http.Request) bool { return r.URL.Path == "/health" || r.URL.Path == "/ready" }
+
+// clientKey is the rate-limit bucket for a request. A request from a trusted
+// proxy (PEMO_TRUSTED_PROXIES, default loopback: the Vite dev proxies) is keyed
+// by the client it names in X-Forwarded-For; X-Forwarded-For from anyone else
+// is ignored, so it cannot be used to dodge the limit. A trusted proxy that
+// names no client (Vite does not add the header) is keyed by its own address
+// plus the bearer credential, so users behind one proxy do not share a bucket.
+func (s *Server) clientKey(r *http.Request) string {
+	ip := clientIP(r)
+	if !s.trustedProxy(ip) {
+		return ip
+	}
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		parts := strings.Split(xff, ",")
+		for i := len(parts) - 1; i >= 0; i-- {
+			if c := strings.TrimSpace(parts[i]); c != "" && !s.trustedProxy(c) {
+				return c
+			}
+		}
+	}
+	if auth := r.Header.Get("authorization"); auth != "" {
+		return ip + "|" + platform.DeriveRequestFingerprint(auth)
+	}
+	return ip
+}
+
+func (s *Server) trustedProxy(ip string) bool {
+	addr := net.ParseIP(ip)
+	if addr == nil {
+		return false
+	}
+	if len(s.cfg.TrustedProxies) == 0 {
+		return addr.IsLoopback()
+	}
+	for _, n := range s.cfg.TrustedProxies {
+		if n.Contains(addr) {
+			return true
+		}
+	}
+	return false
 }
 
 // ---- rate limiting (review S3) ----

@@ -104,3 +104,25 @@ func TestDeliverMailWithoutSMTPIsLogOnly(t *testing.T) {
 		t.Fatalf("%+v", d)
 	}
 }
+
+// Review finding 1: a notice title must never start a new mail header.
+func TestSubjectCannotInjectHeaders(t *testing.T) {
+	port, got := fakeSMTP(t, false)
+	t.Setenv("SMTP_URL", "")
+	t.Setenv("SMTP_HOST", "127.0.0.1")
+	t.Setenv("SMTP_PORT", strconv.Itoa(port))
+	d := deliverMail("r@example.invalid", "a@b.example", "Water outage\r\nReply-To: phish@evil.example\nContent-Type: text/html", "body")
+	if d.Status != "accepted" {
+		t.Fatalf("%+v", d)
+	}
+	msg := <-got
+	head := msg[:strings.Index(msg, "\r\n\r\n")]
+	for _, bad := range []string{"\r\nReply-To:", "\r\nContent-Type: text/html", "\r\nBcc:"} {
+		if strings.Contains(head, bad) {
+			t.Fatalf("injected header %q survived:\n%s", bad, head)
+		}
+	}
+	if !strings.Contains(head, "\r\nDate: ") || !strings.Contains(head, "\r\nMessage-ID: <") {
+		t.Fatalf("Date / Message-ID missing:\n%s", head)
+	}
+}

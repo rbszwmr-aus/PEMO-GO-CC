@@ -3,6 +3,8 @@ package api
 import (
 	"errors"
 	"net"
+	"net/http"
+	"net/http/httptest"
 	"net/textproto"
 	"pemo/internal/platform"
 	"strings"
@@ -119,4 +121,45 @@ func TestDevTokens(t *testing.T) {
 func testConfig() *platform.Config {
 	hk, _ := time.LoadLocation("Asia/Hong_Kong")
 	return &platform.Config{Environment: "development", DevTokenSecret: "test-secret", DevTokenTTLSeconds: 3600, TimeZone: hk, ServiceName: "t", LogLevel: "error"}
+}
+
+// Review finding 5: exactly one JSON value per body.
+func TestBodyMustBeExactlyOneJSONValue(t *testing.T) {
+	for in, ok := range map[string]bool{`{}`: true, `{"a":1}`: true, " {\"a\":1} \n": true, `{}}`: false, `{"a":1}]`: false, `{} {}`: false} {
+		req := httptest.NewRequest("POST", "/x", strings.NewReader(in))
+		req.Header.Set("content-type", "application/json")
+		_, err := readJSONBody(req)
+		if (err == nil) != ok {
+			t.Errorf("%q: err=%v", in, err)
+		}
+	}
+}
+
+// Review finding 3: probes are never limited; proxied users get their own bucket;
+// X-Forwarded-For is only believed from a trusted proxy.
+func TestRateLimitKeys(t *testing.T) {
+	s := &Server{cfg: testConfig()}
+	req := func(remote, xff, auth string) *http.Request {
+		r := httptest.NewRequest("GET", "/api/x", nil)
+		r.RemoteAddr = remote
+		if xff != "" {
+			r.Header.Set("X-Forwarded-For", xff)
+		}
+		if auth != "" {
+			r.Header.Set("authorization", auth)
+		}
+		return r
+	}
+	if s.clientKey(req("203.0.113.9:1", "198.51.100.1", "")) != "203.0.113.9" {
+		t.Fatal("X-Forwarded-For from an untrusted address must be ignored")
+	}
+	if s.clientKey(req("127.0.0.1:1", "198.51.100.1", "")) != "198.51.100.1" {
+		t.Fatal("a loopback proxy's client must be used")
+	}
+	if s.clientKey(req("127.0.0.1:1", "", "Bearer a")) == s.clientKey(req("127.0.0.1:1", "", "Bearer b")) {
+		t.Fatal("two users behind the dev proxy must not share a bucket")
+	}
+	if !isProbe(httptest.NewRequest("GET", "/ready", nil)) {
+		t.Fatal("/ready is a probe")
+	}
 }

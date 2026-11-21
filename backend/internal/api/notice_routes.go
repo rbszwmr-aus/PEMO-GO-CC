@@ -405,7 +405,11 @@ func (s *Server) noticeRoutes() {
 			s.sendStaffProblem(w, r, staffProblems.NoticeNotFound())
 			return
 		}
-		es, _ := s.roleScope(ctx, sc, "estate_staff")
+		es, err := s.roleScope(ctx, sc, "estate_staff")
+		if err != nil {
+			s.handleManagementError(w, r, err)
+			return
+		}
 		recips, err := s.notices.Outstanding(ctx, sc.OrganizationID, id, es.NodeKeys)
 		if err != nil {
 			s.handleManagementError(w, r, err)
@@ -442,8 +446,11 @@ func (s *Server) noticeRoutes() {
 						"status", 400, "correlationId", correlationOf(r)))
 					return
 				}
-				k := r.Header.Get("idempotency-key")
-				if _, has := r.Header["Idempotency-Key"]; !has {
+				// A blank key is treated as no key. The Node build used "" as a real key,
+				// so after the first resident every blank-key response was silently
+				// "replayed" against someone else's.
+				k := strings.TrimSpace(r.Header.Get("idempotency-key"))
+				if k == "" {
 					k = platform.NewUUID()
 				}
 				res, err = s.respond(r.Context(), id, opt, k, a.ctx, at)

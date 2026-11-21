@@ -5,6 +5,7 @@ package platform
 
 import (
 	"fmt"
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -70,6 +71,9 @@ type Config struct {
 	AllowedOrigins []string
 	// RateLimitPerMinute bounds requests per client IP (review S3). 0 disables.
 	RateLimitPerMinute int
+	// TrustedProxies may name the real client in X-Forwarded-For (PEMO_TRUSTED_PROXIES,
+	// comma-separated IPs or CIDRs). Empty means loopback only.
+	TrustedProxies []*net.IPNet
 	// MailWorker drains queued outbox rows in the background (PEMO_MAIL_WORKER=1).
 	MailWorker bool
 }
@@ -221,6 +225,23 @@ func LoadConfigFrom(get func(string) (string, bool)) (*Config, error) {
 	}
 	c.EnableDemoRoutes = str("PEMO_ENABLE_DEMO_ROUTES", "") == "1"
 	c.MailWorker = str("PEMO_MAIL_WORKER", "") == "1"
+	for _, p := range strings.Split(str("PEMO_TRUSTED_PROXIES", ""), ",") {
+		if p = strings.TrimSpace(p); p == "" {
+			continue
+		}
+		if !strings.Contains(p, "/") {
+			if ip := net.ParseIP(p); ip != nil && ip.To4() != nil {
+				p += "/32"
+			} else {
+				p += "/128"
+			}
+		}
+		_, n, err := net.ParseCIDR(p)
+		if err != nil {
+			return nil, &ConfigurationError{fmt.Sprintf("PEMO_TRUSTED_PROXIES: %q is not an IP or CIDR", p)}
+		}
+		c.TrustedProxies = append(c.TrustedProxies, n)
+	}
 	tz := str("PEMO_TIME_ZONE", "Asia/Hong_Kong")
 	loc, lerr := time.LoadLocation(tz)
 	if lerr != nil {

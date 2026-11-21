@@ -2209,3 +2209,82 @@ td .pemo-chip, td .pemo-tag { max-width: 100%; white-space: normal; overflow-wra
 @media (min-width: 1100px) {
   .pemo-formgrid--page { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* ---- Dashboard + Chart (v0.1.0, 2026-11-19) ---- */
+[data-chart-tone="primary"] { --chart-tone: var(--pemo-brand-primary); }
+[data-chart-tone="soft"] { --chart-tone: var(--s4-selected-border); }
+[data-chart-tone="attention"] { --chart-tone: var(--s4-tag-attention-fg); }
+[data-chart-tone="critical"] { --chart-tone: var(--s4-tag-critical-fg); }
+[data-chart-tone="neutral"] { --chart-tone: var(--s4-muted-line); }
+
+.pemo-dash-filter { display: flex; flex-wrap: wrap; align-items: center; gap: var(--pemo-space-3); margin: var(--pemo-space-4) 0 0; }
+.pemo-dash-field { flex-direction: row; align-items: center; gap: 8px; }
+.pemo-dash-filter__range { margin-inline-start: auto; color: var(--pemo-neutral-600); font-size: 13px; }
+.pemo-dash-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: var(--pemo-space-4) 0; }
+.pemo-dash-cards .pemo-statcard { padding: 20px; }
+.pemo-dash-cards .pemo-statcard__value { font-size: 32px; }
+.pemo-dash-cards--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pemo-statcard__foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; color: var(--pemo-neutral-600); font-size: 12.5px; }
+.pemo-statcard--press:hover .pemo-statcard__foot { color: var(--s4-selected-text); }
+.pemo-dash-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: var(--pemo-space-4); }
+.pemo-dash-split > .pemo-panel { margin-bottom: 0; }
+.pemo-dash-panel-meta { color: var(--pemo-neutral-600); font-size: 13px; font-weight: 400; }
+@media (max-width: 1100px) { .pemo-dash-cards, .pemo-dash-cards--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .pemo-dash-split { grid-template-columns: minmax(0, 1fr); } }
+
+.pemo-donut { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px; padding: 6px 0; }
+.pemo-donut > svg { width: 168px; height: 168px; flex: none; }
+.pemo-donut__track { fill: none; stroke: var(--pemo-neutral-100); stroke-width: 14; }
+.pemo-donut__seg { fill: none; stroke: var(--chart-tone); stroke-width: 14; }
+.pemo-donut__seg[data-pick="true"] { cursor: pointer; }
+.pemo-donut__seg[data-pick="true"]:hover { stroke-width: 17; }
+.pemo-donut__total { font-size: 26px; font-weight: 750; fill: var(--pemo-neutral-900); font-variant-numeric: tabular-nums; }
+.pemo-donut__caption { font-size: 10px; fill: var(--pemo-neutral-600); }
+.pemo-chart__legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; min-width: 180px; }
+.pemo-chart__legend-row { display: flex; align-items: center; gap: 10px; width: 100%; padding: 6px 8px; border: 0; border-radius: 6px; background: none; font: inherit; color: inherit; text-align: start; }
+button.pemo-chart__legend-row { cursor: pointer; }
+button.pemo-chart__legend-row:hover { background: var(--s4-hover); }
+button.pemo-chart__legend-row:focus-visible { outline: 3px solid var(--pemo-brand-primary); outline-offset: 2px; }
+.pemo-chart__swatch { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--chart-tone); }
+.pemo-chart__legend-label { flex: 1; color: var(--pemo-neutral-600); }
+.pemo-chart__legend-value { font-weight: 750; font-variant-numeric: tabular-nums; }
+
+.pemo-series > svg { display: block; max-width: 100%; }
+.pemo-series__grid { stroke: var(--s4-line-150); stroke-width: 1; }
+.pemo-series__axis { font-size: 11px; fill: var(--pemo-neutral-600); font-variant-numeric: tabular-nums; }
+.pemo-series__bar { fill: var(--pemo-brand-primary); }
+.pemo-series__line { fill: none; stroke: var(--pemo-brand-primary); stroke-width: 2; stroke-linejoin: round; }
+.pemo-series__area { fill: var(--pemo-brand-primaryTint); opacity: 0.7; }
+.pemo-series__dot { fill: var(--pemo-common-white); stroke: var(--pemo-brand-primary); stroke-width: 2; }
+.pemo-series__hit { fill: transparent; }
+.pemo-series__item { outline: none; }
+.pemo-series__item[data-pick="true"] { cursor: pointer; }
+.pemo-series__item:hover .pemo-series__hit, .pemo-series__item:focus-visible .pemo-series__hit { fill: var(--s4-hover); opacity: 0.8; }
+.pemo-series__item:hover .pemo-series__bar, .pemo-series__item:focus-visible .pemo-series__bar { fill: var(--s4-primary-hover); }
+.pemo-series__item:focus-visible .pemo-series__hit { stroke: var(--pemo-brand-primary); stroke-width: 2; }
+.pemo-series__readout { display: block; min-height: 20px; margin-top: 4px; color: var(--pemo-neutral-600); font-size: 13px; text-align: end; font-variant-numeric: tabular-nums; }
+
+/* ---- Locations rail: the panel fills the rail and the TREE scrolls (PT 2026-11-21: "too short and
+   non-scrollable"). The rail sits under the 57px header, so it is one viewport tall minus the header; the panel
+   is a flex column that takes the remaining height and the tree is the only scrolling box inside it, so a long
+   tree (35 flats a block) scrolls in place under the search row instead of being clipped. */
+.pemo-shell .pemo-scope-rail[data-collapsed="false"] {
+  height: calc(100dvh - var(--pemo-header-height, 57px));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.pemo-shell .pemo-scope-rail[data-collapsed="false"] > .pemo-tree-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+.pemo-shell .pemo-scope-rail[data-collapsed="false"] > .pemo-tree-panel > .pemo-scope-tree,
+.pemo-shell .pemo-scope-rail[data-collapsed="false"] .pemo-scope-tree {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}

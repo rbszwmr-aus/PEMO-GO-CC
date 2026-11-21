@@ -7,8 +7,9 @@
  * Counts are the number of rows the press would show, derived from the same
  * rows the table renders.
  *
- * @version 0.3.0
+ * @version 0.4.0
  * @changelog
+ *   0.4.0 (2026-11-19) Optional `sub` caption (Current / Period); with `nav` it also carries a drill chevron.
  *   0.3.0 (2026-11-19) `icon` is required (a card without one fails tsc) and is drawn as a small tinted chip before the label, decorative (aria-hidden), one style on every page.
  *   0.2.0 (2026-11-19) Optional icon; StatCardRow for pages whose cards drive one filter.
  *   0.1.0 (2026-11-19) New.
@@ -32,6 +33,7 @@ export function StatCard({
   onPress,
   icon,
   nav,
+  sub,
 }: {
   id: string;
   label: string;
@@ -49,6 +51,8 @@ export function StatCard({
   icon: IconName;
   /** The press goes to another page, not a filter on this one: no pressed state. */
   nav?: boolean | undefined;
+  /** Short caption under the label (what the number covers). */
+  sub?: string | undefined;
 }) {
   const shown = typeof value === 'number' ? number(value, locale) : value;
   const body = (
@@ -63,6 +67,12 @@ export function StatCard({
         {label}
         {onPress && !nav ? <Icon name="ListFilter" size={14} /> : null}
       </span>
+      {sub ? (
+        <span className="pemo-statcard__foot">
+          <span>{sub}</span>
+          {onPress && nav ? <Icon name="ChevronRight" size={14} /> : null}
+        </span>
+      ) : null}
       {note ? <span className="pemo-statcard__note pemo-visually-hidden">{note}</span> : null}
     </>
   );

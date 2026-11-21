@@ -191,9 +191,10 @@ func smtpSend(host string, port int, implicitTLS bool, user, pass, from, to, sub
 	if err != nil {
 		return "", &errBeforeData{err}
 	}
-	msg := "From: " + from + "\r\nTo: " + to + "\r\nSubject: " + mimeHeader(subject) +
+	msg := "From: " + headerValue(from) + "\r\nTo: " + headerValue(to) + "\r\nSubject: " + mimeHeader(subject) +
+		"\r\nDate: " + time.Now().Format(time.RFC1123Z) + "\r\nMessage-ID: <" + platform.NewUUID() + "@" + messageIDHost(from) + ">" +
 		"\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n" +
-		strings.ReplaceAll(text, "\n", "\r\n")
+		dotSafeBody(text)
 	if _, err := wc.Write([]byte(msg)); err != nil {
 		return "", err
 	}
@@ -204,13 +205,42 @@ func smtpSend(host string, port int, implicitTLS bool, user, pass, from, to, sub
 	return "250", nil
 }
 
+// headerValue removes every control character (CR and LF above all) from a
+// header value, so text a staff member typed can never start a new header.
+func headerValue(s string) string {
+	return strings.Map(func(r rune) rune {
+		if r < 0x20 || r == 0x7f {
+			return ' '
+		}
+		return r
+	}, s)
+}
+
+// mimeHeader renders a Subject: control characters become spaces first (no
+// header injection through a notice title), then non-ASCII text is RFC 2047
+// encoded.
 func mimeHeader(s string) string {
+	s = headerValue(s)
 	for _, r := range s {
 		if r > 127 {
 			return "=?UTF-8?B?" + b64(s) + "?="
 		}
 	}
 	return s
+}
+
+func messageIDHost(from string) string {
+	if i := strings.LastIndex(from, "@"); i >= 0 && i < len(from)-1 {
+		return strings.Trim(headerValue(from[i+1:]), "<> ")
+	}
+	return "pemo.local"
+}
+
+// dotSafeBody normalises line endings to CRLF. (net/smtp's DATA writer does
+// the dot-stuffing.)
+func dotSafeBody(text string) string {
+	text = strings.ReplaceAll(text, "\r\n", "\n")
+	return strings.ReplaceAll(text, "\n", "\r\n")
 }
 
 var smtpCodeRe = regexp.MustCompile(`^(\d{3})\b`)
@@ -238,7 +268,12 @@ func classifyTransportError(err error) string {
 
 // ---- dispatch ----
 
-func (s *Server) dispatchClaimed(ctx context.Context, reserved strata.OutboxRecord, text string, afterClaim func(strata.OutboxRecord) error) (strata.OutboxRecord, bool, error) {
+func (s *Server) dispatchClaimed(reqCtx context.Context, reserved strata.OutboxRecord, text string, afterClaim func(strata.OutboxRecord) error) (strata.OutboxRecord, bool, error) {
+	// Once a row is claimed the send and its recorded outcome must finish even if
+	// the caller goes away (a closed browser tab, a shutdown signal): a cancelled
+	// request context would leave a delivered message stuck in "sending".
+	ctx, cancel := context.WithTimeout(context.WithoutCancel(reqCtx), 2*time.Minute)
+	defer cancel()
 	if strata.IsTerminalDelivery(reserved.Status) || reserved.Status == "sending" {
 		return reserved, true, nil
 	}
@@ -301,6 +336,8 @@ func (s *Server) recordAndShapeMany(ctx context.Context, sc *StaffContext, input
 			SubjectVersion: in.subjectVersion, To: in.to, Generation: gen}, OutboxID: "obx_" + platform.NewUUID(), From: from,
 			Subject: in.subject, BodyText: in.text, RecordedBy: sc.PrincipalID, RecipientScopeNodeKind: in.scopeKind, RecipientScopeNodeID: in.scopeID})
 	}
+	// The batch finishes even if the client disconnects (see dispatchClaimed).
+	ctx = context.WithoutCancel(ctx)
 	reserved, err := s.comms.ReserveMany(ctx, rows)
 	if err != nil {
 		return nil, err
@@ -836,6 +873,9 @@ func (s *Server) RunMailWorker(ctx context.Context, every time.Duration) {
 				continue
 			}
 			for _, r := range rows {
+				if ctx.Err() != nil {
+					return // shutting down: stop between messages, never inside one
+				}
 				row, err := s.comms.Get(ctx, r.Str("outbox_id"))
 				if err != nil || row == nil {
 					continue

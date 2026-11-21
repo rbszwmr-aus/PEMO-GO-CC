@@ -82,8 +82,9 @@ import { readSignedIn, writeSession } from './shell/session.ts';
 import { CHAIN_LIST_OF, isChainScreen } from './screens/chain-screens.ts';
 import type { ChainView } from './screens/ChainHost.tsx';
 import { isPortalTicketId } from './screens/portal-ticket-id.ts';
+import type { DashboardDrill, DashboardTab } from './screens/Dashboard.tsx';
 import {
-  ActConfirm, ActRecorded, AdminAuditList, AdminEmailConfigForm, AdminGroupsDetail, AdminGroupsList, AdminListsScreen, AdminRolesMatrix, AdminUsersDetail, AdminUsersList, BookingCalendar, BookingCheckin, BookingFacilitiesDetail, BookingFacilitiesList, BookingRates, BookingsList, ChainHost, ChargesDetail, ChargesList, ComposeForm, DocumentsDetail, DocumentsList, HelpDeskDetail, HelpDeskQueue, HouseholdsDetail, HouseholdsList, IntegrationStatusDetail, IntegrationStatusList, ParkCoreLink, PaymentsDetail, PaymentsList, PortalTicketStaffDetail, RefundsDetail, RefundsList, Reports, ResidentsDetail, ResidentsList, S1Delivery, S1Detail, S1List, S1Source, S2Overview, S3Tree, S3Unit, S4Cases, S5Detail, S5List, S5Outstanding, VisitorFrontCounter, VisitorLogList,
+  ActConfirm, ActRecorded, AdminAuditList, AdminEmailConfigForm, AdminGroupsDetail, AdminGroupsList, AdminListsScreen, AdminRolesMatrix, AdminUsersDetail, AdminUsersList, BookingCalendar, BookingCheckin, BookingFacilitiesDetail, BookingFacilitiesList, BookingRates, BookingsList, ChainHost, ChargesDetail, ChargesList, ComposeForm, DocumentsDetail, DocumentsList, HelpDeskDetail, HelpDeskQueue, HouseholdsDetail, HouseholdsList, IntegrationStatusDetail, IntegrationStatusList, ParkCoreLink, PaymentsDetail, PaymentsList, PortalTicketStaffDetail, RefundsDetail, RefundsList, Reports, ResidentsDetail, ResidentsList, S1Delivery, S1Detail, S1List, S1Source, Dashboard, S3Tree, S3Unit, S4Cases, S5Detail, S5List, S5Outstanding, VisitorFrontCounter, VisitorLogList,
   preloadScreen,
 } from './screens/lazy-screens.ts';
 
@@ -129,6 +130,8 @@ interface Route extends LiveConfig {
   signedIn: boolean;
   /** List filter from Overview drill-down (open | active | unknown-state). URL-carried. */
   filter?: string | undefined;
+  /** Dashboard tab (Overview screen): absent means overview. URL-carried only while it is the Alarms tab. */
+  tab?: DashboardTab | undefined;
   /** Resident id for residentsDetail. URL-carried. */
   resident?: string | undefined;
   /** Household id for householdsDetail. URL-carried. */
@@ -209,6 +212,7 @@ function readRoute(): Route {
     node: q.get('node') ?? undefined,
     at: q.get('at') ?? undefined,
     filter: q.get('filter') ?? undefined,
+    tab: q.get('tab') === 'alarms' ? 'alarms' : undefined,
     resident: readResidentId(q),
     household: q.get('household') ?? undefined,
     visitor: q.get('visitor') ?? undefined,
@@ -244,6 +248,7 @@ function writeRoute(r: Route): void {
   if (r.node) q.set('node', r.node);
   if (r.at) q.set('at', r.at);
   if (r.filter) q.set('filter', r.filter);
+  if (r.screen === 's2' && r.tab === 'alarms') q.set('tab', 'alarms');
   writeResidentId(q, r.resident);
   if (r.household) q.set('household', r.household);
   if (r.visitor) q.set('visitor', r.visitor);
@@ -304,6 +309,8 @@ interface Handlers {
   onCompose: (node: ScopeTreeNode) => void;
   onGoToTree: () => void;
   onCounterClick: Partial<Record<string, () => void>>;
+  onDashboardDrill: Record<DashboardDrill, () => void>;
+  onDashboardTab: (tab: DashboardTab) => void;
   onSubmitCompose: (body: ComposeNoticeRequest, clientKey: string) => void;
   onConfirm: (op: NoticeTransition, noticeId: string, body: NoticeTransitionRequest) => void;
   onBackToNotice: () => void;
@@ -613,7 +620,7 @@ function FixtureView({
         return <S1Source data={data as SafetyEventSourceResponse} locale={locale} />;
       return <S1List data={data as SafetyEventListResponse} locale={locale} focusKey={focusKey} />;
     case 's2':
-      return <S2Overview data={data as OverviewResponse} locale={locale} onCounterClick={handlers.onCounterClick} focusKey={focusKey} />;
+      return <Dashboard data={data as OverviewResponse} locale={locale} tab={route.tab ?? 'overview'} onTab={handlers.onDashboardTab} onDrill={handlers.onDashboardDrill} onCounterClick={handlers.onCounterClick} focusKey={focusKey} />;
     case 's3':
       return state === 'unit'
         ? <S3Unit data={data as UnitDetailResponse} locale={locale} onOpenHousehold={handlers.onOpenHousehold} />
@@ -974,6 +981,7 @@ export function App() {
         const screenChanged = next.screen !== undefined && next.screen !== prev.screen;
         return {
           ...prev,
+          ...(screenChanged ? { tab: undefined } : {}),
           screen,
           navId: SCREEN_TO_NAV[screen] ?? prev.navId,
           state: known.includes(state) ? state : fallback,
@@ -1039,6 +1047,7 @@ export function App() {
 
   const go = useCallback((patch: Partial<Route>) => setRouteT((prev) => {
     const next = { ...prev, ...patch };
+    if (patch.screen && patch.screen !== prev.screen && !('tab' in patch)) next.tab = undefined;
     if (patch.screen && patch.screen !== 'stub') {
       next.navId = SCREEN_TO_NAV[patch.screen] ?? next.navId;
     }
@@ -1067,6 +1076,15 @@ export function App() {
       'notices-active': () => go({ screen: 's5', state: 'wfg', filter: 'active', notice: undefined, node: undefined }),
       'units-unknown-state': () => go({ screen: 's3', state: 'tree', filter: 'unknown-state', notice: undefined, node: undefined }),
     },
+    onDashboardDrill: {
+      locations: () => go({ screen: 's3', state: 'tree', filter: undefined, notice: undefined, node: undefined }),
+      households: () => go({ screen: 'households', state: 'list', household: undefined }),
+      occupied: () => go({ screen: 'households', state: 'list', household: undefined }),
+      bookings: () => go({ screen: 'bookings', state: 'default', booking: undefined }),
+      receipts: () => go({ screen: 'payments', state: 'default', payment: undefined }),
+      safety: () => go({ screen: 's1', state: 'default', filter: undefined, notice: undefined, node: undefined }),
+    },
+    onDashboardTab: (tab: DashboardTab) => go({ tab: tab === 'alarms' ? 'alarms' : undefined }),
     onBackToNotice: useCallback(() => go({ screen: 's5detail', state: 'detail' }), [go]),
     onBackToList: useCallback(() => go({ screen: 's5', state: 'wfg' }), [go]),
     onOpenResident: useCallback((residentId: string) => go({ screen: 'residentsDetail', state: 'detail', resident: residentId, household: undefined }), [go]),

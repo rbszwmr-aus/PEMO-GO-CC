@@ -62,10 +62,16 @@ func run(envFile, root string) error {
 		return fmt.Errorf("cannot listen on %s (is the port in use by another project?): %w", addr, err)
 	}
 	hs := &http.Server{Handler: srv, ReadHeaderTimeout: 10 * time.Second, ReadTimeout: 30 * time.Second,
-		WriteTimeout: 60 * time.Second, IdleTimeout: 120 * time.Second, MaxHeaderBytes: 64 << 10}
+		WriteTimeout: 5 * time.Minute, IdleTimeout: 120 * time.Second, MaxHeaderBytes: 64 << 10}
+	workerDone := make(chan struct{})
 	if cfg.MailWorker {
-		go srv.RunMailWorker(ctx, 30*time.Second)
+		go func() { defer close(workerDone); srv.RunMailWorker(ctx, 30*time.Second) }()
+	} else {
+		close(workerDone)
 	}
+	// Pools close (deferred srv.Close) only after the worker has finished the
+	// message it is on.
+	defer func() { stop(); <-workerDone }()
 	errc := make(chan error, 1)
 	go func() { errc <- hs.Serve(ln) }()
 	log.Info("pemo api listening", map[string]any{"host": cfg.HTTPHost, "port": cfg.HTTPPort, "environment": cfg.Environment,

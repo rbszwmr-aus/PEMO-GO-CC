@@ -11,8 +11,9 @@
  * the contract decides neither; and this screen shows the basis rather than
  * presenting a bare number that cannot be interpreted.
  *
- * @version 0.2.0
+ * @version 0.3.0
  * @changelog
+ *   0.3.0 (2026-11-19) Now the body of the Dashboard's Alarms tab; the connected-systems panel moved out as S2Systems (Dashboard Overview tab).
  *   0.2.0 (2026-11-19) Overview counters carry an icon each (COUNTER_ICON).
  */
 
@@ -59,9 +60,9 @@ export function S2Overview({
   data: OverviewResponse;
   locale: Locale;
   /** Drill from a stats counter into its destination screen (keyed by counter.key). */
-  onCounterClick?: Partial<Record<string, () => void>>;
+  onCounterClick?: Partial<Record<string, () => void>> | undefined;
   /** Picked place — counters stay grant-level; the note states that. */
-  focusKey?: string | null;
+  focusKey?: string | null | undefined;
 }) {
   const M = MESSAGES.s2;
   return (
@@ -124,25 +125,6 @@ export function S2Overview({
       </section>
 
       <section className="pemo-panel">
-        <h2 className="pemo-panel__title">{t(M.integrationHeading, locale)}</h2>
-        <ul className="pemo-steps">
-          {data.integrationHealth.map((f) => (
-            <li key={f.key} className="pemo-step" data-testid="feed" data-feed={f.key}>
-              {/* The name arrives from the contract as 2IoThub. The export's
-                  retired IoT2Hub spelling is not reproduced. */}
-              <span style={{ flex: 1 }} data-testid="feed-name">{f.name}</span>
-              <PlainChip testId="feed-state">{t(M.feedState[f.state], locale)}</PlainChip>
-              {f.lastExchangeAt ? (
-                <span className="pemo-meta">
-                  {t(M.lastExchange, locale)} {dateTime(f.lastExchangeAt, locale)}
-                </span>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="pemo-panel">
         <h2 className="pemo-panel__title">{t(M.recentNoticesHeading, locale)}</h2>
         <ul className="pemo-steps">
           {data.recentNotices.map((n) => (
@@ -157,5 +139,30 @@ export function S2Overview({
 
       <DeferredActions locale={locale} actions={DEFERRED} />
     </>
+  );
+}
+
+/** The connected-systems strip (Dashboard Overview tab). */
+export function S2Systems({ data, locale }: { data: OverviewResponse; locale: Locale }) {
+  const M = MESSAGES.s2;
+  return (
+    <section className="pemo-panel">
+      <h2 className="pemo-panel__title">{t(M.integrationHeading, locale)}</h2>
+      <ul className="pemo-steps">
+        {data.integrationHealth.map((f) => (
+          <li key={f.key} className="pemo-step" data-testid="feed" data-feed={f.key}>
+            {/* The name arrives from the contract as 2IoThub. The export's
+                retired IoT2Hub spelling is not reproduced. */}
+            <span style={{ flex: 1 }} data-testid="feed-name">{f.name}</span>
+            <PlainChip testId="feed-state">{t(M.feedState[f.state], locale)}</PlainChip>
+            {f.lastExchangeAt ? (
+              <span className="pemo-meta">
+                {t(M.lastExchange, locale)} {dateTime(f.lastExchangeAt, locale)}
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
