@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000014",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "notices": [
+    {
+      "noticeId": "ntc_0814_water",
+      "noticeType": "planned_interruption",
+      "titleEn": "Scheduled water interruption, 14 August",
+      "lifecycleState": "live",
+      "publishAt": "2026-08-12T09:00:00+08:00",
+      "expireAt": "2026-08-15T00:00:00+08:00",
+      "mandatoryAck": true,
+      "version": 3,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "correctNotice",
+        "withdrawNotice"
+      ]
+    },
+    {
+      "noticeId": "ntc_0810_lift",
+      "noticeType": "planned_interruption",
+      "titleEn": "Low-zone lift maintenance",
+      "lifecycleState": "expired",
+      "publishAt": "2026-08-01T09:00:00+08:00",
+      "expireAt": "2026-08-05T00:00:00+08:00",
+      "mandatoryAck": false,
+      "version": 2,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "correctNotice",
+        "withdrawNotice"
+      ]
+    },
+    {
+      "noticeId": "ntc_0820_bbq",
+      "noticeType": "event_community",
+      "titleEn": "Mid-Autumn gathering, 20 September",
+      "lifecycleState": "draft",
+      "publishAt": null,
+      "expireAt": null,
+      "mandatoryAck": false,
+      "version": 1,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "publishNotice",
+        "reviseNotice"
+      ]
+    }
+  ]
+}

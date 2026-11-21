@@ -1,0 +1,179 @@
+{
+  "meta": {
+    "correlationId": "7a1b2c3d-res0-4000-8000-000000000002",
+    "contractVersion": "2.3.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "resident": {
+    "residentId": "res_wfg_000412",
+    "displayName": "Ho Mei-yi 何美儀",
+    "preferredLanguage": "en",
+    "directoryState": "verified",
+    "passReference": "RP-000412",
+    "verification": {
+      "state": "verified",
+      "verifiedAt": "2024-03-02T10:00:00+08:00"
+    },
+    "occupancies": [
+      {
+        "occupancyId": "occ_412_a12a1",
+        "role": "owner_occupier",
+        "unitClass": "residential",
+        "status": "active",
+        "effectiveFrom": "2020-01-01T00:00:00+08:00",
+        "effectiveTo": null,
+        "householdId": "hh_wfg_a_12_a1",
+        "scope": {
+          "node": {
+            "kind": "unit",
+            "id": "unit_wfg_a_12_a1",
+            "label": {
+              "en": "Flat A1",
+              "zh-Hant": "A1室"
+            }
+          },
+          "ancestry": [
+            {
+              "kind": "organization",
+              "id": "org_wingfu_holdings",
+              "label": {
+                "en": "Wing Fu Property Management",
+                "zh-Hant": "榮富物業管理"
+              }
+            },
+            {
+              "kind": "estate",
+              "id": "est_wing_fu_garden",
+              "label": {
+                "en": "Wing Fu Garden",
+                "zh-Hant": "榮富花園"
+              }
+            },
+            {
+              "kind": "building",
+              "id": "blk_wfg_a",
+              "label": {
+                "en": "Block A",
+                "zh-Hant": "A座"
+              }
+            },
+            {
+              "kind": "floor",
+              "id": "fl_wfg_a_12",
+              "label": {
+                "en": "12/F",
+                "zh-Hant": "12樓"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "occupancyId": "occ_412_c08c3",
+        "role": "household_member",
+        "unitClass": "residential",
+        "status": "active",
+        "effectiveFrom": "2023-06-01T00:00:00+08:00",
+        "effectiveTo": null,
+        "householdId": "hh_wfg_c_08_c3",
+        "scope": {
+          "node": {
+            "kind": "unit",
+            "id": "unit_wfg_c_08_c3",
+            "label": {
+              "en": "Flat C3",
+              "zh-Hant": "C3室"
+            }
+          },
+          "ancestry": [
+            {
+              "kind": "organization",
+              "id": "org_wingfu_holdings",
+              "label": {
+                "en": "Wing Fu Property Management",
+                "zh-Hant": "榮富物業管理"
+              }
+            },
+            {
+              "kind": "estate",
+              "id": "est_wing_fu_garden",
+              "label": {
+                "en": "Wing Fu Garden",
+                "zh-Hant": "榮富花園"
+              }
+            },
+            {
+              "kind": "building",
+              "id": "blk_wfg_c",
+              "label": {
+                "en": "Block C",
+                "zh-Hant": "C座"
+              }
+            },
+            {
+              "kind": "floor",
+              "id": "fl_wfg_c_08",
+              "label": {
+                "en": "8/F",
+                "zh-Hant": "8樓"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "occupancyId": "occ_412_p101",
+        "role": "owner_occupier",
+        "unitClass": "parking",
+        "status": "active",
+        "effectiveFrom": "2020-01-01T00:00:00+08:00",
+        "effectiveTo": null,
+        "householdId": "hh_wfg_a_12_a1",
+        "scope": {
+          "node": {
+            "kind": "unit",
+            "id": "unit_wfg_cp_p101",
+            "label": {
+              "en": "Parking P101",
+              "zh-Hant": "車位 P101"
+            }
+          },
+          "ancestry": [
+            {
+              "kind": "organization",
+              "id": "org_wingfu_holdings",
+              "label": {
+                "en": "Wing Fu Property Management",
+                "zh-Hant": "榮富物業管理"
+              }
+            },
+            {
+              "kind": "estate",
+              "id": "est_wing_fu_garden",
+              "label": {
+                "en": "Wing Fu Garden",
+                "zh-Hant": "榮富花園"
+              }
+            },
+            {
+              "kind": "building",
+              "id": "blk_wfg_cp",
+              "label": {
+                "en": "Car park",
+                "zh-Hant": "停車場"
+              }
+            },
+            {
+              "kind": "floor",
+              "id": "fl_wfg_cp_b1",
+              "label": {
+                "en": "B1",
+                "zh-Hant": "B1"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

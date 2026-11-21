@@ -1,0 +1,940 @@
+{
+  "$comment": "Fixture manifest for the PEMO resident-mobile contract v0.1.0. Owned by API-005-ST. tests/fixtures/validate.mjs reads this to know which schema each fixture must validate against, and to assert required-state coverage. Entries with clientOnly:true have no server response by design and carry the reason why.",
+  "contractVersion": "0.4.0",
+  "pid": "API-005-ST",
+  "fixtures": [
+    {
+      "file": "mob-02-home/default.json",
+      "screen": "mob-02-home",
+      "state": "default",
+      "schema": "HomeResponse",
+      "operationId": "getHome",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-02-home__default.sql"
+    },
+    {
+      "file": null,
+      "screen": "mob-02-home",
+      "state": "loading",
+      "clientOnly": true,
+      "reason": "No server response exists while a request is in flight. Loading is rendered by UI-007-ST from request state."
+    },
+    {
+      "file": null,
+      "screen": "mob-02-home",
+      "state": "offline",
+      "clientOnly": true,
+      "reason": "Client connectivity. The server cannot know it and never emits it. UI-007-ST renders the last successful payload with its data age from meta.generatedAt and, for safety projections, safety.freshness. See severity.md."
+    },
+    {
+      "file": "mob-02-home/error.json",
+      "screen": "mob-02-home",
+      "state": "error",
+      "schema": "Problem",
+      "operationId": "getHome",
+      "httpStatus": 500,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-02-home/no-permission.json",
+      "screen": "mob-02-home",
+      "state": "no-permission",
+      "schema": "Problem",
+      "operationId": "getHome",
+      "httpStatus": 403,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-02-home/session-expired.json",
+      "screen": "mob-02-home",
+      "state": "session-expired",
+      "schema": "Problem",
+      "operationId": "getHome",
+      "httpStatus": 401,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-02-home/integration-unavailable.json",
+      "screen": "mob-02-home",
+      "state": "integration-unavailable",
+      "schema": "Problem",
+      "operationId": "getHome",
+      "httpStatus": 503,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-03-services/default.json",
+      "screen": "mob-03-services",
+      "state": "default",
+      "schema": "ServicesResponse",
+      "operationId": "getServices",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-03-services__default.sql"
+    },
+    {
+      "file": null,
+      "screen": "mob-03-services",
+      "state": "loading",
+      "clientOnly": true,
+      "reason": "No server response exists while a request is in flight. Loading is rendered by UI-007-ST from request state."
+    },
+    {
+      "file": null,
+      "screen": "mob-03-services",
+      "state": "offline",
+      "clientOnly": true,
+      "reason": "Client connectivity. The server cannot know it and never emits it. UI-007-ST renders the last successful payload with its data age from meta.generatedAt and, for safety projections, safety.freshness. See severity.md."
+    },
+    {
+      "file": "mob-03-services/error.json",
+      "screen": "mob-03-services",
+      "state": "error",
+      "schema": "Problem",
+      "operationId": "getServices",
+      "httpStatus": 500,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-03-services/no-permission.json",
+      "screen": "mob-03-services",
+      "state": "no-permission",
+      "schema": "Problem",
+      "operationId": "getServices",
+      "httpStatus": 403,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-03-services/session-expired.json",
+      "screen": "mob-03-services",
+      "state": "session-expired",
+      "schema": "Problem",
+      "operationId": "getServices",
+      "httpStatus": 401,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-03-services/integration-unavailable.json",
+      "screen": "mob-03-services",
+      "state": "integration-unavailable",
+      "schema": "Problem",
+      "operationId": "getServices",
+      "httpStatus": 503,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-08-safety-overview/default.json",
+      "screen": "mob-08-safety-overview",
+      "state": "default",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__default.sql",
+      "sharesWorldWith": [
+        "mob-08-safety-overview/empty.json"
+      ],
+      "sharedWorldStatus": "unadjudicated",
+      "sharedWorldReason": "OPEN, and it is API-025-ST's. The two fixtures differ ONLY in meta.correlationId, so no response can distinguish them. The corpus convention is unambiguous -- on every other screen `empty` empties a collection `default` populates (notices 2->0, services 8->0, memberships 2->1) -- and mob-08's default already carries recentEvents: [], while no-installed-sensors already covers the installedServices case. So DEFAULT was meant to carry recent events. The fix is CROSS-SCOPE: the fixture is mine, the events it would name must exist in the seeded world, which is GEN-018-ST's, and scenario-binding-unbacked fires if they land apart."
+    },
+    {
+      "file": null,
+      "screen": "mob-08-safety-overview",
+      "state": "loading",
+      "clientOnly": true,
+      "reason": "No server response exists while a request is in flight. Loading is rendered by UI-007-ST from request state."
+    },
+    {
+      "file": null,
+      "screen": "mob-08-safety-overview",
+      "state": "offline",
+      "clientOnly": true,
+      "reason": "Client connectivity. The server cannot know it and never emits it. UI-007-ST renders the last successful payload with its data age from meta.generatedAt and, for safety projections, safety.freshness. See severity.md."
+    },
+    {
+      "file": "mob-08-safety-overview/error.json",
+      "screen": "mob-08-safety-overview",
+      "state": "error",
+      "schema": "Problem",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 500,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-08-safety-overview/no-permission.json",
+      "screen": "mob-08-safety-overview",
+      "state": "no-permission",
+      "schema": "Problem",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 403,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-08-safety-overview/session-expired.json",
+      "screen": "mob-08-safety-overview",
+      "state": "session-expired",
+      "schema": "Problem",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 401,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-08-safety-overview/integration-unavailable.json",
+      "screen": "mob-08-safety-overview",
+      "state": "integration-unavailable",
+      "schema": "Problem",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 503,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-09-safety-event-detail/default.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "default",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__default.sql",
+      "sharesWorldWith": [
+        "mob-09-safety-event-detail/duplicate-event.json"
+      ],
+      "sharedWorldStatus": "unadjudicated",
+      "sharedWorldReason": "OPEN, and the identical world DEFEATS the case rather than expressing it. A duplicate must not create a second event, so a byte-identical response IS the assertion -- but only if the world CONTAINS the duplicate while the response stays identical. It does not. Adjudicated by GEN-018-ST as intended-in-principle; deliberately NOT marked intended here, because declaring a sameness that currently means nothing is exactly the guess-wearing-a-declaration this field exists to prevent. Closes seed-side when the scenario carries the duplicate."
+    },
+    {
+      "file": null,
+      "screen": "mob-09-safety-event-detail",
+      "state": "loading",
+      "clientOnly": true,
+      "reason": "No server response exists while a request is in flight. Loading is rendered by UI-007-ST from request state."
+    },
+    {
+      "file": null,
+      "screen": "mob-09-safety-event-detail",
+      "state": "offline",
+      "clientOnly": true,
+      "reason": "Client connectivity. The server cannot know it and never emits it. UI-007-ST renders the last successful payload with its data age from meta.generatedAt and, for safety projections, safety.freshness. See severity.md."
+    },
+    {
+      "file": "mob-09-safety-event-detail/error.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "error",
+      "schema": "Problem",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 500,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-09-safety-event-detail/no-permission.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "no-permission",
+      "schema": "Problem",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 403,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-09-safety-event-detail/session-expired.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "session-expired",
+      "schema": "Problem",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 401,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-09-safety-event-detail/integration-unavailable.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "integration-unavailable",
+      "schema": "Problem",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 503,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-11-account/default.json",
+      "screen": "mob-11-account",
+      "state": "default",
+      "schema": "AccountResponse",
+      "operationId": "getAccount",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-11-account__default.sql"
+    },
+    {
+      "file": null,
+      "screen": "mob-11-account",
+      "state": "loading",
+      "clientOnly": true,
+      "reason": "No server response exists while a request is in flight. Loading is rendered by UI-007-ST from request state."
+    },
+    {
+      "file": null,
+      "screen": "mob-11-account",
+      "state": "offline",
+      "clientOnly": true,
+      "reason": "Client connectivity. The server cannot know it and never emits it. UI-007-ST renders the last successful payload with its data age from meta.generatedAt and, for safety projections, safety.freshness. See severity.md."
+    },
+    {
+      "file": "mob-11-account/error.json",
+      "screen": "mob-11-account",
+      "state": "error",
+      "schema": "Problem",
+      "operationId": "getAccount",
+      "httpStatus": 500,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-11-account/no-permission.json",
+      "screen": "mob-11-account",
+      "state": "no-permission",
+      "schema": "Problem",
+      "operationId": "getAccount",
+      "httpStatus": 403,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-11-account/session-expired.json",
+      "screen": "mob-11-account",
+      "state": "session-expired",
+      "schema": "Problem",
+      "operationId": "getAccount",
+      "httpStatus": 401,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-11-account/integration-unavailable.json",
+      "screen": "mob-11-account",
+      "state": "integration-unavailable",
+      "schema": "Problem",
+      "operationId": "getAccount",
+      "httpStatus": 503,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-02-home/empty.json",
+      "screen": "mob-02-home",
+      "state": "empty",
+      "schema": "HomeResponse",
+      "operationId": "getHome",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-02-home__empty.sql"
+    },
+    {
+      "file": "mob-03-services/empty.json",
+      "screen": "mob-03-services",
+      "state": "empty",
+      "schema": "ServicesResponse",
+      "operationId": "getServices",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-03-services__empty.sql"
+    },
+    {
+      "file": "mob-08-safety-overview/empty.json",
+      "screen": "mob-08-safety-overview",
+      "state": "empty",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__empty.sql",
+      "sharesWorldWith": [
+        "mob-08-safety-overview/default.json"
+      ],
+      "sharedWorldStatus": "unadjudicated",
+      "sharedWorldReason": "OPEN, and it is API-025-ST's. The two fixtures differ ONLY in meta.correlationId, so no response can distinguish them. The corpus convention is unambiguous -- on every other screen `empty` empties a collection `default` populates (notices 2->0, services 8->0, memberships 2->1) -- and mob-08's default already carries recentEvents: [], while no-installed-sensors already covers the installedServices case. So DEFAULT was meant to carry recent events. The fix is CROSS-SCOPE: the fixture is mine, the events it would name must exist in the seeded world, which is GEN-018-ST's, and scenario-binding-unbacked fires if they land apart."
+    },
+    {
+      "file": "mob-09-safety-event-detail/empty.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "empty",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__empty.sql"
+    },
+    {
+      "file": "mob-11-account/empty.json",
+      "screen": "mob-11-account",
+      "state": "empty",
+      "schema": "AccountResponse",
+      "operationId": "getAccount",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-11-account__empty.sql"
+    },
+    {
+      "file": "mob-02-home/partial.json",
+      "screen": "mob-02-home",
+      "state": "partial",
+      "schema": "HomeResponse",
+      "operationId": "getHome",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-02-home__partial.sql"
+    },
+    {
+      "file": "mob-03-services/partial.json",
+      "screen": "mob-03-services",
+      "state": "partial",
+      "schema": "ServicesResponse",
+      "operationId": "getServices",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-03-services__partial.sql"
+    },
+    {
+      "file": "mob-08-safety-overview/partial.json",
+      "screen": "mob-08-safety-overview",
+      "state": "partial",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__partial.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/partial.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "partial",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__partial.sql"
+    },
+    {
+      "file": "mob-11-account/partial.json",
+      "screen": "mob-11-account",
+      "state": "partial",
+      "schema": "AccountResponse",
+      "operationId": "getAccount",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-11-account__partial.sql"
+    },
+    {
+      "file": "mob-02-home/stale.json",
+      "screen": "mob-02-home",
+      "state": "stale",
+      "schema": "HomeResponse",
+      "operationId": "getHome",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-02-home__stale.sql"
+    },
+    {
+      "file": "mob-03-services/stale.json",
+      "screen": "mob-03-services",
+      "state": "stale",
+      "schema": "ServicesResponse",
+      "operationId": "getServices",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-03-services__stale.sql"
+    },
+    {
+      "file": "mob-08-safety-overview/stale.json",
+      "screen": "mob-08-safety-overview",
+      "state": "stale",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__stale.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/stale.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "stale",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__stale.sql"
+    },
+    {
+      "file": "mob-11-account/stale.json",
+      "screen": "mob-11-account",
+      "state": "stale",
+      "schema": "AccountResponse",
+      "operationId": "getAccount",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-11-account__stale.sql"
+    },
+    {
+      "file": "mob-02-home/long-content-en.json",
+      "screen": "mob-02-home",
+      "state": "long-content-en",
+      "schema": "HomeResponse",
+      "operationId": "getHome",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-02-home__long-content-en.sql"
+    },
+    {
+      "file": "mob-03-services/long-content-en.json",
+      "screen": "mob-03-services",
+      "state": "long-content-en",
+      "schema": "ServicesResponse",
+      "operationId": "getServices",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-03-services__long-content-en.sql"
+    },
+    {
+      "file": "mob-08-safety-overview/long-content-en.json",
+      "screen": "mob-08-safety-overview",
+      "state": "long-content-en",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__long-content-en.sql",
+      "sharesWorldWith": [
+        "mob-08-safety-overview/long-content-zh.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "Language is a REQUEST parameter, not world state. Both fixtures describe the same seeded world and differ only in the language requested, so an identical scenario is correct rather than a duplicate."
+    },
+    {
+      "file": "mob-09-safety-event-detail/long-content-en.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "long-content-en",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__long-content-en.sql",
+      "sharesWorldWith": [
+        "mob-09-safety-event-detail/long-content-zh.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "Language is a REQUEST parameter, not world state. Both fixtures describe the same seeded world and differ only in the language requested, so an identical scenario is correct rather than a duplicate."
+    },
+    {
+      "file": "mob-11-account/long-content-en.json",
+      "screen": "mob-11-account",
+      "state": "long-content-en",
+      "schema": "AccountResponse",
+      "operationId": "getAccount",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-11-account__long-content-en.sql",
+      "sharesWorldWith": [
+        "mob-11-account/long-content-zh.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "Language is a REQUEST parameter, not world state. Both fixtures describe the same seeded world and differ only in the language requested, so an identical scenario is correct rather than a duplicate."
+    },
+    {
+      "file": "mob-02-home/long-content-zh.json",
+      "screen": "mob-02-home",
+      "state": "long-content-zh",
+      "schema": "HomeResponse",
+      "operationId": "getHome",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-02-home__long-content-zh.sql"
+    },
+    {
+      "file": "mob-03-services/long-content-zh.json",
+      "screen": "mob-03-services",
+      "state": "long-content-zh",
+      "schema": "ServicesResponse",
+      "operationId": "getServices",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-03-services__long-content-zh.sql"
+    },
+    {
+      "file": "mob-08-safety-overview/long-content-zh.json",
+      "screen": "mob-08-safety-overview",
+      "state": "long-content-zh",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__long-content-zh.sql",
+      "sharesWorldWith": [
+        "mob-08-safety-overview/long-content-en.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "Language is a REQUEST parameter, not world state. Both fixtures describe the same seeded world and differ only in the language requested, so an identical scenario is correct rather than a duplicate."
+    },
+    {
+      "file": "mob-09-safety-event-detail/long-content-zh.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "long-content-zh",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__long-content-zh.sql",
+      "sharesWorldWith": [
+        "mob-09-safety-event-detail/long-content-en.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "Language is a REQUEST parameter, not world state. Both fixtures describe the same seeded world and differ only in the language requested, so an identical scenario is correct rather than a duplicate."
+    },
+    {
+      "file": "mob-11-account/long-content-zh.json",
+      "screen": "mob-11-account",
+      "state": "long-content-zh",
+      "schema": "AccountResponse",
+      "operationId": "getAccount",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-11-account__long-content-zh.sql",
+      "sharesWorldWith": [
+        "mob-11-account/long-content-en.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "Language is a REQUEST parameter, not world state. Both fixtures describe the same seeded world and differ only in the language requested, so an identical scenario is correct rather than a duplicate."
+    },
+    {
+      "file": "mob-09-safety-event-detail/duplicate-submission.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "duplicate-submission",
+      "schema": "Problem",
+      "operationId": "acknowledgeSafetyEvent",
+      "httpStatus": 409,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-09-safety-event-detail/acknowledgement-recorded.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "acknowledgement-recorded",
+      "schema": "AcknowledgementResponse",
+      "operationId": "acknowledgeSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__acknowledgement-recorded.sql",
+      "sharesWorldWith": [
+        "mob-09-safety-event-detail/acknowledgement-replayed.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "INTENDED, adjudicated by GEN-018-ST from the generator. The replay IS the same request sent twice, so one seeded world is correct: the distinction is a request sequence, not world state. The generator transcribes fixture->rows, so identical fixtures NECESSARILY produce identical worlds -- the sameness originates in the corpus, not the seed."
+    },
+    {
+      "file": "mob-09-safety-event-detail/acknowledgement-replayed.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "acknowledgement-replayed",
+      "schema": "AcknowledgementResponse",
+      "operationId": "acknowledgeSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__acknowledgement-replayed.sql",
+      "sharesWorldWith": [
+        "mob-09-safety-event-detail/acknowledgement-recorded.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "INTENDED, adjudicated by GEN-018-ST from the generator. The replay IS the same request sent twice, so one seeded world is correct: the distinction is a request sequence, not world state. The generator transcribes fixture->rows, so identical fixtures NECESSARILY produce identical worlds -- the sameness originates in the corpus, not the seed."
+    },
+    {
+      "file": null,
+      "screen": "mob-02-home",
+      "state": "duplicate-submission",
+      "clientOnly": true,
+      "reason": "No write path exists on this screen. Acknowledgement on MOB-09 is the contract's only write, so duplicate submission is exercised there."
+    },
+    {
+      "file": null,
+      "screen": "mob-03-services",
+      "state": "duplicate-submission",
+      "clientOnly": true,
+      "reason": "No write path exists on this screen. Acknowledgement on MOB-09 is the contract's only write, so duplicate submission is exercised there."
+    },
+    {
+      "file": null,
+      "screen": "mob-08-safety-overview",
+      "state": "duplicate-submission",
+      "clientOnly": true,
+      "reason": "No write path exists on this screen. Acknowledgement on MOB-09 is the contract's only write, so duplicate submission is exercised there."
+    },
+    {
+      "file": null,
+      "screen": "mob-11-account",
+      "state": "duplicate-submission",
+      "clientOnly": true,
+      "reason": "No write path exists on this screen. Acknowledgement on MOB-09 is the contract's only write, so duplicate submission is exercised there."
+    },
+    {
+      "file": "mob-08-safety-overview/no-installed-sensors.json",
+      "screen": "mob-08-safety-overview",
+      "state": "no-installed-sensors",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__no-installed-sensors.sql"
+    },
+    {
+      "file": "mob-08-safety-overview/sensor-offline.json",
+      "screen": "mob-08-safety-overview",
+      "state": "sensor-offline",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__sensor-offline.sql"
+    },
+    {
+      "file": "mob-08-safety-overview/unknown-unit.json",
+      "screen": "mob-08-safety-overview",
+      "state": "unknown-unit",
+      "schema": "Problem",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 409,
+      "notes": "Unmapped unit is held for staff review rather than guessed, per the committed property-and-identity-model.md audience-mapping rule.",
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-08-safety-overview/caregiver-permission-expired.json",
+      "screen": "mob-08-safety-overview",
+      "state": "caregiver-permission-expired",
+      "schema": "Problem",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 403,
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "mob-08-safety-overview/all-clear.json",
+      "screen": "mob-08-safety-overview",
+      "state": "all-clear",
+      "schema": "SafetyOverviewResponse",
+      "operationId": "getSafetyOverview",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-08-safety-overview__all-clear.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/event-update.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "event-update",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__event-update.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/duplicate-event.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "duplicate-event",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "notes": "A repeated source signal for an event already recorded resolves to the same eventId at the same revision. It does not create a second event and does not re-notify.",
+      "scenario": "scenarios/mob-09-safety-event-detail__duplicate-event.sql",
+      "sharesWorldWith": [
+        "mob-09-safety-event-detail/default.json"
+      ],
+      "sharedWorldStatus": "unadjudicated",
+      "sharedWorldReason": "OPEN, and the identical world DEFEATS the case rather than expressing it. A duplicate must not create a second event, so a byte-identical response IS the assertion -- but only if the world CONTAINS the duplicate while the response stays identical. It does not. Adjudicated by GEN-018-ST as intended-in-principle; deliberately NOT marked intended here, because declaring a sameness that currently means nothing is exactly the guess-wearing-a-declaration this field exists to prevent. Closes seed-side when the scenario carries the duplicate."
+    },
+    {
+      "file": "mob-09-safety-event-detail/late-event.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "late-event",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "notes": "occurredAt is 49 minutes before receivedAt. The client must present the detection time, not the receipt time, and say the event arrived late.",
+      "scenario": "scenarios/mob-09-safety-event-detail__late-event.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/corrected-event.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "corrected-event",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__corrected-event.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/retracted-event.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "retracted-event",
+      "schema": "Problem",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 410,
+      "scenario": "scenarios/mob-09-safety-event-detail__retracted-event.sql",
+      "scenarioKind": "behavioural"
+    },
+    {
+      "file": "mob-09-safety-event-detail/resident-not-authorized.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "resident-not-authorized",
+      "schema": "Problem",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 404,
+      "notes": "404 rather than 403: confirming the event exists would disclose a safety event in another resident's unit.",
+      "scenario": "scenarios/mob-09-safety-event-detail__resident-not-authorized.sql",
+      "scenarioKind": "behavioural"
+    },
+    {
+      "file": "mob-09-safety-event-detail/management-update-pending.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "management-update-pending",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__management-update-pending.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/all-clear.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "all-clear",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__all-clear.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/unknown-unit.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "unknown-unit",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-09-safety-event-detail__unknown-unit.sql"
+    },
+    {
+      "file": "mob-09-safety-event-detail/common-area-event.json",
+      "screen": "mob-09-safety-event-detail",
+      "state": "common-area-event",
+      "schema": "SafetyEventDetailResponse",
+      "operationId": "getSafetyEvent",
+      "httpStatus": 200,
+      "notes": "Required by ADR-003. The event is in a common area and the audience derives from that location's serving scope, not from any unit: locationClass=common_area, audienceSource=serving_scope. This is the only fixture that exercises the serving-scope path.",
+      "scenario": "scenarios/mob-09-safety-event-detail__common-area-event.sql"
+    },
+    {
+      "file": "mob-11-account/caregiver-permission-expired.json",
+      "screen": "mob-11-account",
+      "state": "caregiver-permission-expired",
+      "schema": "AccountResponse",
+      "operationId": "getAccount",
+      "httpStatus": 200,
+      "scenario": "scenarios/mob-11-account__caregiver-permission-expired.sql"
+    },
+    {
+      "file": "problems/bad-request.json",
+      "screen": "problems",
+      "state": "bad-request",
+      "schema": "Problem",
+      "operationId": "acknowledgeSafetyEvent",
+      "httpStatus": 400,
+      "notes": "Declared in 0.3.0 after being emitted undeclared from 0.1.0 (G5). Fixtured here for the first time, against acknowledgeSafetyEvent — the ONLY operation that declares 400. The registry names four emitters; the other three declare no 400 response, so G5 is only half closed. Raised by API-020-ST; closing it is a surface change and a minor bump, not this patch. A client fault: the body carries no detail of the malformed request by design.",
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it.",
+      "bodyKind": "request"
+    },
+    {
+      "file": "problems/invalid-credential.json",
+      "screen": "problems",
+      "state": "invalid-credential",
+      "schema": "Problem",
+      "operationId": "getHome",
+      "httpStatus": 401,
+      "notes": "NOT recoverable by refresh — the distinction from session-expired, which is. Provoked by an absent, malformed or foreign token. See G7: the five existing session-expired fixtures were provoked by an ABSENT token, which under B5 is this type; that question belongs to the backend track and is untouched here.",
+      "scenario": null,
+      "noScenarioReason": "No seeded world state. This fixture is a Problem body provoked by request or credential conditions, not by anything in the database. NOTE: what provokes it is still unrecorded -- that is G7, and this field does not close it."
+    },
+    {
+      "file": "notices/read.json",
+      "screen": "notices",
+      "state": "read",
+      "schema": "NoticeAckResponse",
+      "operationId": "markNoticeRead",
+      "httpStatus": 200,
+      "notes": "A FACT, not a state. Repeating it is a no-op returning the original act.",
+      "scenario": "scenarios/management__notices__lifecycle.sql",
+      "worldInstant": "2026-09-03T09:00:00+08:00",
+      "sharesWorldWith": [
+        "notices/acknowledge.json",
+        "notices/my-notices.json",
+        "notices/respond-request.json",
+        "notices/respond.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "One notice, one lifecycle, walked once and recorded at every step: compose, revise, submit, approve, publish, correct, withdraw, the resident's three acts and the two reads. The sameness IS the point — these fixtures are consecutive states of a single world, so a client can follow the whole sequence, and separating them into worlds that only looked alike would make the sequence unfollowable and the versions disagree.",
+      "scenarioKind": "behavioural"
+    },
+    {
+      "file": "notices/acknowledge.json",
+      "screen": "notices",
+      "state": "acknowledge",
+      "schema": "NoticeAckResponse",
+      "operationId": "acknowledgeNotice",
+      "httpStatus": 200,
+      "notes": "Once-only: a duplicate returns the original act.",
+      "scenario": "scenarios/management__notices__lifecycle.sql",
+      "worldInstant": "2026-09-03T09:00:00+08:00",
+      "sharesWorldWith": [
+        "notices/my-notices.json",
+        "notices/read.json",
+        "notices/respond-request.json",
+        "notices/respond.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "One notice, one lifecycle, walked once and recorded at every step: compose, revise, submit, approve, publish, correct, withdraw, the resident's three acts and the two reads. The sameness IS the point — these fixtures are consecutive states of a single world, so a client can follow the whole sequence, and separating them into worlds that only looked alike would make the sequence unfollowable and the versions disagree.",
+      "scenarioKind": "behavioural"
+    },
+    {
+      "file": "notices/respond-request.json",
+      "screen": "notices",
+      "state": "respond-request",
+      "schema": "NoticeResponseRequest",
+      "operationId": "respondToNotice",
+      "httpStatus": 200,
+      "notes": "Only a DECLARED option is accepted; free text is refused.",
+      "scenario": "scenarios/management__notices__lifecycle.sql",
+      "worldInstant": "2026-09-03T09:00:00+08:00",
+      "sharesWorldWith": [
+        "notices/acknowledge.json",
+        "notices/my-notices.json",
+        "notices/read.json",
+        "notices/respond.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "One notice, one lifecycle, walked once and recorded at every step: compose, revise, submit, approve, publish, correct, withdraw, the resident's three acts and the two reads. The sameness IS the point — these fixtures are consecutive states of a single world, so a client can follow the whole sequence, and separating them into worlds that only looked alike would make the sequence unfollowable and the versions disagree.",
+      "scenarioKind": "behavioural",
+      "bodyKind": "request"
+    },
+    {
+      "file": "notices/respond.json",
+      "screen": "notices",
+      "state": "respond",
+      "schema": "NoticeAckResponse",
+      "operationId": "respondToNotice",
+      "httpStatus": 200,
+      "notes": "Latest-wins, and only a declared option.",
+      "scenario": "scenarios/management__notices__lifecycle.sql",
+      "worldInstant": "2026-09-03T09:00:00+08:00",
+      "sharesWorldWith": [
+        "notices/acknowledge.json",
+        "notices/my-notices.json",
+        "notices/read.json",
+        "notices/respond-request.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "One notice, one lifecycle, walked once and recorded at every step: compose, revise, submit, approve, publish, correct, withdraw, the resident's three acts and the two reads. The sameness IS the point — these fixtures are consecutive states of a single world, so a client can follow the whole sequence, and separating them into worlds that only looked alike would make the sequence unfollowable and the versions disagree.",
+      "scenarioKind": "behavioural"
+    },
+    {
+      "file": "notices/my-notices.json",
+      "screen": "notices",
+      "state": "my-notices",
+      "schema": "MyNoticesResponse",
+      "operationId": "getMyNotices",
+      "httpStatus": 200,
+      "notes": "R1. Gated by the audience SNAPSHOT, and carrying no governance field at all.",
+      "scenario": "scenarios/management__notices__lifecycle.sql",
+      "worldInstant": "2026-09-03T09:00:00+08:00",
+      "sharesWorldWith": [
+        "notices/acknowledge.json",
+        "notices/read.json",
+        "notices/respond-request.json",
+        "notices/respond.json"
+      ],
+      "sharedWorldStatus": "intended",
+      "sharedWorldReason": "One notice, one lifecycle, walked once and recorded at every step: compose, revise, submit, approve, publish, correct, withdraw, the resident's three acts and the two reads. The sameness IS the point — these fixtures are consecutive states of a single world, so a client can follow the whole sequence, and separating them into worlds that only looked alike would make the sequence unfollowable and the versions disagree.",
+      "scenarioKind": "behavioural"
+    }
+  ]
+}

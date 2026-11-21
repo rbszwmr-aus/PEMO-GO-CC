@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000035",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00",
+    "partial": true,
+    "degraded": [
+      {
+        "section": "memberships",
+        "reason": {
+          "en": "Your other units could not be loaded.",
+          "zh-Hant": "無法載入您的其他單位。"
+        }
+      }
+    ]
+  },
+  "resident": {
+    "residentId": "res_wfg_000412",
+    "displayName": "Ho Mei-yi 何美儀",
+    "greeting": {
+      "en": "Good morning",
+      "zh-Hant": "早晨"
+    }
+  },
+  "pass": {
+    "passReference": "RP-A1-4471",
+    "holderName": "Ho Mei-yi 何美儀",
+    "unitDisplayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    },
+    "carriesAccess": false,
+    "note": {
+      "en": "Shown at the counter to identify you. It carries no door access — access cards stay with the existing system.",
+      "zh-Hant": "於櫃檯出示以核實身分。此通行證不含門禁功能，門禁卡仍由現有系統管理。"
+    }
+  },
+  "memberships": [
+    {
+      "unitId": "unit_wfg_a_12_a1",
+      "displayLine": {
+        "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+        "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+      },
+      "role": "owner_occupier",
+      "isCurrent": true,
+      "effectiveTo": null
+    }
+  ],
+  "notificationPreferences": [
+    {
+      "preferenceKey": "critical_safety",
+      "label": {
+        "en": "Critical safety alerts",
+        "zh-Hant": "緊急安全警報"
+      },
+      "description": {
+        "en": "Always on — cannot be switched off",
+        "zh-Hant": "永久開啟，不能關閉"
+      },
+      "enabled": true,
+      "locked": true,
+      "lockReason": {
+        "en": "Critical safety alerts cannot be switched off. The control is shown locked with the reason, not hidden.",
+        "zh-Hant": "緊急安全警報不能關閉。此設定會顯示為鎖定並附上原因，而非隱藏。"
+      },
+      "channels": [
+        "in_app",
+        "push"
+      ]
+    },
+    {
+      "preferenceKey": "notices_and_advisories",
+      "label": {
+        "en": "Notices and advisories",
+        "zh-Hant": "通告及提示"
+      },
+      "description": {
+        "en": "App and push",
+        "zh-Hant": "應用程式及推送通知"
+      },
+      "enabled": true,
+      "locked": false,
+      "channels": [
+        "in_app",
+        "push"
+      ]
+    },
+    {
+      "preferenceKey": "case_replies",
+      "label": {
+        "en": "Case replies",
+        "zh-Hant": "個案回覆"
+      },
+      "description": {
+        "en": "App and push",
+        "zh-Hant": "應用程式及推送通知"
+      },
+      "enabled": true,
+      "locked": false,
+      "channels": [
+        "in_app",
+        "push"
+      ]
+    }
+  ],
+  "language": "en"
+}

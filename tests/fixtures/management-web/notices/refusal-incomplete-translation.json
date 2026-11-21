@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-incomplete-translation",
+  "title": "Both languages are required to publish",
+  "status": 422,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "A notice must carry both English and Traditional Chinese before it is published.",
+    "zh-Hant": "通告必須同時具備英文及繁體中文內容才可發佈。"
+  },
+  "retryable": false
+}

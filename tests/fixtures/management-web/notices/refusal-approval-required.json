@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-approval-required",
+  "title": "This notice type requires approval before publication",
+  "status": 409,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "This notice type must be approved before it can be published.",
+    "zh-Hant": "此類通告必須先獲批准才可發佈。"
+  },
+  "retryable": false
+}

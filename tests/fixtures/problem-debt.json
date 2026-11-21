@@ -1,0 +1,103 @@
+{
+  "$comment": "PROBLEM TYPES A CONTRACT DECLARES THAT HAVE NO FIXTURE, each named and owned (GEN-052 D1, from UI-051 G1). Read by tests/contract/operation-fixture-parity.test.ts, which REDS on any declared Problem type absent from both the corpus and this file. A debt with a creditor, not a permission: a NEW Problem type shipping without a fixture is a red.",
+  "declaredAt": "2026-09-03",
+  "declaredBy": "GEN-052",
+  "debts": [
+    {
+      "surface": "management-web",
+      "problemType": "estate-not-found",
+      "owedBy": "API-027-ST",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "grant-already-exists",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "grant-not-live",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "grant-target-not-found",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "idempotency-key-conflict",
+      "owedBy": "API-015-ST",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "identity-already-recorded",
+      "owedBy": "API-026-ST",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "insufficient-administration-scope",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "last-grant-administrator",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "management-office-contact-exists",
+      "owedBy": "API-027-ST",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "membership-already-exists",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "membership-not-live",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "occupancy-already-exists",
+      "owedBy": "API-026-ST",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "occupancy-not-live",
+      "owedBy": "API-026-ST",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "occupancy-target-not-found",
+      "owedBy": "API-026-ST",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "organization-already-provisioned",
+      "owedBy": "GEN-030",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    },
+    {
+      "surface": "management-web",
+      "problemType": "principal-target-not-found",
+      "owedBy": "GEN-033",
+      "reason": "Declared before Problem-type parity existed (GEN-052 D1); no act in this PID's scope produces it."
+    }
+  ]
+}

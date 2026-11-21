@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "correlationId": "7a1b2c3d-res0-4000-8000-000000000512",
+    "contractVersion": "2.3.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "resident": {
+    "residentId": "res_wfg_000512",
+    "displayName": "Tam Yee-man 譚綺雯",
+    "preferredLanguage": "zh-Hant",
+    "directoryState": "verified",
+    "passReference": "RP-000512",
+    "verification": {
+      "state": "verified",
+      "verifiedAt": "2024-09-02T11:00:00+08:00"
+    },
+    "occupancies": [
+      {
+        "occupancyId": "occ_512_b03b2",
+        "role": "tenant",
+        "unitClass": "residential",
+        "status": "active",
+        "effectiveFrom": "2024-09-01T00:00:00+08:00",
+        "effectiveTo": null,
+        "householdId": "hh_wfg_b_03_b2",
+        "scope": {
+          "node": {
+            "kind": "unit",
+            "id": "unit_wfg_b_03_b2",
+            "label": {
+              "en": "Flat B2",
+              "zh-Hant": "B2室"
+            }
+          },
+          "ancestry": [
+            {
+              "kind": "organization",
+              "id": "org_wingfu_holdings",
+              "label": {
+                "en": "Wing Fu Property Management",
+                "zh-Hant": "榮富物業管理"
+              }
+            },
+            {
+              "kind": "estate",
+              "id": "est_wing_fu_garden",
+              "label": {
+                "en": "Wing Fu Garden",
+                "zh-Hant": "榮富花園"
+              }
+            },
+            {
+              "kind": "building",
+              "id": "blk_wfg_b",
+              "label": {
+                "en": "Block B",
+                "zh-Hant": "B座"
+              }
+            },
+            {
+              "kind": "floor",
+              "id": "fl_wfg_b_03",
+              "label": {
+                "en": "3/F",
+                "zh-Hant": "3樓"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

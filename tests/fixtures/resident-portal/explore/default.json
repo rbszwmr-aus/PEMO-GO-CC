@@ -1,0 +1,502 @@
+{
+  "meta": {
+    "correlationId": "3c4d5e6f-0000-4000-8000-000000000001",
+    "contractVersion": "0.1.0",
+    "generatedAt": "2026-08-18T10:00:00+08:00"
+  },
+  "results": [
+    {
+      "facilityId": "fac_wfg_function_room",
+      "name": {
+        "en": "Function room",
+        "zh-Hant": "多用途室"
+      },
+      "category": "function-and-event",
+      "location": {
+        "locationId": "loc_wfg_function_room",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 40,
+      "fromPrice": {
+        "amount": 280,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_mp_hall",
+      "name": {
+        "en": "Multi-purpose hall",
+        "zh-Hant": "多用途禮堂"
+      },
+      "category": "function-and-event",
+      "location": {
+        "locationId": "loc_wfg_mp_hall",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 120,
+      "fromPrice": {
+        "amount": 680,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_party_room",
+      "name": {
+        "en": "Party room",
+        "zh-Hant": "派對房"
+      },
+      "category": "function-and-event",
+      "location": {
+        "locationId": "loc_wfg_party_room",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 20,
+      "fromPrice": {
+        "amount": 180,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_gym",
+      "name": {
+        "en": "Gymnasium",
+        "zh-Hant": "健身室"
+      },
+      "category": "sports-and-fitness",
+      "location": {
+        "locationId": "loc_wfg_gym",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 25,
+      "fromPrice": null,
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": false,
+        "reason": "membership-required"
+      }
+    },
+    {
+      "facilityId": "fac_wfg_basketball",
+      "name": {
+        "en": "Basketball court",
+        "zh-Hant": "籃球場"
+      },
+      "category": "sports-and-fitness",
+      "location": {
+        "locationId": "loc_wfg_basketball",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_podium",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 20,
+      "fromPrice": {
+        "amount": 120,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_table_tennis",
+      "name": {
+        "en": "Table-tennis room",
+        "zh-Hant": "乒乓球室"
+      },
+      "category": "sports-and-fitness",
+      "location": {
+        "locationId": "loc_wfg_table_tennis",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 8,
+      "fromPrice": {
+        "amount": 60,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_sauna",
+      "name": {
+        "en": "Sauna",
+        "zh-Hant": "桑拿室"
+      },
+      "category": "wellness",
+      "location": {
+        "locationId": "loc_wfg_sauna",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 12,
+      "fromPrice": {
+        "amount": 90,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "closed",
+        "reason": {
+          "en": "Closed for maintenance",
+          "zh-Hant": "暫停開放進行維護"
+        },
+        "expectedReturn": null
+      },
+      "nextFreeSlot": null,
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_yoga",
+      "name": {
+        "en": "Yoga room",
+        "zh-Hant": "瑜伽室"
+      },
+      "category": "wellness",
+      "location": {
+        "locationId": "loc_wfg_yoga",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 15,
+      "fromPrice": {
+        "amount": 100,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_bbq",
+      "name": {
+        "en": "BBQ area",
+        "zh-Hant": "燒烤場"
+      },
+      "category": "outdoor",
+      "location": {
+        "locationId": "loc_wfg_bbq",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_podium",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 30,
+      "fromPrice": {
+        "amount": 200,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_garden",
+      "name": {
+        "en": "Residents' garden",
+        "zh-Hant": "住戶花園"
+      },
+      "category": "outdoor",
+      "location": {
+        "locationId": "loc_wfg_garden",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_podium",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 50,
+      "fromPrice": null,
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_reading_room",
+      "name": {
+        "en": "Reading room",
+        "zh-Hant": "閱讀室"
+      },
+      "category": "community",
+      "location": {
+        "locationId": "loc_wfg_reading_room",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 20,
+      "fromPrice": null,
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_study_room",
+      "name": {
+        "en": "Study room",
+        "zh-Hant": "自修室"
+      },
+      "category": "community",
+      "location": {
+        "locationId": "loc_wfg_study_room",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 6,
+      "fromPrice": {
+        "amount": 40,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    },
+    {
+      "facilityId": "fac_wfg_games_room",
+      "name": {
+        "en": "Games room",
+        "zh-Hant": "遊戲室"
+      },
+      "category": "community",
+      "location": {
+        "locationId": "loc_wfg_games_room",
+        "locationClass": "public_facility",
+        "parentLocationId": "loc_wfg_clubhouse",
+        "buildingLabel": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        },
+        "floorLabel": null,
+        "provisional": true
+      },
+      "capacity": 16,
+      "fromPrice": {
+        "amount": 80,
+        "currency": "HKD"
+      },
+      "availability": {
+        "state": "open",
+        "reason": null,
+        "expectedReturn": null
+      },
+      "nextFreeSlot": "2026-08-18T15:00:00+08:00",
+      "eligibility": {
+        "eligible": true,
+        "reason": null
+      }
+    }
+  ],
+  "facets": {
+    "scope": "world",
+    "categories": [
+      {
+        "key": "function-and-event",
+        "count": 3,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "sports-and-fitness",
+        "count": 3,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "wellness",
+        "count": 2,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "outdoor",
+        "count": 2,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "community",
+        "count": 3,
+        "basis": "count of returned facilities whose category == key"
+      }
+    ],
+    "filters": [
+      {
+        "key": "parent:clubhouse",
+        "count": 10,
+        "basis": "count of returned facilities whose composed parentLocationId is the clubhouse"
+      },
+      {
+        "key": "parent:podium",
+        "count": 3,
+        "basis": "count of returned facilities whose composed parentLocationId is the podium"
+      },
+      {
+        "key": "bookable",
+        "count": 12,
+        "basis": "count of returned facilities with eligibility.eligible == true"
+      },
+      {
+        "key": "ineligible",
+        "count": 1,
+        "basis": "count of returned facilities present with eligibility.eligible == false"
+      }
+    ]
+  },
+  "page": {
+    "page": 1,
+    "pageSize": 20,
+    "total": 13
+  }
+}

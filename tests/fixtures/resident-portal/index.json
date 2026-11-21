@@ -1,0 +1,140 @@
+{
+  "$comment": "Resident Portal (Amenities & Booking) fixture manifest. API-027-ST. All bindings pending the booking overlay seed.",
+  "contractVersion": "0.1.0",
+  "surface": "resident-portal",
+  "pid": "API-027-ST",
+  "fixtures": [
+    {
+      "file": "explore/default.json",
+      "screen": "explore",
+      "state": "default",
+      "schema": "SearchResponse",
+      "operationId": "searchFacilities",
+      "httpStatus": 200,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "explore/empty.json",
+      "screen": "explore",
+      "state": "empty",
+      "schema": "SearchResponse",
+      "operationId": "searchFacilities",
+      "httpStatus": 200,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "facility/function-room.json",
+      "screen": "facility",
+      "state": "policy-absent",
+      "schema": "FacilityDetail",
+      "operationId": "getFacility",
+      "httpStatus": 200,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "facility/party-room.json",
+      "screen": "facility",
+      "state": "policy-zero",
+      "schema": "FacilityDetail",
+      "operationId": "getFacility",
+      "httpStatus": 200,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "facility/sauna.json",
+      "screen": "facility",
+      "state": "facility-closed",
+      "schema": "FacilityDetail",
+      "operationId": "getFacility",
+      "httpStatus": 200,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "facility/gym.json",
+      "screen": "facility",
+      "state": "ineligible-present",
+      "schema": "FacilityDetail",
+      "operationId": "getFacility",
+      "httpStatus": 200,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "availability/function-room-day.json",
+      "screen": "availability",
+      "state": "day",
+      "schema": "AvailabilityView",
+      "operationId": "getFacilityAvailability",
+      "httpStatus": 200,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "problems/bad-request.json",
+      "screen": "problems",
+      "state": "bad-request",
+      "schema": "Problem",
+      "operationId": "searchFacilities",
+      "httpStatus": 400,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "problems/session-expired.json",
+      "screen": "problems",
+      "state": "session-expired",
+      "schema": "Problem",
+      "operationId": "searchFacilities",
+      "httpStatus": 401,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "problems/invalid-credential.json",
+      "screen": "problems",
+      "state": "invalid-credential",
+      "schema": "Problem",
+      "operationId": "searchFacilities",
+      "httpStatus": 401,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "problems/record-not-found.json",
+      "screen": "problems",
+      "state": "record-not-found",
+      "schema": "Problem",
+      "operationId": "getFacility",
+      "httpStatus": 404,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    },
+    {
+      "file": "problems/internal-error.json",
+      "screen": "problems",
+      "state": "internal-error",
+      "schema": "Problem",
+      "operationId": "getFacility",
+      "httpStatus": 500,
+      "scenario": "pending",
+      "scenarioPending": "Overlay-on-Wing-Fu-Garden, not yet seeded. The booking overlay (twelve new public_facility Locations under loc_wfg_clubhouse and loc_wfg_podium, plus the booking-module catalogue) is authored by Backend's seed PID; this binding is verified and decremented when that seed lands, exactly as the API-025 management bindings moved 26->22. loc_wfg_function_room's Location is already committed; the rest are invention constrained by the corpus (reconciliation v1.2 'to be seeded'). The composed parent values are PROVISIONAL (ComposedLocation.provisional=true) until then.",
+      "world": "overlay-on-wfg"
+    }
+  ]
+}

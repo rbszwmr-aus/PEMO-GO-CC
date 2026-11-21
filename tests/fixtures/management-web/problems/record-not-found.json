@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/record-not-found",
+  "title": "Not found",
+  "status": 404,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000021",
+  "staffMessage": {
+    "en": "This record is not available.",
+    "zh-Hant": "無法取得此記錄。"
+  },
+  "retryable": false
+}

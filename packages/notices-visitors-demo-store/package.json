@@ -1,0 +1,22 @@
+{
+  "name": "@pemo/notices-visitors-demo-store",
+  "version": "0.0.0",
+  "private": true,
+  "description": "In-memory demo notices + visitors store for resident-portal coherence. Pure TS, no React, no pg.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "test": "pnpm run build && node --test dist/store.test.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.2"
+  }
+}

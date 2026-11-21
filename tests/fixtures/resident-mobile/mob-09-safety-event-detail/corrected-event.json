@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000062",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "event": {
+    "eventId": "evt_20260813_smoke02",
+    "severity": "information",
+    "title": {
+      "en": "Correction — no smoke detected",
+      "zh-Hant": "更正 — 並無偵測到煙霧"
+    },
+    "instruction": {
+      "en": "The earlier smoke alert was reported in error by the sensor. No action is needed. We are sorry for the alarm this caused.",
+      "zh-Hant": "較早前的煙霧警報為感應器誤報。毋須採取行動。就此造成的驚擾，我們深感抱歉。"
+    },
+    "location": {
+      "label": {
+        "en": "Kitchen · 12/F Flat A1",
+        "zh-Hant": "廚房 · 12樓 A1室"
+      },
+      "locationClass": "unit",
+      "audienceSource": "unit"
+    },
+    "occurredAt": "2026-08-13T09:42:00+08:00",
+    "receivedAt": "2026-08-13T09:42:03+08:00",
+    "reportedBy": {
+      "en": "Installed smoke detector",
+      "zh-Hant": "已安裝的煙霧探測器"
+    },
+    "actions": [
+      {
+        "actionKey": "view_latest_update",
+        "label": {
+          "en": "View latest update",
+          "zh-Hant": "查看最新消息"
+        },
+        "kind": "secondary"
+      }
+    ],
+    "managementUpdates": [
+      {
+        "updateId": "upd_1030",
+        "publishedAt": "2026-08-13T10:30:00+08:00",
+        "body": {
+          "en": "The sensor has been reset and is reporting normally.",
+          "zh-Hant": "感應器已重設並回復正常回報。"
+        },
+        "isAllClear": true
+      }
+    ],
+    "managementUpdatePending": false,
+    "acknowledgement": {
+      "required": false,
+      "acknowledged": false,
+      "acknowledgedAt": null
+    },
+    "disclaimer": {
+      "en": "This alert supplements the building fire alarm and statutory emergency procedures. It does not replace them, and it may be delayed or unavailable.",
+      "zh-Hant": "此警報為輔助性質，不能取代大廈火警系統及法定緊急程序，並可能延遲或無法提供。"
+    },
+    "revision": {
+      "revisionNumber": 2,
+      "isCorrection": true,
+      "supersedes": "evt_20260813_smoke01",
+      "correctionNote": {
+        "en": "This corrects the alert sent at 09:42.",
+        "zh-Hant": "此訊息更正09:42發出的警報。"
+      }
+    }
+  }
+}

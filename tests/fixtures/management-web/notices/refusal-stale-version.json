@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-stale-version",
+  "title": "The notice has changed since this act was prepared",
+  "status": 409,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "The notice has changed. expected version 1, the notice is at 7",
+    "zh-Hant": "通告已被更新，請重新載入。"
+  },
+  "retryable": true
+}

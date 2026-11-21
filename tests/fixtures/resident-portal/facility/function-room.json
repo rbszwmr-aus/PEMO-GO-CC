@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "correlationId": "3c4d5e6f-0000-4000-8000-000000000002",
+    "contractVersion": "0.1.0",
+    "generatedAt": "2026-08-18T10:00:00+08:00"
+  },
+  "facilityId": "fac_wfg_function_room",
+  "name": {
+    "en": "Function room",
+    "zh-Hant": "多用途室"
+  },
+  "category": "function-and-event",
+  "location": {
+    "locationId": "loc_wfg_function_room",
+    "locationClass": "public_facility",
+    "parentLocationId": "loc_wfg_clubhouse",
+    "buildingLabel": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+    },
+    "floorLabel": null,
+    "provisional": true
+  },
+  "availability": {
+    "state": "open",
+    "reason": null,
+    "expectedReturn": null
+  },
+  "eligibility": {
+    "eligible": true,
+    "reason": null
+  },
+  "overview": {
+    "description": {
+      "en": "Function room at Wing Fu Garden clubhouse.",
+      "zh-Hant": "多用途室，位於榮富花園會所。"
+    },
+    "amenities": [
+      {
+        "en": "Air-conditioning",
+        "zh-Hant": "冷氣"
+      },
+      {
+        "en": "Wi-Fi",
+        "zh-Hant": "無線網絡"
+      }
+    ],
+    "accessibility": [
+      {
+        "en": "Step-free access",
+        "zh-Hant": "無障礙通道"
+      }
+    ],
+    "capacity": 40,
+    "slotGranularityMinutes": 60,
+    "serviceHours": {
+      "en": "09:00–22:00 daily",
+      "zh-Hant": "每日上午9時至晚上10時"
+    }
+  },
+  "rates": [
+    {
+      "label": {
+        "en": "Peak (Sat/Sun/PH)",
+        "zh-Hant": "繁忙時段（六、日及公眾假期）"
+      },
+      "price": {
+        "amount": 380,
+        "currency": "HKD"
+      },
+      "appliesTo": {
+        "en": "Weekends and public holidays",
+        "zh-Hant": "週末及公眾假期"
+      }
+    },
+    {
+      "label": {
+        "en": "Off-peak",
+        "zh-Hant": "非繁忙時段"
+      },
+      "price": {
+        "amount": 280,
+        "currency": "HKD"
+      },
+      "appliesTo": {
+        "en": "Weekdays",
+        "zh-Hant": "平日"
+      }
+    }
+  ],
+  "rules": {
+    "bookingWindow": {
+      "opensDaysBefore": 14,
+      "closesHoursBefore": 2
+    },
+    "perPersonQuotaPerMonth": null,
+    "cancellationLadder": [
+      {
+        "untilHoursBefore": 48,
+        "refundPercent": 100
+      },
+      {
+        "untilHoursBefore": 24,
+        "refundPercent": 50
+      }
+    ],
+    "adminFee": null,
+    "noShowReleaseMinutes": 15,
+    "makeUpAllowed": null
+  },
+  "equipment": [
+    {
+      "label": {
+        "en": "Projector",
+        "zh-Hant": "投影機"
+      },
+      "included": false,
+      "addOnPrice": {
+        "amount": 50,
+        "currency": "HKD"
+      }
+    },
+    {
+      "label": {
+        "en": "Sound system",
+        "zh-Hant": "音響系統"
+      },
+      "included": true,
+      "addOnPrice": null
+    }
+  ],
+  "faq": [
+    {
+      "question": {
+        "en": "Can I book back-to-back slots?",
+        "zh-Hant": "可以連續預訂時段嗎？"
+      },
+      "answer": {
+        "en": "Yes, subject to the per-person quota.",
+        "zh-Hant": "可以，惟受每人限額約束。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/caregiver-scope-expired",
+  "title": "Caregiver access has expired",
+  "status": 403,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000057",
+  "residentMessage": {
+    "en": "Your permission to view this home's safety status ended on 12 August. Ask the resident to renew it.",
+    "zh-Hant": "您查看此住戶安全狀態的權限已於8月12日結束。請聯絡住戶重新授權。"
+  },
+  "retryable": false
+}

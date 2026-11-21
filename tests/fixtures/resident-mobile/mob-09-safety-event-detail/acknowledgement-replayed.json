@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000053",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "eventId": "evt_20260813_smoke01",
+  "acknowledgement": {
+    "required": true,
+    "acknowledged": true,
+    "acknowledgedAt": "2026-08-13T09:46:12+08:00"
+  },
+  "replayed": true,
+  "confirmation": {
+    "en": "Thank you. The management office can see that you are safe.",
+    "zh-Hant": "謝謝。管理處已知悉您安全。"
+  }
+}

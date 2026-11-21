@@ -1,0 +1,9 @@
+# Repository and Dependency Rules
+
+- **Locked:** approved PID work uses a separate short-lived branch/worktree; legacy Helpdesk remains reference-only.
+- **Proposed:** modular-monolith monorepo layout and dependency direction.
+- **Proposed:** `apps/`, `modules/`, `packages/`, `database/`, `docs/`, `prompts/`, `reports/`, `tests/`.
+- **Locked:** **pnpm** is the package manager and workspace tool, with `pnpm-workspace.yaml` declaring `apps/*`, `modules/*` and `packages/*`, and the version pinned through `packageManager` in `package.json`. Decided 2026-08-13 and recorded in `ADR-004`; committed under `API-005-ST` at `fddafc580edbfeb6f12dc1a7b51ded22be433609`, which also establishes `tsconfig.base.json` as the TypeScript build baseline.
+- **Unresolved:** framework and module-enforcement tooling.
+
+Modules depend on shared primitives and approved contracts, not another module's persistence. No direct table writes or cross-module foreign keys. The package manager enforces the first of these mechanically rather than by convention: pnpm's `node_modules` layout is strict by default, installing a symlinked tree in which a package resolves only the dependencies it has declared in its own `package.json`. A module that imports another module's internals without declaring it **fails to resolve at build time**. The hoisted layouts used by npm and yarn permit such a phantom dependency to build successfully and fail later, elsewhere. That difference — not ergonomics — is why pnpm was chosen. **Do not enable `shamefully-hoist` or `node-linker=hoisted`;** either discards the only reason for the choice, and any genuine need for hoisting is a new ADR rather than a line in `.npmrc`. Adapters depend on translation ports, not resident business decisions. Contract artifacts are versioned and owned by the architecture/contract authority. The proposed layout does not authorize creating product/runtime directories under this PID.

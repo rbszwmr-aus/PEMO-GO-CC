@@ -1,0 +1,136 @@
+{
+ "//": "ADR-020. THE declared source of truth for the Ticket/Case vocabularies. Consumed by the DDL (CHECK constraints) and by the modules' TypeScript unions, both PROJECTED from here by `pnpm gen:case-vocabularies` — never hand-listed. Same asymmetry as notice-types: the TS is rewritten, the DDL is VERIFIED and never rewritten, because an applied migration is immutable.",
+ "vocabularies": {
+  "ticket_channel": {
+   "table": "helpdesk.ticket",
+   "column": "channel",
+   "constraint": "ticket_channel_check",
+   "//": "CAS-01. How the report arrived. `external` is last and deliberately vague: an integration nobody has built yet still has to land somewhere, and inventing its name now would be a guess.",
+   "values": [
+    "resident_app",
+    "staff_manual",
+    "phone",
+    "email",
+    "kiosk",
+    "external"
+   ]
+  },
+  "ticket_disposition": {
+   "table": "helpdesk.ticket",
+   "column": "disposition",
+   "constraint": "ticket_disposition_check",
+   "//": "The ACT each assertion records (GEN-055 D0). RENAMED from opened/triaged/escalated/closed/reopened, because the same literals were doing double duty as the lifecycle: `disposition AS lifecycle_state` made a state check written against an act literal type-check and silently match — the GEN-040 defect on tickets. Now no literal appears in both.",
+   "values": [
+    "report_opened",
+    "triage_recorded",
+    "escalation_recorded",
+    "status_set",
+    "resolution_recorded",
+    "closure_recorded",
+    "reopening_recorded"
+   ]
+  },
+  "ticket_message_visibility": {
+   "table": "helpdesk.ticket_message",
+   "column": "visibility",
+   "constraint": "ticket_message_visibility_check",
+   "//": "ADR-020 D5. Exactly two values, immutable once written. The resident projection filters on this column ALONE.",
+   "values": [
+    "internal",
+    "resident_visible"
+   ]
+  },
+  "case_state": {
+   "table": "service_case.service_case",
+   "column": "state",
+   "constraint": "service_case_state_check",
+   "//": "WHAT THE CASE IS. Widened at GEN-055 with assigned, awaiting_external and resolved; `reopened` stays as GEN-038 computes it (a reopen is a new assertion whose state is `reopened`, which the next status act leaves). `pending_verification` is entered by staff or by recordExternalCompletion and NEVER advances by itself; `closed` is reached only by a human closeCase from pending_verification or resolved.",
+   "values": [
+    "open",
+    "assigned",
+    "in_progress",
+    "awaiting_external",
+    "pending_verification",
+    "resolved",
+    "closed",
+    "reopened"
+   ]
+  },
+  "ticket_status": {
+   "table": "helpdesk.ticket",
+   "column": "status",
+   "constraint": "ticket_status_check",
+   "//": "WHAT THE TICKET IS (GEN-055 D0), carried per assertion; ticket_current reads lifecycle_state off it. Disjoint from ticket_disposition by construction. `reopened` is not a state: reopening is an act that returns the ticket to `open`.",
+   "values": [
+    "open",
+    "triaged",
+    "in_progress",
+    "awaiting_resident",
+    "resolved",
+    "closed"
+   ]
+  },
+  "ticket_closure_reason": {
+   "table": "helpdesk.ticket",
+   "column": "closure_reason",
+   "constraint": "ticket_closure_reason_check",
+   "//": "Why a ticket was closed. Disjoint from both other ticket vocabularies.",
+   "values": [
+    "fixed",
+    "resident_withdrew",
+    "duplicate_report",
+    "no_action_required",
+    "resolved_by_case"
+   ]
+  },
+  "ticket_reopen_reason": {
+   "table": "helpdesk.ticket",
+   "column": "reopen_reason",
+   "constraint": "ticket_reopen_reason_check",
+   "//": "Why a closed ticket was reopened. REQUIRED on reopenTicket.",
+   "values": [
+    "not_fixed",
+    "recurred",
+    "closed_in_error"
+   ]
+  },
+  "case_disposition": {
+   "table": "service_case.service_case",
+   "column": "disposition",
+   "constraint": "service_case_disposition_check",
+   "//": "THE ACT each case assertion records (GEN-055 D0) — cases had a state and no act vocabulary. Disjoint from case_state.",
+   "values": [
+    "case_opened",
+    "owner_assigned",
+    "status_changed",
+    "external_completion_recorded",
+    "closure_recorded",
+    "reopening_recorded"
+   ]
+  },
+  "case_closure_reason": {
+   "table": "service_case.service_case",
+   "column": "closure_reason",
+   "constraint": "service_case_closure_reason_check",
+   "//": "Why a case was closed. REQUIRED on closeCase.",
+   "values": [
+    "work_completed",
+    "no_fault_found",
+    "resident_withdrew",
+    "duplicate_case",
+    "transferred_out"
+   ]
+  },
+  "case_reopen_reason": {
+   "table": "service_case.service_case",
+   "column": "reopen_reason",
+   "constraint": "service_case_reopen_reason_check",
+   "//": "Why a closed case was reopened. REQUIRED on reopenCase.",
+   "values": [
+    "work_not_completed",
+    "issue_recurred",
+    "closed_in_error"
+   ]
+  }
+ }
+}

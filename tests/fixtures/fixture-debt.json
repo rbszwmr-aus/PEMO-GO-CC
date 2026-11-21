@@ -1,0 +1,17 @@
+{
+  "$comment": "OPERATIONS DECLARED BY A CONTRACT THAT HAVE NO FIXTURE, each one named, dated and owned. Read by tests/contract/operation-fixture-parity.test.ts, which REDS on any uncovered operation absent from this file. An entry here is a debt with a creditor, not a permission: the check still fails the moment a NEW operation ships without a fixture, which is what GEN-042 did eleven times while both its own report and GEN-043's said so in prose that neither close ruling caught.",
+  "declaredAt": "2026-09-03",
+  "declaredBy": "GEN-047",
+  "debts": [
+    { "surface": "management-web", "operationId": "conferGrant",             "owedBy": "GEN-033", "reason": "The delegation write surface shipped before the fixture-parity check existed." },
+    { "surface": "management-web", "operationId": "revokeGrant",             "owedBy": "GEN-033", "reason": "As conferGrant." },
+    { "surface": "management-web", "operationId": "addMembership",           "owedBy": "GEN-033", "reason": "As conferGrant." },
+    { "surface": "management-web", "operationId": "removeMembership",        "owedBy": "GEN-033", "reason": "As conferGrant." },
+    { "surface": "management-web", "operationId": "registerPrincipal",       "owedBy": "GEN-033", "reason": "As conferGrant." },
+    { "surface": "management-web", "operationId": "provisionOrganization",   "owedBy": "GEN-030", "reason": "Provisioning is once-only against a live organization; a fixture needs a world the seed does not yet carry." },
+    { "surface": "management-web", "operationId": "recordOccupancy",         "owedBy": "API-026-ST", "reason": "Occupancy writes predate the check." },
+    { "surface": "management-web", "operationId": "endOccupancy",            "owedBy": "API-026-ST", "reason": "As recordOccupancy." },
+    { "surface": "management-web", "operationId": "addEstateContact",        "owedBy": "API-027-ST", "reason": "As recordOccupancy." },
+    { "surface": "management-web", "operationId": "publishManagementUpdate", "owedBy": "API-020-ST", "reason": "The safety-update write predates the check." }
+  ]
+}

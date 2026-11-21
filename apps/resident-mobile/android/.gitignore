@@ -1,0 +1,29 @@
+# The Gradle wrapper is TRACKED, deliberately.
+#
+# gradle-wrapper.properties pins gradle-9.1.0-all.zip, but gradlew and
+# gradle-wrapper.jar are what EXECUTE that pin. A pinned version nobody can run
+# is documentation, not reproducibility, so all three are committed together.
+#
+# The jar is byte-identical to the artifact in the pinned Flutter SDK
+# (3.44.9), sha256 16caeaf66d57a0d1d2087fef6a97efa62de8da69afa5b908f40db35afc4342da.
+# The supply-chain risk with a committed wrapper jar is not its presence, it is
+# that it changes silently: verify that hash before accepting any diff to it.
+#
+# Tracking them also closes a hygiene trap seen on 2026-08-13. These rules live
+# inside the directory they govern, so when apps/ left the working tree on a
+# branch switch, android/.gitignore went with it and files that HAD been
+# correctly ignored became orphaned untracked debris at paths a later checkout
+# would want. A per-directory .gitignore protects a file only while its branch
+# is checked out; a tracked file needs no such protection.
+
+/.gradle
+/captures/
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+
+# Remember to never publicly share your keystore.
+# See https://flutter.dev/to/reference-keystore
+key.properties
+**/*.keystore
+**/*.jks

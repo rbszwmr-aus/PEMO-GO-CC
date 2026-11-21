@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000031",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00",
+    "partial": true,
+    "degraded": [
+      {
+        "section": "notices",
+        "reason": {
+          "en": "Notices could not be loaded. Other information on this screen is current.",
+          "zh-Hant": "無法載入通告。此畫面的其他資料為最新。"
+        }
+      }
+    ]
+  },
+  "resident": {
+    "residentId": "res_wfg_000412",
+    "displayName": "Ho Mei-yi 何美儀",
+    "greeting": {
+      "en": "Good morning",
+      "zh-Hant": "早晨"
+    }
+  },
+  "unit": {
+    "unitId": "unit_wfg_a_12_a1",
+    "estateName": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+    },
+    "blockName": {
+      "en": "Block A",
+      "zh-Hant": "A座"
+    },
+    "floor": "12/F",
+    "flat": "A1",
+    "displayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    }
+  },
+  "unitSwitcher": [
+    {
+      "unitId": "unit_wfg_a_12_a1",
+      "displayLine": {
+        "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+        "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+      },
+      "role": "owner_occupier",
+      "isCurrent": true,
+      "effectiveTo": null
+    },
+    {
+      "unitId": "unit_wfg_c_08_c3",
+      "displayLine": {
+        "en": "Wing Fu Garden · Block C · 8/F Flat C3",
+        "zh-Hant": "榮富花園 · C座 · 8樓 C3室"
+      },
+      "role": "household_member",
+      "isCurrent": false,
+      "effectiveTo": null
+    }
+  ],
+  "safety": {
+    "severity": "normal",
+    "monitoringCoverage": "full",
+    "headline": {
+      "en": "Everything is reporting normally",
+      "zh-Hant": "所有裝置運作正常"
+    },
+    "detail": {
+      "en": "Your smoke, gas and water sensors have all reported in the last hour. The building fire system is monitored separately by the estate.",
+      "zh-Hant": "您的煙霧、氣體及漏水感應器已於過去一小時內回報。大廈火警系統由屋苑另行監察。"
+    },
+    "observedAt": "2026-08-13T09:58:00+08:00",
+    "receivedAt": "2026-08-13T09:58:04+08:00",
+    "freshness": {
+      "status": "current",
+      "ageSeconds": 120,
+      "windowSeconds": 3600
+    },
+    "disclaimer": {
+      "en": "PEMO notifications supplement the building fire alarm and statutory emergency procedures. They do not replace them.",
+      "zh-Hant": "此通知為輔助性質，不能取代大廈火警系統及法定緊急程序。"
+    }
+  },
+  "openCase": {
+    "caseReference": "CS-24115",
+    "title": {
+      "en": "Request for renovation permit form",
+      "zh-Hant": "申請裝修許可證表格"
+    },
+    "status": {
+      "en": "Awaiting your reply",
+      "zh-Hant": "等待您的回覆"
+    },
+    "lastActivityAt": "2026-08-12T16:20:00+08:00",
+    "awaitingResident": true
+  },
+  "notices": [],
+  "quickServices": [
+    {
+      "serviceKey": "help_desk",
+      "label": {
+        "en": "Help desk",
+        "zh-Hant": "服務台"
+      },
+      "state": {
+        "en": "Open now",
+        "zh-Hant": "現正開放"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "report_problem",
+      "label": {
+        "en": "Report a problem",
+        "zh-Hant": "報修"
+      },
+      "state": {
+        "en": "Enquiry or complaint",
+        "zh-Hant": "查詢或投訴"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "home_safety",
+      "label": {
+        "en": "Home Safety",
+        "zh-Hant": "家居安全"
+      },
+      "state": {
+        "en": "All normal",
+        "zh-Hant": "一切正常"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "forms",
+      "label": {
+        "en": "Forms",
+        "zh-Hant": "表格"
+      },
+      "state": {
+        "en": "12 available",
+        "zh-Hant": "12份可用"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "visitor_pass",
+      "label": {
+        "en": "Visitor pass",
+        "zh-Hant": "訪客通行證"
+      },
+      "state": {
+        "en": "Not yet available",
+        "zh-Hant": "尚未提供"
+      },
+      "availability": "coming_soon",
+      "reason": {
+        "en": "Existing visitor system integration pending",
+        "zh-Hant": "現有訪客系統整合待辦"
+      }
+    },
+    {
+      "serviceKey": "facility_booking",
+      "label": {
+        "en": "Book a facility",
+        "zh-Hant": "設施預訂"
+      },
+      "state": {
+        "en": "Not yet available",
+        "zh-Hant": "尚未提供"
+      },
+      "availability": "coming_soon",
+      "reason": {
+        "en": "Clubhouse booking is management-side for now",
+        "zh-Hant": "會所預訂暫由管理處處理"
+      }
+    }
+  ]
+}

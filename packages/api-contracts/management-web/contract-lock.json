@@ -1,0 +1,6 @@
+{
+  "contractVersion": "2.7.0",
+  "surfaceHash": "sha256:3472fd5035efceac92d1cdd1240c9a8ef7bd93506cc2451b03195c45d0533270",
+  "corpusHash": "sha256:6e1ce3307971f749e6fc16a571868a29f3d18692e770892ce224f225a8089514",
+  "$limitation": "Two hashes, one job each (Amendment A4). surfaceHash is paired with contractVersion: if it moved, the contract surface changed and the version must bump. corpusHash is integrity only and never moves the version. NEITHER covers the rule that computes them — contract-hash.mjs is in no hashed set and cannot be, so a change to the hashing or classification rule requires REVIEW of that diff, not a green check. The classifier is exhaustive: an unclassified registry field halts hashing rather than entering a hash silently."
+}

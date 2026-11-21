@@ -1,0 +1,884 @@
+{
+ "_comment": "A GET /integration-status response written out in full (docs/contracts/integration-status-v0-PROPOSED_v0.4.1.md section 5.1), plus per-system history and device changes for the 5.2 read. Wing Fu Garden, 18 Nov 2026, 10:00 Hong Kong time. Variants (Hub late or silent, narrower scope) are derived from it in integration-fixture.ts by the contract’s own rules.",
+ "list": {
+  "meta": {
+   "correlationId": "cor_integration_list_01",
+   "contractVersion": "2.6.0",
+   "generatedAt": "2026-11-18T10:00:00+08:00"
+  },
+  "scope": "estate",
+  "summary": {
+   "hubState": "online",
+   "hubMessage": {
+    "en": "The Hub is reporting normally.",
+    "zh-Hant": "Hub 回報正常。"
+   },
+   "systemsTotal": 12,
+   "online": 9,
+   "degraded": 1,
+   "offline": 1,
+   "unknown": 0,
+   "maintenance": 1,
+   "needsAttention": 2,
+   "needsMapping": 0,
+   "devicesTotal": 366,
+   "devicesOffline": 53,
+   "devicesOnline": 313,
+   "lastHeartbeatAt": "2026-11-18T09:59:20+08:00",
+   "lastSnapshotAt": "2026-11-18T09:55:00+08:00"
+  },
+  "hubs": [
+   {
+    "state": "online",
+    "message": {
+     "en": "The Hub is reporting normally.",
+     "zh-Hant": "Hub 回報正常。"
+    },
+    "needsAttention": false,
+    "lastHeartbeatAt": "2026-11-18T09:59:20+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "summary": {
+     "systemsTotal": 12,
+     "systemsOffline": 1,
+     "devicesTotal": 366,
+     "devicesOffline": 53
+    },
+    "itDetails": {
+     "hubInstance": "2iothub:estate-wfg-01",
+     "estateNodeId": "est_wing_fu_garden",
+     "version": "0.1.0-fixture",
+     "uptimeS": 172800,
+     "outbox": {
+      "pending": 0,
+      "oldestOccurredAt": null
+     }
+    }
+   }
+  ],
+  "systems": [
+   {
+    "systemRef": "sys_wfg_intercom",
+    "kind": "intercom",
+    "kindLabel": {
+     "en": "Intercom",
+     "zh-Hant": "對講機",
+     "zh-Hans": "对讲机"
+    },
+    "displayName": {
+     "en": "Block A visitor intercom",
+     "zh-Hant": "A 座訪客對講機",
+     "zh-Hans": "A座访客对讲机"
+    },
+    "state": "offline",
+    "reportedState": "offline",
+    "unknownReason": null,
+    "needsAttention": true,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Intercom is not responding.",
+     "zh-Hant": "對講機沒有回應。"
+    },
+    "since": "2026-11-18T09:41:00+08:00",
+    "lastSeenAt": "2026-11-18T09:40:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 52,
+    "devicesOffline": 52,
+    "devicesOnline": 0,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "blk_wfg_a",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "blk_wfg_a",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": "GATEWAY_UNREACHABLE",
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_lifts_a",
+    "kind": "lift",
+    "kindLabel": {
+     "en": "Lift",
+     "zh-Hant": "升降機",
+     "zh-Hans": "升降机"
+    },
+    "displayName": {
+     "en": "Lifts, Block A",
+     "zh-Hant": "A 座升降機",
+     "zh-Hans": "A座升降机"
+    },
+    "state": "degraded",
+    "reportedState": "degraded",
+    "unknownReason": null,
+    "needsAttention": true,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "One lift is not responding.",
+     "zh-Hant": "其中一部升降機沒有回應。"
+    },
+    "since": "2026-11-18T08:30:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 8,
+    "devicesOffline": 1,
+    "devicesOnline": 7,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "blk_wfg_a",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "blk_wfg_a",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": "LIFT_2_COMMS_LOST",
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_ev",
+    "kind": "ev_charging",
+    "kindLabel": {
+     "en": "EV charger",
+     "zh-Hant": "電動車充電器",
+     "zh-Hans": "电动车充电"
+    },
+    "displayName": {
+     "en": "EV chargers",
+     "zh-Hant": "電動車充電器",
+     "zh-Hans": "电动车充电器"
+    },
+    "state": "maintenance",
+    "reportedState": "maintenance",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": "2026-11-18T12:00:00+08:00",
+    "message": {
+     "en": "Planned maintenance.",
+     "zh-Hant": "計劃維修中。"
+    },
+    "since": "2026-11-18T08:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 40,
+    "devicesOffline": 0,
+    "devicesOnline": 40,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "loc_wfg_carpark",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "loc_wfg_carpark",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_bms",
+    "kind": "bms",
+    "kindLabel": {
+     "en": "Building management",
+     "zh-Hant": "樓宇管理",
+     "zh-Hans": "楼宇管理系统"
+    },
+    "displayName": {
+     "en": "Building management",
+     "zh-Hant": "樓宇管理",
+     "zh-Hans": "楼宇管理"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 40,
+    "devicesOffline": 0,
+    "devicesOnline": 40,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "est_wing_fu_garden",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "est_wing_fu_garden",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_carpark",
+    "kind": "carpark",
+    "kindLabel": {
+     "en": "Carpark",
+     "zh-Hant": "停車場",
+     "zh-Hans": "停车场"
+    },
+    "displayName": {
+     "en": "Carpark barriers and payment",
+     "zh-Hant": "停車場欄杆及繳費",
+     "zh-Hans": "停车场栏杆及缴费"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 20,
+    "devicesOffline": 0,
+    "devicesOnline": 20,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "loc_wfg_carpark",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "loc_wfg_carpark",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_cctv",
+    "kind": "cctv",
+    "kindLabel": {
+     "en": "CCTV",
+     "zh-Hant": "閉路電視",
+     "zh-Hans": "闭路电视"
+    },
+    "displayName": {
+     "en": "CCTV",
+     "zh-Hant": "閉路電視",
+     "zh-Hans": "闭路电视"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 64,
+    "devicesOffline": 0,
+    "devicesOnline": 64,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "est_wing_fu_garden",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "est_wing_fu_garden",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_ac_club",
+    "kind": "mvac",
+    "kindLabel": {
+     "en": "Air-conditioning",
+     "zh-Hant": "空調",
+     "zh-Hans": "通风及空调"
+    },
+    "displayName": {
+     "en": "Clubhouse air-conditioning",
+     "zh-Hant": "會所空調",
+     "zh-Hans": "会所空调"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 18,
+    "devicesOffline": 0,
+    "devicesOnline": 18,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "loc_wfg_clubhouse",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "loc_wfg_clubhouse",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_access",
+    "kind": "access_control",
+    "kindLabel": {
+     "en": "Door access",
+     "zh-Hant": "門禁",
+     "zh-Hans": "门禁系统"
+    },
+    "displayName": {
+     "en": "Door access",
+     "zh-Hant": "門禁",
+     "zh-Hans": "门禁"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 36,
+    "devicesOffline": 0,
+    "devicesOnline": 36,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "est_wing_fu_garden",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "est_wing_fu_garden",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_fire",
+    "kind": "fire",
+    "kindLabel": {
+     "en": "Fire alarm",
+     "zh-Hant": "火警",
+     "zh-Hans": "消防系统"
+    },
+    "displayName": {
+     "en": "Fire alarm panels",
+     "zh-Hant": "火警板",
+     "zh-Hans": "火灾报警盘"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 30,
+    "devicesOffline": 0,
+    "devicesOnline": 30,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "est_wing_fu_garden",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "est_wing_fu_garden",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_genset",
+    "kind": "genset",
+    "kindLabel": {
+     "en": "Generator",
+     "zh-Hant": "發電機",
+     "zh-Hans": "后备发电机"
+    },
+    "displayName": {
+     "en": "Standby generators",
+     "zh-Hant": "後備發電機",
+     "zh-Hans": "后备发电机"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 4,
+    "devicesOffline": 0,
+    "devicesOnline": 4,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "est_wing_fu_garden",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "est_wing_fu_garden",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_meters",
+    "kind": "metering",
+    "kindLabel": {
+     "en": "Meters",
+     "zh-Hant": "水電錶",
+     "zh-Hans": "公用事业电表"
+    },
+    "displayName": {
+     "en": "Water and electricity meters",
+     "zh-Hant": "水電錶",
+     "zh-Hans": "水电表"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 48,
+    "devicesOffline": 0,
+    "devicesOnline": 48,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "est_wing_fu_garden",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "est_wing_fu_garden",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   },
+   {
+    "systemRef": "sys_wfg_pumps_b",
+    "kind": "pump_drainage",
+    "kindLabel": {
+     "en": "Water pump",
+     "zh-Hant": "水泵",
+     "zh-Hans": "水泵及排水"
+    },
+    "displayName": {
+     "en": "Water pumps, Block B",
+     "zh-Hant": "B 座水泵",
+     "zh-Hans": "B座水泵"
+    },
+    "state": "online",
+    "reportedState": "online",
+    "unknownReason": null,
+    "needsAttention": false,
+    "needsMapping": false,
+    "expectedEnd": null,
+    "message": {
+     "en": "Working normally.",
+     "zh-Hant": "運作正常。"
+    },
+    "since": "2026-11-16T09:00:00+08:00",
+    "lastSeenAt": "2026-11-18T09:59:00+08:00",
+    "lastReportAt": "2026-11-18T09:55:00+08:00",
+    "lastSnapshotAt": "2026-11-18T09:55:00+08:00",
+    "devicesTotal": 6,
+    "devicesOffline": 0,
+    "devicesOnline": 6,
+    "itDetails": {
+     "estateNodeId": "est_wing_fu_garden",
+     "placeNodeId": "blk_wfg_b",
+     "placeSource": "pemo_map",
+     "hubPlaceNodeId": "blk_wfg_b",
+     "placeMismatch": false,
+     "source": "2iothub:estate-wfg-01",
+     "detailCode": null,
+     "hubState": "online"
+    }
+   }
+  ]
+ },
+ "details": {
+  "sys_wfg_bms": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_cctv": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_access": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_meters": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_fire": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_genset": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_lifts_a": {
+   "history": [
+    {
+     "at": "2026-11-18T08:30:00+08:00",
+     "from": "online",
+     "to": "degraded",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "One lift is not responding.",
+      "zh-Hant": "其中一部升降機沒有回應。"
+     },
+     "itDetails": {
+      "detailCode": "LIFT_2_COMMS_LOST"
+     }
+    },
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": [
+    {
+     "hubRef": "lift-a2",
+     "state": "offline",
+     "since": "2026-11-18T08:30:00+08:00",
+     "lastSeenAt": "2026-11-18T08:29:00+08:00",
+     "receivedAt": "2026-11-18T08:30:04+08:00"
+    }
+   ]
+  },
+  "sys_wfg_intercom": {
+   "history": [
+    {
+     "at": "2026-11-18T09:41:00+08:00",
+     "from": "online",
+     "to": "offline",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Intercom is not responding.",
+      "zh-Hant": "對講機沒有回應。"
+     },
+     "itDetails": {
+      "detailCode": "GATEWAY_UNREACHABLE"
+     }
+    },
+    {
+     "at": "2026-11-17T18:00:00+08:00",
+     "from": "unknown",
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Working normally.",
+      "zh-Hant": "運作正常。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    },
+    {
+     "at": "2026-11-17T17:52:00+08:00",
+     "from": "online",
+     "to": "unknown",
+     "cause": "derived",
+     "reason": "hub_silent",
+     "message": {
+      "en": "The Hub went quiet, so PEMO cannot tell.",
+      "zh-Hant": "Hub 沉默，PEMO 無法確定。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": [
+    {
+     "hubRef": "intercom-gw-01",
+     "state": "offline",
+     "since": "2026-11-18T09:41:00+08:00",
+     "lastSeenAt": "2026-11-18T09:40:00+08:00",
+     "receivedAt": "2026-11-18T09:41:05+08:00"
+    },
+    {
+     "hubRef": "intercom-gw-02",
+     "state": "offline",
+     "since": "2026-11-18T09:41:00+08:00",
+     "lastSeenAt": "2026-11-18T09:40:00+08:00",
+     "receivedAt": "2026-11-18T09:41:05+08:00"
+    }
+   ]
+  },
+  "sys_wfg_pumps_b": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_ac_club": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_carpark": {
+   "history": [
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  },
+  "sys_wfg_ev": {
+   "history": [
+    {
+     "at": "2026-11-18T08:00:00+08:00",
+     "from": "online",
+     "to": "maintenance",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Planned maintenance.",
+      "zh-Hant": "計劃維修中。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    },
+    {
+     "at": "2026-11-16T09:00:00+08:00",
+     "from": null,
+     "to": "online",
+     "cause": "hub_report",
+     "reason": null,
+     "message": {
+      "en": "Reported by the Hub.",
+      "zh-Hant": "由 Hub 回報。"
+     },
+     "itDetails": {
+      "detailCode": null
+     }
+    }
+   ],
+   "recentDeviceChanges": []
+  }
+ },
+ "words": {
+  "silentSystem": {
+   "en": "The Hub has gone quiet, so PEMO cannot tell.",
+   "zh-Hant": "Hub 已沉默，PEMO 無法確定。"
+  },
+  "neverSystem": {
+   "en": "PEMO has not heard from the Hub yet, so it cannot tell.",
+   "zh-Hant": "PEMO 尚未收到 Hub 的消息，無法確定。"
+  },
+  "silentHub": {
+   "en": "No heartbeat for 3 minutes. PEMO cannot tell the state of any system.",
+   "zh-Hant": "已 3 分鐘沒有心跳。PEMO 無法確定任何系統的狀態。"
+  },
+  "neverHub": {
+   "en": "PEMO has not heard from the Hub yet.",
+   "zh-Hant": "PEMO 尚未收到 Hub 的消息。"
+  },
+  "lateHub": {
+   "en": "The Hub is late. Systems show what they last reported.",
+   "zh-Hant": "Hub 已延遲。系統顯示其最後回報的狀態。"
+  }
+ }
+}

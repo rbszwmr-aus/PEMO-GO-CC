@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/unmapped-unit",
+  "title": "Unit is not mapped to a monitored location",
+  "status": 409,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000056",
+  "residentMessage": {
+    "en": "We cannot show a safety status for this home yet because it is not linked to a monitored location. The management office has been told.",
+    "zh-Hant": "此住戶尚未連結至受監察的位置，因此暫時無法顯示安全狀態。已通知管理處。"
+  },
+  "retryable": false
+}

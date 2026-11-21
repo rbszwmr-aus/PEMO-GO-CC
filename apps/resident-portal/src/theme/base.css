@@ -1,0 +1,558 @@
+/* PEMO resident portal — layout and typography.
+ *
+ * Every colour is a custom property from palette.g.css or severity-tokens.g.css.
+ * There is NO colour literal in this file, and test/tokens/no-hardcoded-hex.test.ts
+ * fails the build if one appears.
+ *
+ * Design system v2.0: section 2 palette, 4 typography, 6.1 breakpoints. The
+ * export's navigation architecture (README) governs the shell layout: persistent
+ * sidebar 236/196/drawer at 1080/760, top bar with no navigation, no home grid.
+ *
+ * TOKEN CONSTRAINTS ENFORCED HERE (PID section 3):
+ *   - neutral.500 is NEVER text on the page ground; page-ground text is
+ *     neutral.600. test/tokens/contrast.test.ts asserts it.
+ *   - brand.accent appears only as a ground on brand.deep (badge, active
+ *     language), never as text on a light surface.
+ *   - accent.heading is reachable only through .pemo-page-title.
+ */
+
+:root {
+  --pemo-font-sans: var(--s4-font-sans);   /* 4S guide section 3; Inter loads from Google Fonts (index.html), no npm dep */
+  --pemo-font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --pemo-rail-w: 236px;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--pemo-font-sans);
+  font-size: var(--s4-body-size);
+  font-weight: var(--s4-body-weight);
+  line-height: 1.5;
+  color: var(--pemo-neutral-950);
+  background: var(--pemo-neutral-50);
+}
+
+.pemo-mono { font-family: var(--pemo-font-mono); }
+
+/* ---- page title. Ink, not accent.heading (Ruling 2, DIVERGENCES.md D-H): the
+ * portal export uses ink; accent.heading is a management-surface token (§2.5), weakest
+ * in the system at 3.13:1, and orange headings read as `warning` warmth on the
+ * one surface the severity system is built for. The accent.heading token stays
+ * defined and page-title-scoped so a later designer can reintroduce it ONLY here
+ * — the guard remains enforced with no current user (test/tokens/contrast.test.ts). */
+.pemo-page-title {
+  color: var(--pemo-neutral-950);
+  font-size: var(--s4-page-heading-size);
+  font-weight: var(--s4-page-heading-weight);
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ shell frame */
+.pemo-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pemo-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--pemo-common-white);
+  color: var(--pemo-brand-deep);
+  padding: 8px 12px;
+  z-index: 40;
+}
+.pemo-skip:focus { left: 8px; }
+
+.pemo-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* ------------------------------------------------------------------- top bar */
+.pemo-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 24px;
+  background: var(--pemo-common-white);
+  border-bottom: 1px solid var(--pemo-neutral-200);
+}
+.pemo-topbar__brand {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: var(--pemo-brand-deep);
+  text-decoration: none;
+}
+.pemo-topbar__spacer { flex: 1; }
+.pemo-topbar__menu,
+.pemo-topbar__bell {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: var(--pemo-neutral-700);
+  cursor: pointer;
+}
+.pemo-topbar__menu:hover,
+.pemo-topbar__bell:hover { background: var(--pemo-neutral-100); }
+.pemo-topbar__menu:focus-visible,
+.pemo-topbar__bell:focus-visible {
+  outline: 2px solid var(--pemo-brand-primary);
+  outline-offset: 2px;
+}
+.pemo-topbar__menu-glyph { font-size: 18px; }
+.pemo-topbar__bell-glyph { font-size: 16px; }
+
+/* --------------------------------------------------------------- rail / sidebar */
+.pemo-rail {
+  flex: none;
+  width: var(--pemo-rail-w);
+  background: var(--pemo-brand-deep);
+  overflow-y: auto;
+}
+.pemo-shell[data-breakpoint="tablet"] { --pemo-rail-w: 196px; }
+.pemo-shell[data-breakpoint="desktop"] { --pemo-rail-w: 236px; }
+
+.pemo-sidebar { padding: 12px 10px; }
+.pemo-sidebar__list { list-style: none; margin: 0; padding: 0; }
+
+.pemo-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  margin-bottom: 2px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--pemo-brand-onDeepMuted);
+  font: 500 12.5px var(--pemo-font-sans);
+}
+.pemo-nav-item:hover { background: var(--pemo-sidebar-hoverSurface); }
+.pemo-nav-item:focus-visible {
+  outline: 2px solid var(--pemo-brand-accent);
+  outline-offset: 1px;
+}
+.pemo-nav-item--soon { color: var(--pemo-brand-onDeepSubtle); opacity: 0.72; }
+.pemo-nav-item--active {
+  background: var(--pemo-sidebar-activeSurface);
+  color: var(--pemo-sidebar-activeText);
+  font-weight: 600;
+}
+.pemo-nav-item__label { flex: 1; }
+
+.pemo-tag {
+  flex: none;
+  font: 600 9.5px var(--pemo-font-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+.pemo-tag--live {
+  color: var(--pemo-brand-deep);
+  background: var(--pemo-brand-onDeepMuted);
+}
+.pemo-tag--soon {
+  color: var(--pemo-brand-onDeepSubtle);
+  border: 1px solid var(--pemo-brand-onDeepSubtle);
+  background: transparent;
+}
+
+/* service icon slot — reserves space whether or not an asset is present */
+.pemo-service-icon {
+  flex: none;
+  width: 19px;
+  height: 19px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.62;
+  color: var(--pemo-brand-onDeepMuted);
+  font-size: 13px;
+}
+.pemo-service-icon--active { opacity: 1; color: var(--pemo-sidebar-activeText); }
+.pemo-service-icon__img { width: 15px; height: 15px; object-fit: contain; }
+
+/* --------------------------------------------------------------- mobile drawer */
+.pemo-drawer-scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--pemo-neutral-950);
+  opacity: 0.4;
+  z-index: 30;
+}
+.pemo-drawer {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 236px;
+  background: var(--pemo-brand-deep);
+  z-index: 31;
+  overflow-y: auto;
+  padding-top: 8px;
+}
+.pemo-drawer__close {
+  display: inline-flex;
+  margin: 4px 8px 0 auto;
+  background: transparent;
+  border: none;
+  color: var(--pemo-brand-onDeepMuted);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- content area */
+.pemo-content {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 24px;
+}
+.pemo-content:focus-visible { outline: none; }
+
+.pemo-subsystem__head { margin-bottom: 14px; }
+.pemo-subsystem__code {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--pemo-neutral-600);
+  margin-bottom: 4px;
+}
+
+.pemo-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid var(--pemo-neutral-200);
+  margin-bottom: 20px;
+}
+.pemo-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--pemo-neutral-600);
+  font: 500 13px var(--pemo-font-sans);
+}
+.pemo-tab:hover { color: var(--pemo-neutral-800); }
+.pemo-tab:focus-visible {
+  outline: 2px solid var(--pemo-brand-primary);
+  outline-offset: 2px;
+}
+.pemo-tab--active {
+  color: var(--pemo-brand-deep);
+  border-bottom-color: var(--pemo-brand-primary);
+  font-weight: 600;
+}
+
+/* badge — reserves its space; carries no count in this PID */
+.pemo-badge {
+  display: inline-block;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 999px;
+}
+.pemo-badge--reserved {
+  background: var(--pemo-brand-accent);
+}
+.pemo-topbar__bell .pemo-badge { min-width: 8px; height: 8px; }
+
+/* ---------------------------------------------------------------------- states */
+.pemo-state {
+  max-width: 520px;
+  padding: 28px 4px;
+}
+.pemo-state__title {
+  font-size: 18px;
+  font-weight: 650;
+  margin: 0 0 8px;
+  color: var(--pemo-neutral-900);
+}
+.pemo-state__body {
+  margin: 0;
+  color: var(--pemo-neutral-600); /* page ground → neutral.600, never neutral.500 */
+}
+.pemo-state--error .pemo-state__title,
+.pemo-state--denied .pemo-state__title {
+  color: var(--pemo-sev-critical-strong);
+}
+.pemo-skeleton-set { margin-top: 16px; }
+.pemo-skeleton {
+  height: 14px;
+  border-radius: 6px;
+  background: var(--pemo-neutral-150);
+  margin-bottom: 10px;
+}
+.pemo-skeleton:nth-child(2) { width: 80%; }
+.pemo-skeleton:nth-child(3) { width: 60%; }
+
+/* ------------------------------------------------------------- coming-soon panel */
+.pemo-coming-soon { max-width: 560px; padding: 28px 4px; }
+.pemo-coming-soon__eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pemo-neutral-600);
+  margin: 0 0 8px;
+}
+.pemo-coming-soon__body {
+  margin: 12px 0 0;
+  color: var(--pemo-neutral-700);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+/* ---------------------------------------------------------------- severity chip */
+.pemo-severity {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font: 600 12px var(--pemo-font-sans);
+  border: 1px solid transparent;
+}
+.pemo-severity__glyph { font-size: 11px; }
+.pemo-severity--normal      { color: var(--pemo-sev-normal-strong);      background: var(--pemo-sev-normal-surface);      border-color: var(--pemo-sev-normal-border); }
+.pemo-severity--information { color: var(--pemo-sev-information-strong); background: var(--pemo-sev-information-surface); border-color: var(--pemo-sev-information-border); }
+.pemo-severity--advisory    { color: var(--pemo-sev-advisory-strong);    background: var(--pemo-sev-advisory-surface);    border-color: var(--pemo-sev-advisory-border); }
+.pemo-severity--warning     { color: var(--pemo-sev-warning-strong);     background: var(--pemo-sev-warning-surface);     border-color: var(--pemo-sev-warning-border); }
+.pemo-severity--critical    { color: var(--pemo-sev-critical-strong);    background: var(--pemo-sev-critical-surface);    border-color: var(--pemo-sev-critical-border); }
+.pemo-severity--offline     { color: var(--pemo-sev-offline-strong);     background: var(--pemo-sev-offline-surface);     border-color: var(--pemo-sev-offline-border); }
+.pemo-severity--unknown     { color: var(--pemo-sev-unknown-strong);     background: var(--pemo-sev-unknown-surface);     border-color: var(--pemo-sev-unknown-border); }
+
+/* ------------------------------------------------------------- language switch */
+.pemo-langswitch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--pemo-neutral-100);
+}
+.pemo-langswitch__btn {
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font: 600 12px var(--pemo-font-sans);
+  color: var(--pemo-neutral-700);
+  cursor: pointer;
+}
+.pemo-langswitch__btn:focus-visible {
+  outline: 2px solid var(--pemo-brand-primary);
+  outline-offset: 1px;
+}
+.pemo-langswitch__btn--active {
+  background: var(--pemo-brand-accent);
+  color: var(--pemo-brand-deep);
+}
+
+/* --------------------------------------------------------- dev toolbar (dev only) */
+.pemo-devbar {
+  display: flex;
+  gap: 16px;
+  padding: 8px 24px;
+  background: var(--pemo-neutral-150);
+  border-top: 1px solid var(--pemo-neutral-300);
+  font: 500 12px var(--pemo-font-sans);
+  color: var(--pemo-neutral-700);
+}
+.pemo-devbar__field { display: inline-flex; align-items: center; gap: 6px; }
+
+/* -------------------------------------------------------------------- responsive */
+.pemo-shell[data-breakpoint="mobile"] .pemo-body { flex-direction: column; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-topbar { padding: 0 14px; }
+
+/* ============================ booking screens (UI-031) ============================ */
+.pemo-explore__head { margin-bottom: 16px; }
+.pemo-explore__count { color: var(--pemo-neutral-700); font-weight: 600; margin: 4px 0; }
+.pemo-explore__deferred { color: var(--pemo-neutral-600); font-size: 14px; margin: 0; }
+.pemo-explore__body { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-explore__body { grid-template-columns: 1fr; }
+
+.pemo-facets { border: 1px solid var(--pemo-neutral-200); border-radius: var(--s4-radius-card); padding: 12px 14px; }
+.pemo-facets__heading { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--pemo-neutral-600); margin: 8px 0 6px; }
+.pemo-facets__list { list-style: none; margin: 0 0 8px; padding: 0; }
+.pemo-facet { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; color: var(--pemo-neutral-700); }
+.pemo-facet__count { font-weight: 600; color: var(--pemo-neutral-900); }
+
+.pemo-explore__results { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-explore__results { grid-template-columns: 1fr; }
+.pemo-explore__empty { color: var(--pemo-neutral-600); }
+
+.pemo-card { border: 1px solid var(--pemo-neutral-200); border-radius: var(--s4-radius-card); padding: 14px; background: var(--pemo-common-white); }
+.pemo-card[data-eligible="false"] { border-color: var(--pemo-neutral-300); }
+.pemo-card__name { font-size: 16px; font-weight: 650; margin: 0; color: var(--pemo-neutral-950); }
+.pemo-card__category { font-size: 12px; color: var(--pemo-neutral-600); }
+.pemo-card__meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0; color: var(--pemo-neutral-700); font-size: 14px; }
+.pemo-card__foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pemo-card__provisional { font-size: 12px; color: var(--pemo-neutral-600); margin: 8px 0 0; }
+
+.pemo-facstate { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.pemo-facstate__label { font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid; }
+.pemo-facstate--open .pemo-facstate__label { color: var(--pemo-sev-normal-strong); background: var(--pemo-sev-normal-surface); border-color: var(--pemo-sev-normal-border); }
+.pemo-facstate--closed .pemo-facstate__label { color: var(--pemo-sev-offline-strong); background: var(--pemo-sev-offline-surface); border-color: var(--pemo-sev-offline-border); }
+.pemo-facstate--coming-soon .pemo-facstate__label { color: var(--pemo-sev-information-strong); background: var(--pemo-sev-information-surface); border-color: var(--pemo-sev-information-border); }
+.pemo-facstate__reason { color: var(--pemo-neutral-600); }
+.pemo-facstate__return { color: var(--pemo-neutral-600); }
+
+.pemo-elig { font-size: 13px; display: inline-flex; gap: 4px; align-items: baseline; }
+.pemo-elig--yes { color: var(--pemo-sev-normal-strong); }
+.pemo-elig--no { color: var(--pemo-neutral-700); }
+.pemo-elig__prefix { font-weight: 600; }
+.pemo-elig__reason { color: var(--pemo-neutral-600); }
+
+.pemo-detail__section { margin: 18px 0; padding-top: 12px; border-top: 1px solid var(--pemo-neutral-150); }
+.pemo-detail__section h2 { font-size: 16px; margin: 0 0 8px; color: var(--pemo-neutral-900); }
+.pemo-detail__status { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.pemo-detail__provisional { font-size: 12px; color: var(--pemo-neutral-600); }
+.pemo-detail__book-deferred { margin-top: 16px; padding: 10px 12px; border-radius: 8px; background: var(--pemo-neutral-100); color: var(--pemo-neutral-700); font-size: 14px; }
+
+.pemo-rules__list { margin: 0; }
+.pemo-rule { display: grid; grid-template-columns: 160px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--pemo-neutral-150); }
+.pemo-rule__label { font-weight: 600; color: var(--pemo-neutral-800); margin: 0; }
+.pemo-rule__value { margin: 0; color: var(--pemo-neutral-700); }
+.pemo-rule__value--absent { color: var(--pemo-neutral-600); font-style: italic; }
+
+.pemo-rates { width: 100%; border-collapse: collapse; }
+.pemo-rate td { padding: 6px 8px; border-bottom: 1px solid var(--pemo-neutral-150); color: var(--pemo-neutral-700); font-size: 14px; }
+.pemo-rate__price { text-align: right; color: var(--pemo-neutral-900); }
+
+.pemo-equipment { list-style: none; margin: 0; padding: 0; }
+.pemo-equip { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; color: var(--pemo-neutral-700); }
+.pemo-equip__tag { color: var(--pemo-neutral-600); font-size: 13px; }
+
+.pemo-faq { margin: 6px 0; }
+.pemo-faq summary { cursor: pointer; font-weight: 600; color: var(--pemo-neutral-800); }
+
+.pemo-availability { margin: 18px 0; }
+.pemo-availability__note { font-size: 13px; color: var(--pemo-neutral-600); margin: 6px 0; }
+.pemo-slotgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-slotgrid { grid-template-columns: repeat(2, 1fr); }
+.pemo-slot { border: 1px solid var(--pemo-neutral-200); border-radius: 8px; padding: 8px; font-size: 13px; text-align: center; }
+.pemo-slot__time { display: block; font-weight: 600; color: var(--pemo-neutral-900); }
+.pemo-slot__state { display: block; font-size: 12px; }
+.pemo-slot--available { background: var(--pemo-common-white); border-color: var(--pemo-neutral-300); }
+.pemo-slot--available .pemo-slot__state { color: var(--pemo-sev-normal-strong); }
+.pemo-slot--unavailable { background: var(--pemo-neutral-100); color: var(--pemo-neutral-600); }
+.pemo-slot--past { background: var(--pemo-neutral-25); color: var(--pemo-neutral-400); }
+.pemo-slot--blocked { background: var(--pemo-neutral-150); color: var(--pemo-neutral-600); }
+.pemo-availability__list { margin-top: 8px; }
+.pemo-availability__list-heading { font-size: 13px; color: var(--pemo-neutral-700); margin: 4px 0; }
+.pemo-availability__list ul { margin: 0; padding-left: 18px; color: var(--pemo-neutral-700); }
+
+/* Ticket detail title-adjacent prev/next */
+.pemo-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 8px;
+  min-width: 0;
+}
+.pemo-title-row .pemo-page-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.pemo-title-nav {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: 8px;
+  background: var(--pemo-common-white);
+  color: var(--pemo-neutral-800);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pemo-title-nav:hover:not(:disabled) {
+  border-color: var(--pemo-neutral-400);
+  background: var(--pemo-neutral-50);
+}
+.pemo-title-nav:disabled {
+  color: var(--pemo-neutral-300);
+  border-color: var(--pemo-neutral-150);
+  background: var(--pemo-neutral-50);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* ======================================================================
+ * 4S Web UI Style Guide v1.1 (4S-DS-WEB-001) shell
+ *
+ * Solid green rail runs the full height with the brand at its head; the canvas
+ * carries the account controls (language, notifications) top right, borderless.
+ * Rail widths: 228px, 240px from 1600px, 190px on the tablet breakpoint.
+ * ====================================================================== */
+.pemo-shell { display: grid; grid-template-columns: var(--pemo-rail-w) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; position: relative; background: var(--s4-canvas); }
+.pemo-shell[data-breakpoint="mobile"] { grid-template-columns: minmax(0, 1fr); }
+.pemo-shell[data-breakpoint="tablet"] { --pemo-rail-w: 190px; }
+.pemo-shell[data-breakpoint="desktop"] { --pemo-rail-w: 228px; }
+@media (min-width: 1600px) { .pemo-shell[data-breakpoint="desktop"] { --pemo-rail-w: 240px; } }
+.pemo-body { display: contents; }
+.pemo-topbar { grid-column: 2; grid-row: 1; background: var(--s4-canvas); border-bottom: 0; height: 56px; padding: 0 32px 0 24px; justify-content: flex-end; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-topbar { grid-column: 1; padding: 0 16px; justify-content: flex-start; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-topbar__brand { color: var(--pemo-brand-primary); }
+.pemo-shell[data-breakpoint="mobile"] .pemo-topbar__spacer { flex: 1; }
+.pemo-shell:not([data-breakpoint="mobile"]) .pemo-topbar__spacer { display: none; }
+.pemo-shell:not([data-breakpoint="mobile"]) .pemo-topbar__brand { position: absolute; left: 20px; top: 0; height: 56px; display: flex; align-items: center; color: var(--s4-white); z-index: 2; }
+.pemo-rail { grid-column: 1; grid-row: 1 / span 2; width: auto; padding-top: 56px; background: var(--pemo-sidebar-ground, var(--pemo-brand-deep)); scrollbar-width: thin; scrollbar-color: var(--s4-sidebar-scroll-thumb) transparent; }
+.pemo-rail::-webkit-scrollbar { width: 6px; }
+.pemo-rail::-webkit-scrollbar-thumb { background: var(--s4-sidebar-scroll-thumb); border-radius: 3px; }
+.pemo-rail::-webkit-scrollbar-thumb:hover { background: var(--s4-sidebar-scroll-thumb-hover); }
+.pemo-content { grid-column: 2; grid-row: 2; background: var(--s4-canvas); padding: 8px 32px 32px; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-content { grid-column: 1; padding: 8px 16px 24px; }
+.pemo-shell > .pemo-devbar { grid-column: 1 / -1; grid-row: 3; }
+.pemo-topbar__menu, .pemo-topbar__bell { border-color: transparent; color: var(--s4-text); }
+.pemo-topbar__menu:hover, .pemo-topbar__bell:hover { background: var(--pemo-brand-primaryTint); }
+.pemo-drawer { width: var(--pemo-rail-w, 228px); background: var(--pemo-sidebar-ground, var(--pemo-brand-deep)); }
+.pemo-shell[data-breakpoint="mobile"] { --pemo-rail-w: 260px; }
+
+/* Rail items: 14.52px / 650, soft green active surface. LIVE is the default, so only SOON carries a tag. */
+.pemo-nav-item { font: var(--s4-menu-weight) var(--s4-menu-size) var(--pemo-font-sans); padding: 10px 12px; min-height: 40px; color: var(--s4-sidebar-text); }
+.pemo-nav-item--soon { color: var(--s4-sidebar-text); opacity: 0.7; }
+.pemo-nav-item--active { color: var(--s4-selected-text); font-weight: 750; }
+.pemo-tag--live { display: none; }
+.pemo-tag--soon { border: 0; background: var(--pemo-sidebar-hoverSurface); color: var(--s4-sidebar-text); font-weight: 650; text-transform: none; letter-spacing: 0; font-size: 12px; padding: 2px 8px; }
+
+/* Breadcrumb row: the eyebrow above each page title reads as the path, not a label. */
+.pemo-subsystem__code { text-transform: none; letter-spacing: 0; font-size: 12px; font-weight: 650; color: var(--s4-secondary-text-aa, var(--pemo-neutral-600)); }
+
+/* Help bubble: an "i" button; the explanation opens on hover, focus and tap. */
+.pemo-help { display: inline-flex; align-items: center; margin-left: 6px; vertical-align: middle; }
+.pemo-help__button { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--s4-secondary-text-aa, var(--pemo-neutral-600)); font: 700 13px var(--pemo-font-sans); font-style: italic; cursor: pointer; }
+.pemo-help__button:hover, .pemo-help__button[aria-expanded="true"] { background: var(--pemo-brand-primaryTint); color: var(--s4-selected-text); }
+.pemo-help__button:focus-visible { outline: 2px solid var(--pemo-brand-primary); outline-offset: 1px; }
+.pemo-help__bubble { position: fixed; z-index: 50; padding: 8px 12px; border-radius: var(--s4-radius-control); background: var(--s4-text); color: var(--s4-white); font-size: 12.5px; font-weight: 600; line-height: 1.4; box-shadow: 0 8px 24px var(--pemo-neutral-300); pointer-events: none; }
+
+/* Inner pane titles are card headings; only the service title and a coming-soon panel use the page-heading size. */
+.pemo-page-title:not(.pemo-subsystem__title):not(.pemo-coming-soon__title) { font-size: var(--s4-card-heading-size); font-weight: var(--s4-card-heading-weight); line-height: 1.25; }
+/* The service code above the title reads as a quiet path, not a shouted label. */
+.pemo-subsystem__code { display: block; font-family: var(--pemo-font-sans); text-transform: lowercase; }
+.pemo-subsystem__code::first-letter { text-transform: uppercase; }
+.pemo-panel > .pemo-help, .pemo-explore__head > .pemo-help { align-self: flex-start; margin-left: 0; }
+.pemo-explore__head { display: flex; flex-direction: column; gap: 4px; }
+.pemo-help__glyph::before { content: "i"; }

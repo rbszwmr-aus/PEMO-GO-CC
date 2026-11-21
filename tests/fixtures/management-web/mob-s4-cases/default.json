@@ -1,0 +1,221 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000012",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "cases": [
+    {
+      "reference": "CS-24118",
+      "subject": {
+        "en": "Lift 2 out of service",
+        "zh-Hant": "2號升降機停用"
+      },
+      "category": "building-services",
+      "scope": {
+        "node": {
+          "kind": "building",
+          "id": "blk_wfg_a",
+          "label": {
+            "en": "Block A",
+            "zh-Hant": "A座"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          }
+        ]
+      },
+      "assignee": {
+        "state": "assigned",
+        "name": "Ng Ka-ho"
+      },
+      "target": {
+        "state": "overdue",
+        "elapsedMinutes": 240,
+        "dueAt": null,
+        "label": {
+          "en": "Overdue 4h",
+          "zh-Hant": "逾時4小時"
+        }
+      },
+      "status": "in-progress"
+    },
+    {
+      "reference": "CS-24119",
+      "subject": {
+        "en": "Noise complaint",
+        "zh-Hant": "噪音投訴"
+      },
+      "category": "complaint",
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_a_12_a1",
+          "label": {
+            "en": "Flat A1",
+            "zh-Hant": "A1室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_a",
+            "label": {
+              "en": "Block A",
+              "zh-Hant": "A座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_a_12",
+            "label": {
+              "en": "12/F",
+              "zh-Hant": "12樓"
+            }
+          }
+        ]
+      },
+      "assignee": {
+        "state": "unassigned",
+        "name": null
+      },
+      "target": {
+        "state": "due",
+        "dueAt": "2026-08-12T11:56:00+08:00",
+        "elapsedMinutes": null,
+        "label": {
+          "en": "Due in 2h",
+          "zh-Hant": "2小時內到期"
+        }
+      },
+      "status": "new"
+    },
+    {
+      "reference": "CS-24120",
+      "subject": {
+        "en": "Renovation permit enquiry",
+        "zh-Hant": "裝修許可查詢"
+      },
+      "category": "enquiry",
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_b_03_b2",
+          "label": {
+            "en": "Flat B2",
+            "zh-Hant": "B2室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_b",
+            "label": {
+              "en": "Block B",
+              "zh-Hant": "B座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_b_03",
+            "label": {
+              "en": "3/F",
+              "zh-Hant": "3樓"
+            }
+          }
+        ]
+      },
+      "assignee": {
+        "state": "assigned",
+        "name": "Lee Wing-shan"
+      },
+      "target": {
+        "state": "met",
+        "dueAt": null,
+        "elapsedMinutes": null,
+        "label": {
+          "en": "Met",
+          "zh-Hant": "已達標"
+        }
+      },
+      "status": "resolved"
+    }
+  ],
+  "counts": {
+    "open": 14,
+    "assignedToMe": 6,
+    "overdue": 3,
+    "all": 212
+  }
+}

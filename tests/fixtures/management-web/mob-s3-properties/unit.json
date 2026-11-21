@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000011",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "unit": {
+    "unitId": "unit_wfg_a_12_a1",
+    "unitReference": "unit-8801-A1",
+    "label": {
+      "en": "Flat A1, 12/F, Block A",
+      "zh-Hant": "A座12樓A1室"
+    },
+    "scope": {
+      "node": {
+        "kind": "unit",
+        "id": "unit_wfg_a_12_a1",
+        "label": {
+          "en": "Flat A1",
+          "zh-Hant": "A1室"
+        }
+      },
+      "ancestry": [
+        {
+          "kind": "organization",
+          "id": "org_wingfu_holdings",
+          "label": {
+            "en": "Wing Fu Property Management",
+            "zh-Hant": "榮富物業管理"
+          }
+        },
+        {
+          "kind": "portfolio",
+          "id": "pf_wingfu_residential",
+          "label": {
+            "en": "Wing Fu Residential Portfolio",
+            "zh-Hant": "榮富住宅組合"
+          }
+        },
+        {
+          "kind": "estate",
+          "id": "est_wing_fu_garden",
+          "label": {
+            "en": "Wing Fu Garden",
+            "zh-Hant": "榮富花園"
+          }
+        },
+        {
+          "kind": "building",
+          "id": "blk_wfg_a",
+          "label": {
+            "en": "Block A",
+            "zh-Hant": "A座"
+          }
+        },
+        {
+          "kind": "floor",
+          "id": "fl_wfg_a_12",
+          "label": {
+            "en": "12/F",
+            "zh-Hant": "12樓"
+          }
+        }
+      ]
+    },
+    "facts": {
+      "homeSafety": {
+        "enrolled": true,
+        "serviceCount": 4
+      },
+      "occupancyFrom": "2024-03-01",
+      "notificationLanguage": "zh-Hant",
+      "sizeAndType": {
+        "systemOfRecord": "erp",
+        "areaSqFt": 624,
+        "layout": "3-bedroom"
+      },
+      "mapping": {
+        "state": "mapped",
+        "sourceNodeRef": "site 8801 / node A-1201"
+      }
+    },
+    "household": [
+      {
+        "name": "Ho Mei-yi 何美儀",
+        "role": {
+          "en": "Owner-occupier",
+          "zh-Hant": "業主自住"
+        },
+        "from": "2024-03-01",
+        "to": null,
+        "safety": {
+          "state": "granted"
+        }
+      },
+      {
+        "name": "Chan Ka-wai 陳嘉威",
+        "role": {
+          "en": "Household member",
+          "zh-Hant": "住戶成員"
+        },
+        "from": "2024-03-01",
+        "to": null,
+        "safety": {
+          "state": "not-permitted"
+        }
+      },
+      {
+        "name": "Lam Siu-fong 林小芳",
+        "role": {
+          "en": "Caregiver",
+          "zh-Hant": "照顧者"
+        },
+        "from": "2025-06-01",
+        "to": "2026-09-30",
+        "safety": {
+          "state": "expiring",
+          "expiresAt": "2026-09-30T00:00:00+08:00"
+        }
+      }
+    ],
+    "externalReferences": [
+      {
+        "system": "erp",
+        "reference": "ERP-UNIT-118842",
+        "state": "linked"
+      },
+      {
+        "system": "cmms",
+        "reference": "CMMS-LOC-A-1201",
+        "state": "read-only"
+      },
+      {
+        "system": "twoiothub",
+        "reference": "i2h-grp-8801-A1201",
+        "state": "read-only"
+      }
+    ]
+  }
+}

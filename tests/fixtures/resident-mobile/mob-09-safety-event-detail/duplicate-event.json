@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000060",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "event": {
+    "eventId": "evt_20260813_smoke01",
+    "severity": "critical",
+    "title": {
+      "en": "Smoke detected in your unit",
+      "zh-Hant": "您的單位偵測到煙霧"
+    },
+    "instruction": {
+      "en": "If you smell or see smoke, leave the flat, close the door behind you and use the staircase. Do not use the lift. Call 999 if there is fire.",
+      "zh-Hant": "如發現煙霧或火警，請離開單位、關上大門並使用樓梯。切勿使用升降機。如有火警請致電999。"
+    },
+    "location": {
+      "label": {
+        "en": "Kitchen · 12/F Flat A1",
+        "zh-Hant": "廚房 · 12樓 A1室"
+      },
+      "locationClass": "unit",
+      "audienceSource": "unit"
+    },
+    "occurredAt": "2026-08-13T09:42:00+08:00",
+    "receivedAt": "2026-08-13T09:42:03+08:00",
+    "reportedBy": {
+      "en": "Installed smoke detector",
+      "zh-Hant": "已安裝的煙霧探測器"
+    },
+    "actions": [
+      {
+        "actionKey": "call_emergency_services",
+        "label": {
+          "en": "Call 999",
+          "zh-Hant": "致電999"
+        },
+        "kind": "primary",
+        "telephone": "999"
+      },
+      {
+        "actionKey": "call_management_office",
+        "label": {
+          "en": "Call management office",
+          "zh-Hant": "致電管理處"
+        },
+        "kind": "secondary"
+      },
+      {
+        "actionKey": "acknowledge_safe",
+        "label": {
+          "en": "I am safe — acknowledge",
+          "zh-Hant": "我安全 — 確認"
+        },
+        "kind": "secondary"
+      }
+    ],
+    "managementUpdates": [
+      {
+        "updateId": "upd_0951",
+        "publishedAt": "2026-08-13T09:51:00+08:00",
+        "body": {
+          "en": "Estate staff are attending 12/F. Fire Services have been called as a precaution.",
+          "zh-Hant": "屋苑職員正前往12樓。已預防性通知消防處。"
+        },
+        "isAllClear": false
+      }
+    ],
+    "managementUpdatePending": false,
+    "acknowledgement": {
+      "required": true,
+      "acknowledged": false,
+      "acknowledgedAt": null
+    },
+    "disclaimer": {
+      "en": "This alert supplements the building fire alarm and statutory emergency procedures. It does not replace them, and it may be delayed or unavailable.",
+      "zh-Hant": "此警報為輔助性質，不能取代大廈火警系統及法定緊急程序，並可能延遲或無法提供。"
+    },
+    "revision": {
+      "revisionNumber": 1,
+      "isCorrection": false,
+      "supersedes": null
+    }
+  }
+}

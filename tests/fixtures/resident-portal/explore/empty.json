@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "correlationId": "3c4d5e6f-0000-4000-8000-000000000007",
+    "contractVersion": "0.1.0",
+    "generatedAt": "2026-08-18T10:00:00+08:00"
+  },
+  "results": [],
+  "facets": {
+    "scope": "world",
+    "categories": [
+      {
+        "key": "function-and-event",
+        "count": 3,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "sports-and-fitness",
+        "count": 3,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "wellness",
+        "count": 2,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "outdoor",
+        "count": 2,
+        "basis": "count of returned facilities whose category == key"
+      },
+      {
+        "key": "community",
+        "count": 3,
+        "basis": "count of returned facilities whose category == key"
+      }
+    ],
+    "filters": [
+      {
+        "key": "parent:clubhouse",
+        "count": 10,
+        "basis": "count of returned facilities whose composed parentLocationId is the clubhouse"
+      },
+      {
+        "key": "parent:podium",
+        "count": 3,
+        "basis": "count of returned facilities whose composed parentLocationId is the podium"
+      },
+      {
+        "key": "bookable",
+        "count": 12,
+        "basis": "count of returned facilities with eligibility.eligible == true"
+      },
+      {
+        "key": "ineligible",
+        "count": 1,
+        "basis": "count of returned facilities present with eligibility.eligible == false"
+      }
+    ]
+  },
+  "page": {
+    "page": 1,
+    "pageSize": 20,
+    "total": 0
+  }
+}

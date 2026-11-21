@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000007",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "sourceSystem": "twoiothub",
+  "sourceEventId": "i2h-evt-8842190",
+  "classification": {
+    "source": {
+      "code": "FIRE_SMOKE",
+      "level": "CRITICAL"
+    },
+    "pemo": {
+      "severity": "critical",
+      "policyVersion": "sev-policy-2026.08",
+      "classifiedAt": "2026-08-12T09:42:09+08:00"
+    }
+  },
+  "occurredAt": "2026-08-12T09:42:07+08:00",
+  "mapping": {
+    "state": "mapped",
+    "sourceNodeRef": "site 8812 / node B-0304",
+    "unitId": "unit_wfg_b_03_b2"
+  }
+}

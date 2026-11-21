@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "correlationId": "8b2c3d4e-hh00-4000-8000-0000000000d2",
+    "contractVersion": "2.3.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "household": {
+    "householdId": "hh_wfg_b_03_b2",
+    "unitId": "unit_wfg_b_03_b2",
+    "unitReference": "unit-8801-B2",
+    "contactEmail": "tam.siufong@wingfu.example",
+    "unitLabel": {
+      "en": "Flat B2, 3/F, Block B",
+      "zh-Hant": "B座3樓B2室"
+    },
+    "scope": {
+      "node": {
+        "kind": "unit",
+        "id": "unit_wfg_b_03_b2",
+        "label": {
+          "en": "Flat B2",
+          "zh-Hant": "B2室"
+        }
+      },
+      "ancestry": [
+        {
+          "kind": "organization",
+          "id": "org_wingfu_holdings",
+          "label": {
+            "en": "Wing Fu Property Management",
+            "zh-Hant": "榮富物業管理"
+          }
+        },
+        {
+          "kind": "estate",
+          "id": "est_wing_fu_garden",
+          "label": {
+            "en": "Wing Fu Garden",
+            "zh-Hant": "榮富花園"
+          }
+        },
+        {
+          "kind": "building",
+          "id": "blk_wfg_b",
+          "label": {
+            "en": "Block B",
+            "zh-Hant": "B座"
+          }
+        },
+        {
+          "kind": "floor",
+          "id": "fl_wfg_b_03",
+          "label": {
+            "en": "3/F",
+            "zh-Hant": "3樓"
+          }
+        }
+      ]
+    },
+    "occupancyFrom": "2022-11-15",
+    "notificationLanguage": "zh-Hant",
+    "status": "occupied",
+    "contactPreferences": {
+      "channels": {
+        "en": "App inbox · phone call for urgent notices",
+        "zh-Hant": "應用程式收件箱 · 緊急通知電話"
+      },
+      "quietHours": {
+        "en": "23:00–08:00 HKT (non-emergency)",
+        "zh-Hant": "香港時間 23:00–08:00（非緊急）"
+      }
+    },
+    "members": [
+      {
+        "residentId": "res_wfg_000501",
+        "name": "Tam Siu-fong 譚小芳",
+        "role": "owner_occupier",
+        "effectiveFrom": "2022-11-15",
+        "effectiveTo": null,
+        "safety": {
+          "state": "granted"
+        },
+        "authorisation": {
+          "en": "Primary resident — owns the unit and administers household membership.",
+          "zh-Hant": "主要住戶 — 單位業主，管理住戶成員。"
+        }
+      },
+      {
+        "residentId": "res_wfg_000512",
+        "name": "Tam Yee-man 譚綺雯",
+        "role": "tenant",
+        "effectiveFrom": "2024-09-01",
+        "effectiveTo": null,
+        "safety": {
+          "state": "granted"
+        },
+        "authorisation": {
+          "en": "Tenant — occupancy under a mirrored tenancy record; safety viewing granted by the primary resident.",
+          "zh-Hant": "租戶 — 佔用關係來自對應租約紀錄；主要住戶已授予安全資料查看權。"
+        }
+      }
+    ]
+  }
+}

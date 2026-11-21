@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000008",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "sourceSystem": "twoiothub",
+  "sourceEventId": "i2h-evt-8841720",
+  "classification": {
+    "source": {
+      "code": "GAS",
+      "level": "WARNING"
+    },
+    "pemo": {
+      "severity": "unknown",
+      "policyVersion": "sev-policy-2026.08",
+      "classifiedAt": "2026-08-12T08:02:04+08:00"
+    }
+  },
+  "occurredAt": "2026-08-12T08:02:01+08:00",
+  "mapping": {
+    "state": "unmapped",
+    "sourceNodeRef": "site 8829 / node C-903",
+    "unitId": null
+  }
+}

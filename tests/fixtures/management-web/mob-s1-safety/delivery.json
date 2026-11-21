@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000006",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "recipients": [
+    {
+      "recipientId": "rcp_1",
+      "name": "Ho Mei-yi 何美儀",
+      "role": {
+        "en": "Owner-occupier",
+        "zh-Hant": "業主自住"
+      },
+      "state": {
+        "status": "read",
+        "at": "2026-08-12T09:43:00+08:00"
+      }
+    },
+    {
+      "recipientId": "rcp_2",
+      "name": "Chan Ka-wai 陳嘉威",
+      "role": {
+        "en": "Household member",
+        "zh-Hant": "住戶成員"
+      },
+      "state": {
+        "status": "delivered"
+      }
+    },
+    {
+      "recipientId": "rcp_3",
+      "name": "Lam Siu-fong 林小芳",
+      "role": {
+        "en": "Caregiver",
+        "zh-Hant": "照顧者"
+      },
+      "state": {
+        "status": "blocked"
+      }
+    },
+    {
+      "recipientId": "rcp_4",
+      "name": "Wong Chi-keung 黃志強",
+      "role": {
+        "en": "Household member",
+        "zh-Hant": "住戶成員"
+      },
+      "state": {
+        "status": "scheduled"
+      }
+    }
+  ],
+  "timeline": [
+    {
+      "at": "2026-08-12T09:42:09+08:00",
+      "what": {
+        "en": "Event received and classified",
+        "zh-Hant": "事件接收並分類"
+      },
+      "by": "PEMO",
+      "tone": "neutral"
+    },
+    {
+      "at": "2026-08-12T09:42:30+08:00",
+      "what": {
+        "en": "Published to 4 authorized recipients",
+        "zh-Hant": "已發佈予4名獲授權接收者"
+      },
+      "by": "PEMO",
+      "tone": "attention"
+    },
+    {
+      "at": "2026-08-12T09:51:00+08:00",
+      "what": {
+        "en": "Management update published",
+        "zh-Hant": "已發佈管理處消息"
+      },
+      "by": "Chan Mei-ling",
+      "tone": "positive"
+    }
+  ]
+}

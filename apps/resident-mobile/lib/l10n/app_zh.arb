@@ -1,0 +1,53 @@
+{
+  "@@locale": "zh",
+  "@@comment": "Traditional Chinese. PEMO ships English and Traditional Chinese only; there is no Simplified locale, so the base zh file IS the Traditional Chinese copy. A Locale('zh', 'Hant') request resolves here by language fallback. Interface chrome only: resident-facing safety copy comes from the server payload.",
+
+  "navHome": "主頁",
+  "navServices": "服務",
+  "navSafety": "安全",
+  "navInbox": "收件匣",
+  "navAccount": "帳戶",
+
+  "sectionOpenCase": "個案",
+  "sectionNotices": "通告",
+  "sectionQuickServices": "快速服務",
+  "sectionHelpDesk": "服務台",
+  "sectionInstalledServices": "已安裝的服務",
+  "sectionRecentEvents": "近期事件",
+  "sectionManagementUpdates": "管理處更新",
+  "sectionYourUnits": "單位",
+  "sectionNotificationPreferences": "通知設定",
+
+  "titleHomeSafety": "家居安全",
+  "titleAccount": "帳戶",
+  "residentPass": "住戶通行證",
+
+  "actionCallOffice": "致電管理處",
+  "actionAcknowledge": "確認已閱讀此警報",
+  "actionAcknowledged": "已確認",
+
+  "stateEmpty": "目前沒有內容。",
+  "statePartial": "部分內容暫時無法顯示。",
+  "stateSessionExpired": "登入已逾時，請重新登入。",
+  "stateDuplicateSubmission": "此操作已記錄，不會重複執行。",
+  "stateNoEvent": "沒有事件。",
+
+  "clientOffline": "您的裝置目前沒有網絡連線，此畫面顯示的是先前接收的資料。請勿依賴此資料判斷安全狀況。",
+  "conditionUnknown": "無法確定此單位的安全狀況。",
+  "notMonitored": "此單位尚未安裝 PEMO 感應器。",
+  "notMonitoredDetail": "此單位尚未安裝 PEMO 感應器，因此沒有可報告的安全狀況。",
+
+  "managementUpdatePending": "管理處尚未發布更新。",
+  "correctionLinked": "此為更正，與原事件相關。",
+
+  "dataAgeUpdated": "更新於{age}",
+  "dataAgeStale": "此資料並非最新，更新於{age}。請勿依賴此資料判斷安全狀況。",
+  "typicalReply": "辦公時間內通常於 {minutes} 分鐘內回覆",
+
+  "ageSeconds": "{n} 秒前",
+  "ageMinutes": "{n} 分鐘前",
+  "ageHours": "{n} 小時前",
+  "ageDays": "{n} 天前",
+
+  "inboxSpecifiedNotBuilt": "此畫面已在設計規格中訂明（MOB-06），但尚未建置。"
+}

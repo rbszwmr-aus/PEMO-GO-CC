@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "correlationId": "7a1b2c3d-res0-4000-8000-000000000003",
+    "contractVersion": "2.3.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "counts": {
+    "all": 0,
+    "verified": 0,
+    "invited": 0,
+    "pendingVerification": 0,
+    "expiredScope": 0
+  },
+  "residents": []
+}

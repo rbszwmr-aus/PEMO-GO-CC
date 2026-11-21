@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pemo.local/contracts/resident-portal/forbidden-terms.json",
+  "title": "PEMO resident-portal (Amenities & Booking) denylist",
+  "contractVersion": "0.1.0",
+  "pid": "API-027-ST",
+  "surface": "resident-portal",
+  "purpose": "Field names that must never cross the resident booking boundary. Same scan idiom as the two existing lists: forbiddenPropertyNames match PROPERTY NAMES only, case-insensitively after stripping non-alphanumerics.",
+  "derivedByDiff": {
+    "base": "resident-mobile/forbidden-terms.json — booking is a resident-facing surface, so the resident boundary is the base, not the management one.",
+    "method": "Every group of the resident-mobile list was kept, dropped, or modified for the booking domain, and booking-specific groups were added. Each decision is recorded here and in the Step 2 report. A denylist that cries wolf gets bypassed (resident-mobile's own 'unit' exception), so groups with no booking analogue are dropped rather than carried as noise.",
+    "kept": [
+      "deviceIdentity — a facility's equipment must never leak an asset/device/equipment id to a resident.",
+      "secrets — universal.",
+      "carParkOperations — the car park is never bookable (R6, ADR-003); these terms flag car-park operational data leaking into a booking response.",
+      "internalAndPrivacy — but MODIFIED, see 'modified'."
+    ],
+    "dropped": {
+      "telemetry": "No sensor readings exist in a booking response.",
+      "protocol": "No integration-protocol content in booking.",
+      "alarmLifecycle": "No alarms in booking.",
+      "clientConnectivity": "Booking availability is a server-side SlotState, not device connectivity; these terms have no booking analogue.",
+      "mappingIdentifiers": "Integration mapping, not booking."
+    },
+    "modified": {
+      "internalAndPrivacy": "Kept the other-party/staff-internal terms; REMOVED the rate terms {price, cost, tariff} and the maintenance terms {workorder, workordercost, parts, partscost, invoice, procurement, inventory}. Booking rate cards and admin fees are resident-facing by design — this is the boundary INVERTING for booking, the way sourcedeviceref inverts for management. The removed rate terms are recorded as allowedExceptions; the maintenance terms have no booking analogue."
+    },
+    "added": [
+      "bookingParty",
+      "hkstpResidue"
+    ]
+  },
+  "forbiddenPropertyNames": {
+    "deviceIdentity": {
+      "reason": "Device/equipment/asset identity is never a resident's. Kept verbatim from resident-mobile.",
+      "terms": [
+        "deviceid",
+        "deviceidentifier",
+        "devicekey",
+        "deviceuuid",
+        "devicename",
+        "sensorid",
+        "sensoridentifier",
+        "sensorkey",
+        "sensoruuid",
+        "serial",
+        "serialno",
+        "serialnumber",
+        "macaddress",
+        "mac",
+        "imei",
+        "iccid",
+        "hardwareid",
+        "hwid",
+        "assettag",
+        "equipmentid",
+        "panelid",
+        "zoneid",
+        "gatewayid",
+        "gateway",
+        "edgeid",
+        "nodeid",
+        "node",
+        "endpointid"
+      ]
+    },
+    "secrets": {
+      "reason": "Universal. Kept verbatim.",
+      "terms": [
+        "password",
+        "passwd",
+        "secret",
+        "apikey",
+        "apitoken",
+        "accesstoken",
+        "refreshtoken",
+        "bearertoken",
+        "privatekey",
+        "clientsecret",
+        "credential",
+        "credentials",
+        "authorization",
+        "cookie",
+        "sessionsecret"
+      ]
+    },
+    "carParkOperations": {
+      "reason": "The car park is never bookable (R6). A car-park operational field in a booking response is a leak, not a feature.",
+      "terms": [
+        "vehiclepresent",
+        "vehicleoccupied",
+        "isparked",
+        "parkedvehicle",
+        "barrier",
+        "barrierstate",
+        "gateopen",
+        "gatestate",
+        "boomgate",
+        "platenumber",
+        "licenceplate",
+        "licenseplate",
+        "lpr",
+        "parkingtransaction",
+        "parkingfee",
+        "parkingcharge",
+        "occupancycount",
+        "spacesavailable",
+        "spaceavailable",
+        "baystatus"
+      ]
+    },
+    "otherPartyAndInternal": {
+      "reason": "From resident-mobile's internalAndPrivacy, minus the rate and maintenance terms. A booking must never reveal another resident, a neighbour, or a staff-internal note.",
+      "terms": [
+        "internalnote",
+        "internalnotes",
+        "internalcomment",
+        "staffnote",
+        "staffnotes",
+        "otherresident",
+        "otherresidents",
+        "neighbourunit",
+        "neighborunit",
+        "technician",
+        "technicianname",
+        "contractor",
+        "contractorname"
+      ]
+    },
+    "bookingParty": {
+      "reason": "ADDED. Who holds or booked a slot must never be revealed — this is why SlotState collapses 'booked by another' and 'held' into `unavailable`. The holder's identity is another party's, forbidden exactly as otherresident is.",
+      "terms": [
+        "heldby",
+        "held_by",
+        "bookedby",
+        "booked_by",
+        "reservedby",
+        "reserved_by",
+        "bookerid",
+        "bookername",
+        "holderid",
+        "holdername",
+        "occupantname",
+        "guestname",
+        "attendeename",
+        "attendees",
+        "partyname",
+        "bookingcontact",
+        "memberid",
+        "membername"
+      ]
+    },
+    "hkstpResidue": {
+      "reason": "ADDED. R4 deletes PUBLIC_USER/PARK_USER; the export's HKSTP sample data carried company/cost-centre/persona residue that must not survive into a residential product (R4, section 3.2).",
+      "terms": [
+        "costcentre",
+        "costcenter",
+        "company",
+        "companyname",
+        "companydomain",
+        "employer",
+        "department",
+        "persona",
+        "emaildomain",
+        "staffnumber",
+        "employeeid",
+        "organisationname",
+        "organizationname"
+      ]
+    }
+  },
+  "forbiddenValuePatterns": [],
+  "allowedExceptions": [
+    {
+      "term": "price",
+      "why": "Rate-card prices and from-price are resident-facing by design. The boundary inverts for booking: prices are shown, not hidden. Removed from the inherited internalAndPrivacy group for this reason."
+    },
+    {
+      "term": "cost",
+      "why": "Same as price — a facility's admin fee/cost is shown to the resident who will pay it."
+    },
+    {
+      "term": "tariff",
+      "why": "Same. A rate tariff is resident-facing booking information."
+    },
+    {
+      "term": "fee",
+      "why": "adminFee is a modelled, resident-facing policy field (FacilityRules.adminFee)."
+    },
+    {
+      "term": "capacity",
+      "why": "A facility's capacity is resident-facing (FacilityCard.capacity, overview.capacity)."
+    },
+    {
+      "term": "reference",
+      "why": "Inherited: resident-facing references are shown by design."
+    },
+    {
+      "term": "location",
+      "why": "Inherited: resident-readable location is in scope; panel/zone/device identifiers are not (see deviceIdentity)."
+    },
+    {
+      "term": "unit",
+      "why": "Inherited: PEMO's own entity name and the ordinary word for a home."
+    },
+    {
+      "term": "units",
+      "why": "Plural of unit; inherited."
+    },
+    {
+      "term": "member",
+      "why": "Membership STANDING (membership-required eligibility) is the caller's own — but membername/memberid are forbidden (bookingParty), because those name a party. Only the abstract 'membership' concept is in scope."
+    }
+  ]
+}

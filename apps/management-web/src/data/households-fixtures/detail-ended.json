@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "correlationId": "8b2c3d4e-hh00-4000-8000-0000000000d4",
+    "contractVersion": "2.3.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "household": {
+    "householdId": "hh_wfg_a_05_a4_ended",
+    "unitId": "unit_wfg_a_05_a4",
+    "unitReference": "unit-8801-A4",
+    "contactEmail": "cheung.takwah@wingfu.example",
+    "unitLabel": {
+      "en": "Flat A4, 5/F, Block A",
+      "zh-Hant": "A座5樓A4室"
+    },
+    "scope": {
+      "node": {
+        "kind": "unit",
+        "id": "unit_wfg_a_05_a4",
+        "label": {
+          "en": "Flat A4",
+          "zh-Hant": "A4室"
+        }
+      },
+      "ancestry": [
+        {
+          "kind": "organization",
+          "id": "org_wingfu_holdings",
+          "label": {
+            "en": "Wing Fu Property Management",
+            "zh-Hant": "榮富物業管理"
+          }
+        },
+        {
+          "kind": "estate",
+          "id": "est_wing_fu_garden",
+          "label": {
+            "en": "Wing Fu Garden",
+            "zh-Hant": "榮富花園"
+          }
+        },
+        {
+          "kind": "building",
+          "id": "blk_wfg_a",
+          "label": {
+            "en": "Block A",
+            "zh-Hant": "A座"
+          }
+        },
+        {
+          "kind": "floor",
+          "id": "fl_wfg_a_05",
+          "label": {
+            "en": "5/F",
+            "zh-Hant": "5樓"
+          }
+        }
+      ]
+    },
+    "occupancyFrom": "2021-01-01",
+    "notificationLanguage": "zh-Hant",
+    "status": "ended",
+    "contactPreferences": {
+      "channels": {
+        "en": "No active channels — occupancy ended",
+        "zh-Hant": "無有效渠道 — 佔用已結束"
+      },
+      "quietHours": {
+        "en": "Not applicable",
+        "zh-Hant": "不適用"
+      }
+    },
+    "members": [
+      {
+        "residentId": "res_wfg_000220",
+        "name": "Cheung Tak-wah 張德華",
+        "role": "tenant",
+        "effectiveFrom": "2021-01-01",
+        "effectiveTo": "2025-12-31",
+        "safety": {
+          "state": "expired",
+          "expiresAt": "2025-12-31T00:00:00+08:00"
+        },
+        "authorisation": {
+          "en": "Former tenant — occupancy ended 31 Dec 2025. Membership and safety viewing no longer effective.",
+          "zh-Hant": "前租戶 — 佔用已於 2025年12月31日結束。成員資格及安全資料查看權均不再有效。"
+        }
+      }
+    ]
+  }
+}

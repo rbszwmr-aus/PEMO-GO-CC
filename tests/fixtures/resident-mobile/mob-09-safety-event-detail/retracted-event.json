@@ -1,0 +1,12 @@
+{
+  "type": "https://pemo.local/problems/event-retracted",
+  "title": "Event retracted by source",
+  "status": 410,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000063",
+  "residentMessage": {
+    "en": "This alert was withdrawn. A corrected message has been sent to you.",
+    "zh-Hant": "此警報已撤回。我們已向您發出更正訊息。"
+  },
+  "supersededBy": "evt_20260813_smoke02",
+  "retryable": false
+}

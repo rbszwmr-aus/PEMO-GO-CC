@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000027",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "unit": {
+    "unitId": "unit_wfg_a_12_a1",
+    "estateName": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+    },
+    "blockName": {
+      "en": "Block A",
+      "zh-Hant": "A座"
+    },
+    "floor": "12/F",
+    "flat": "A1",
+    "displayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    }
+  },
+  "helpDesk": {
+    "openNow": true,
+    "hours": {
+      "en": "Open 08:00–20:00 daily",
+      "zh-Hant": "每日08:00至20:00開放"
+    },
+    "availability": {
+      "en": "Talk to the management office. Open 08:00–20:00 daily, and always reachable by phone.",
+      "zh-Hant": "與管理處聯絡。每日08:00至20:00開放，電話全日可接通。"
+    },
+    "typicalReplyMinutes": 25,
+    "telephoneAvailable": true
+  },
+  "services": [],
+  "comingSoonNote": {
+    "en": "These are switched on per estate once the integration is live. They are shown greyed with a reason rather than as buttons that fail.",
+    "zh-Hant": "這些服務會在整合啟用後按屋苑開放。它們會以灰色顯示並附上原因，而非會失效的按鈕。"
+  }
+}

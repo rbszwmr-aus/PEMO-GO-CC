@@ -1,0 +1,105 @@
+-- Resident-facing text becomes NULLABLE, because its requirement belongs with the
+-- VISIBILITY GATE and not with this table.
+--
+-- ── THE FINDING ───────────────────────────────────────────────────────────────
+--
+-- instruction_*, reported_by_* and disclaimer_* are NOT NULL, and the MANAGEMENT
+-- contract never surfaces them. So for an event that only management describes, a
+-- value must exist and no test can ever check it: any value passes forever,
+-- including a wrong one, an empty one, or one in the wrong language. These are the
+-- resident-facing safety fields, so the first thing that could detect an error is
+-- a resident reading it during an incident.
+--
+-- ── WHY NULLABLE AND NOT A SEPARATE TABLE ─────────────────────────────────────
+--
+-- A `safety_event_resident_presentation` table was proposed and WITHDRAWN.
+-- `home_safety.safety_event_audience` ALREADY determines resident visibility and
+-- is the sole gate: both resident read paths depend on it and nothing else —
+-- `findRecentEventsForUnit` JOINs it, `isUnitInAudience` turns its absence into
+-- the 404 — and each has exactly one caller.
+--
+-- A presentation table whose PRESENCE meant visibility would be a second,
+-- independent expression of a fact that already has an owner. The two could
+-- disagree with nothing comparing them, which is the defect this project has
+-- recorded six times.
+--
+-- The rule is: resident-facing text is required IF AND ONLY IF the event has an
+-- audience. That is a cross-row property. It does not belong in a column
+-- constraint, and it needs no new table, because the join that decides visibility
+-- is where it can be checked.
+--
+-- ── WHERE THE CHECK LIVES, AND WHAT IT COSTS ──────────────────────────────────
+--
+-- In `modules/home-safety/src/events/event-queries.ts`, where audience is already
+-- consulted. An event reaching a resident with missing text THROWS rather than
+-- serving a null into a contract field the resident schema marks `required`.
+--
+-- Read-time, not write-time, for one reason: THERE IS NO HOME SAFETY WRITE PATH
+-- TO CONSTRAIN. A write-time constraint has nothing to attach to, and read-time
+-- is where the harm actually lands.
+--
+-- THE COST, stated so it is not discovered later: an event with an audience and
+-- no text is ACCEPTED by the database and REJECTED when a resident asks. That is
+-- worse than a write-time constraint and better than silence. It becomes a
+-- write-time constraint the day the write path exists — whoever builds that path
+-- should move this check into it.
+--
+-- ── REVERSIBILITY HAS AN EXPIRY ───────────────────────────────────────────────
+--
+-- The down path re-adds NOT NULL. It executes cleanly TODAY and will stop working
+-- the moment the permission this migration grants is exercised.
+--
+--   THIS ROLLBACK IS A CLAIM ABOUT THE DATA, NOT ABOUT THE SCHEMA.
+--
+-- Precisely: `0113.down` succeeds if and only if
+--
+--   SELECT count(*) FROM home_safety.safety_event
+--    WHERE instruction_en IS NULL OR instruction_zh_hant IS NULL
+--       OR reported_by_en IS NULL OR reported_by_zh_hant IS NULL;
+--
+-- returns 0. Run that first. A non-zero count means rolling back would have to
+-- DESTROY or FABRICATE resident-facing safety text, and neither is acceptable
+-- silently — the correct response is to decide what those events should say, not
+-- to force the constraint back on.
+--
+-- ── DISCLAIMER IS NOT IN THIS CLASS, AND THE SUITE PROVED IT ──────────────────
+--
+-- This migration originally relaxed disclaimer_* too. The full run refused it:
+--
+--   BITING — a life-safety event losing its statutory disclaimer is caught
+--
+-- whose mutant is an INSERT with a NULL disclaimer, and whose comment says
+-- outright: "The column is NOT NULL, so the omission cannot even be written —
+-- THE STRONGEST FORM OF THIS GUARD."
+--
+-- Relaxing it downgraded a statutory life-safety guarantee from UNREPRESENTABLE
+-- to caught-at-read-time. This project's rule runs the other way: structural
+-- impossibility over prohibition. So disclaimer_* keeps NOT NULL.
+--
+-- The two classes are genuinely different, which is why one relaxes and one does
+-- not:
+--
+--   instruction, reported_by  event-SPECIFIC resident content. A management-only
+--                             event genuinely has none, so NULL is the honest
+--                             state and inventing one produced values nothing
+--                             could check.
+--   disclaimer                STATUTORY BOILERPLATE, identical for every event
+--                             and server-supplied. Supplying it is not invention,
+--                             it is the correct value — so there is no honest
+--                             NULL for it to express.
+--
+-- Four columns relaxed instead of six. The management-only event still carries a
+-- disclaimer, and that is right.
+--
+-- Purely permissive: no existing row changes, and NO BACKFILL IS REQUIRED because
+-- every current row already has values. That is expected silence, not a skipped
+-- step.
+
+ALTER TABLE home_safety.safety_event
+  ALTER COLUMN instruction_en      DROP NOT NULL,
+  ALTER COLUMN instruction_zh_hant DROP NOT NULL,
+  ALTER COLUMN reported_by_en      DROP NOT NULL,
+  ALTER COLUMN reported_by_zh_hant DROP NOT NULL;
+
+COMMENT ON COLUMN home_safety.safety_event.instruction_en IS
+  'Resident-facing. NULL means this event has no resident-facing presentation, which is only valid while it has no safety_event_audience rows. The pairing is enforced in event-queries.ts, where audience is already consulted; move it to the write path when one exists.';

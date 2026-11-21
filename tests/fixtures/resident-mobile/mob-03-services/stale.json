@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000037",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "unit": {
+    "unitId": "unit_wfg_a_12_a1",
+    "estateName": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+    },
+    "blockName": {
+      "en": "Block A",
+      "zh-Hant": "A座"
+    },
+    "floor": "12/F",
+    "flat": "A1",
+    "displayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    }
+  },
+  "helpDesk": {
+    "openNow": false,
+    "hours": {
+      "en": "Open 08:00–20:00 daily",
+      "zh-Hant": "每日08:00至20:00開放"
+    },
+    "availability": {
+      "en": "Opening hours shown were last confirmed yesterday.",
+      "zh-Hant": "顯示的開放時間最後於昨日確認。"
+    },
+    "typicalReplyMinutes": 25,
+    "telephoneAvailable": true
+  },
+  "services": [
+    {
+      "serviceKey": "report_problem",
+      "label": {
+        "en": "Report a problem 報修",
+        "zh-Hant": "報修"
+      },
+      "state": {
+        "en": "Enquiry or complaint, with photos",
+        "zh-Hant": "查詢或投訴，可附相片"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "my_cases",
+      "label": {
+        "en": "My cases 我的個案",
+        "zh-Hant": "我的個案"
+      },
+      "state": {
+        "en": "1 open · awaiting your reply",
+        "zh-Hant": "1宗處理中 · 等待您的回覆"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "home_safety",
+      "label": {
+        "en": "Home Safety 家居安全",
+        "zh-Hant": "家居安全"
+      },
+      "state": {
+        "en": "Status, events and household access",
+        "zh-Hant": "狀態、事件及住戶權限"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "forms_documents",
+      "label": {
+        "en": "Forms and documents 表格及文件",
+        "zh-Hant": "表格及文件"
+      },
+      "state": {
+        "en": "Renovation permit, moving in or out, house rules",
+        "zh-Hant": "裝修許可證、搬遷、大廈守則"
+      },
+      "availability": "available"
+    },
+    {
+      "serviceKey": "visitor_pass",
+      "label": {
+        "en": "Visitor pass 訪客通行證",
+        "zh-Hant": "訪客通行證"
+      },
+      "state": {
+        "en": "Not live",
+        "zh-Hant": "尚未啟用"
+      },
+      "availability": "coming_soon",
+      "reason": {
+        "en": "Existing visitor system integration pending",
+        "zh-Hant": "現有訪客系統整合待辦"
+      }
+    },
+    {
+      "serviceKey": "facility_booking",
+      "label": {
+        "en": "Facility booking 設施預訂",
+        "zh-Hant": "設施預訂"
+      },
+      "state": {
+        "en": "Not live",
+        "zh-Hant": "尚未啟用"
+      },
+      "availability": "coming_soon",
+      "reason": {
+        "en": "Clubhouse booking is management-side for now",
+        "zh-Hant": "會所預訂暫由管理處處理"
+      }
+    },
+    {
+      "serviceKey": "my_parcel",
+      "label": {
+        "en": "My parcel 我的包裹",
+        "zh-Hant": "我的包裹"
+      },
+      "state": {
+        "en": "Not live",
+        "zh-Hant": "尚未啟用"
+      },
+      "availability": "coming_soon",
+      "reason": {
+        "en": "Counter handover is logged at the help desk",
+        "zh-Hant": "櫃檯交收於服務台記錄"
+      }
+    },
+    {
+      "serviceKey": "my_billing",
+      "label": {
+        "en": "My billing 我的帳單",
+        "zh-Hant": "我的帳單"
+      },
+      "state": {
+        "en": "External",
+        "zh-Hant": "外部系統"
+      },
+      "availability": "external",
+      "reason": {
+        "en": "Handled by the finance system of record",
+        "zh-Hant": "由財務系統處理"
+      }
+    }
+  ],
+  "comingSoonNote": {
+    "en": "These are switched on per estate once the integration is live. They are shown greyed with a reason rather than as buttons that fail.",
+    "zh-Hant": "這些服務會在整合啟用後按屋苑開放。它們會以灰色顯示並附上原因，而非會失效的按鈕。"
+  }
+}

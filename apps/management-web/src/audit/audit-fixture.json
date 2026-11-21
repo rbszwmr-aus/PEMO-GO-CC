@@ -1,0 +1,764 @@
+{
+  "meta": {
+    "correlationId": "2f6b6c5e-9a41-4d73-8f0a-7c1d3a8b4e10",
+    "contractVersion": "2.6.0",
+    "generatedAt": "2026-09-20T16:00:00+08:00"
+  },
+  "events": [
+    {
+      "eventId": "aud_848f2deb-6cac-46ff-a3ff-057295d3f969",
+      "occurredAt": "2026-09-20T11:05:00.000+08:00",
+      "recordedAt": "2026-09-20T11:05:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "send_invoice_email",
+      "entity": {
+        "type": "invoice",
+        "id": "INV-2026-09-A12A1"
+      },
+      "place": {
+        "nodeKind": "unit",
+        "nodeId": "unit_wfg_a_12_a1"
+      },
+      "reasonCode": null,
+      "requestId": "f568ef2d-deb7-4ad9-a0f4-4acd78f4858d",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_bf6eb08a-1613-403d-8579-6fe4e5236089",
+      "occurredAt": "2026-09-20T10:52:00.000+08:00",
+      "recordedAt": "2026-09-20T10:52:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "send_notice_email",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_water_works"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_a"
+      },
+      "reasonCode": null,
+      "requestId": "647e8dda-7269-409f-b480-0ca4c694138c",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_47d88277-af0a-4578-b384-92953a8108ce",
+      "occurredAt": "2026-09-20T10:40:00.000+08:00",
+      "recordedAt": "2026-09-20T10:40:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "publish_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_water_works"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_a"
+      },
+      "reasonCode": null,
+      "requestId": "f2795ce8-88a2-481e-9213-a7dd9c83b377",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_bcf41f46-4519-455c-a58b-cc2a4b6d14ed",
+      "occurredAt": "2026-09-20T10:31:00.000+08:00",
+      "recordedAt": "2026-09-20T10:31:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_dual_role",
+        "displayName": "Ng Ka-ho 吳家豪"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_dual_role",
+        "role": "approver"
+      },
+      "action": "approve_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_water_works"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_a"
+      },
+      "reasonCode": "approved_as_submitted",
+      "requestId": "3d59a2a8-21a8-4466-80e0-e2da2a3fd697",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_7c0d6759-45fe-455f-8914-f0a129b12770",
+      "occurredAt": "2026-09-20T10:12:00.000+08:00",
+      "recordedAt": "2026-09-20T10:12:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "submit_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_water_works"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_a"
+      },
+      "reasonCode": null,
+      "requestId": "6bf56f4f-687b-4ad4-a2fd-51d4fd70ce4d",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_555edda0-9d3f-467d-b7ae-08439aafadc2",
+      "occurredAt": "2026-09-20T09:58:00.000+08:00",
+      "recordedAt": "2026-09-20T09:58:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "compose_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_water_works"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_a"
+      },
+      "reasonCode": null,
+      "requestId": "1136af8e-abf7-4ad3-96c6-d2f97453366a",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_25bd559c-ab6b-4632-a3fe-87f995cc45fa",
+      "occurredAt": "2026-09-20T09:20:00.000+08:00",
+      "recordedAt": "2026-09-20T09:20:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_counter",
+        "displayName": "Ng Siu-fong 吳小芳"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_counter",
+        "role": "estate_staff"
+      },
+      "action": "record_occupancy",
+      "entity": {
+        "type": "occupancy",
+        "id": "occ_wfg_b_03_b2_chan"
+      },
+      "place": {
+        "nodeKind": "unit",
+        "nodeId": "unit_wfg_b_03_b2"
+      },
+      "reasonCode": null,
+      "requestId": "fa48fdca-2e5e-4222-9a01-87acab5b6505",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_988b9564-d529-487e-8baa-0fdc5d378711",
+      "occurredAt": "2026-09-20T08:45:00.000+08:00",
+      "recordedAt": "2026-09-20T08:45:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_block_a",
+        "displayName": "Lau Chi-wai 劉志偉"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_block_a",
+        "role": "estate_staff"
+      },
+      "action": "publish_management_update",
+      "entity": {
+        "type": "safety_event",
+        "id": "sev_wfg_lift_a2"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_a"
+      },
+      "reasonCode": null,
+      "requestId": "269294bd-6064-4c31-b1b6-588320519b1d",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_2bac77a5-0cc3-461e-b38e-255fc37abbea",
+      "occurredAt": "2026-09-19T17:30:00.000+08:00",
+      "recordedAt": "2026-09-19T17:30:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_dual_role",
+        "displayName": "Ng Ka-ho 吳家豪"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_dual_role",
+        "role": "approver"
+      },
+      "action": "decline_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_bbq_night"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": "poor_timing",
+      "requestId": "10e671a5-19cb-49ae-9fe5-2c02d2a58a0d",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_82b25164-4044-4a76-848d-b6f108a968af",
+      "occurredAt": "2026-09-19T16:44:00.000+08:00",
+      "recordedAt": "2026-09-19T16:44:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "submit_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_bbq_night"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "57655ce4-87ac-4216-a4b6-a7df5a622234",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_f730b818-4fa9-40f3-9a11-6e989a67efb0",
+      "occurredAt": "2026-09-19T15:10:00.000+08:00",
+      "recordedAt": "2026-09-19T15:10:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "add_estate_contact",
+      "entity": {
+        "type": "estate_contact",
+        "id": "ctc_wfg_security_desk"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "cf2d8ca3-2c6a-4fe9-a42a-37bcf1997261",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_2cbcb494-8763-4aea-b8f0-f9f8c8884628",
+      "occurredAt": "2026-09-19T11:02:00.000+08:00",
+      "recordedAt": "2026-09-19T11:02:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_alex",
+        "displayName": "Alex Chen"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_alex",
+        "role": "grant_administrator"
+      },
+      "action": "add_membership",
+      "entity": {
+        "type": "membership",
+        "id": "mem_wfg_counter_frontdesk"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "9b4430c2-6697-43c9-90b6-5708aede6590",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_5611cefc-e312-45a1-93ac-359ceaa4a205",
+      "occurredAt": "2026-09-18T18:20:00.000+08:00",
+      "recordedAt": "2026-09-18T18:20:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "revise_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_bbq_night"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "0796bca6-51ba-4fc7-bfbc-d2f2bcaf943b",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_c4cc6b9a-eac0-4d36-99f8-61389b9f6daf",
+      "occurredAt": "2026-09-18T16:05:00.000+08:00",
+      "recordedAt": "2026-09-18T16:05:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "compose_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_bbq_night"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "4529e558-d313-44b3-b700-e40d88938faa",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_df1dcb47-45a0-4d38-9b6c-63652f63bec5",
+      "occurredAt": "2026-09-17T14:36:00.000+08:00",
+      "recordedAt": "2026-09-17T14:36:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_counter",
+        "displayName": "Ng Siu-fong 吳小芳"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_counter",
+        "role": "estate_staff"
+      },
+      "action": "end_occupancy",
+      "entity": {
+        "type": "occupancy",
+        "id": "occ_wfg_a_12_a1_lee"
+      },
+      "place": {
+        "nodeKind": "unit",
+        "nodeId": "unit_wfg_a_12_a1"
+      },
+      "reasonCode": null,
+      "requestId": "d4242613-027c-46da-8d27-eeb78fc1bb5b",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_9ca6c5e6-37dc-418d-8284-2001b5487add",
+      "occurredAt": "2026-09-17T10:15:00.000+08:00",
+      "recordedAt": "2026-09-17T10:15:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "send_admin_test_email",
+      "entity": {
+        "type": "email",
+        "id": "eml_wfg_test_0917"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "a0a91253-fc8c-4ccd-8648-8bae8d8e4872",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_f7e160c4-8af3-4862-a7ff-678c0ae88355",
+      "occurredAt": "2026-09-16T17:48:00.000+08:00",
+      "recordedAt": "2026-09-16T17:48:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "withdraw_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_fire_drill_old"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_b"
+      },
+      "reasonCode": "superseded",
+      "requestId": "4104005a-c1c6-45dd-9740-fc48be30d6c7",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_2fbb2891-5020-40a1-9a02-52377285f03c",
+      "occurredAt": "2026-09-16T13:25:00.000+08:00",
+      "recordedAt": "2026-09-16T13:25:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "correct_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_fire_drill"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_b"
+      },
+      "reasonCode": "factual_error",
+      "requestId": "77cfb96e-9bfc-4e5d-892e-5869d94018ed",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_ddf2273d-025f-43f1-a617-54809fb4dd77",
+      "occurredAt": "2026-09-15T09:40:00.000+08:00",
+      "recordedAt": "2026-09-15T09:40:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_alex",
+        "displayName": "Alex Chen"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_alex",
+        "role": "grant_administrator"
+      },
+      "action": "confer_grant",
+      "entity": {
+        "type": "grant",
+        "id": "gnt_wfg_block_a_staff"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_a"
+      },
+      "reasonCode": null,
+      "requestId": "8c8cc381-4054-42bf-83d9-cd3d83637efe",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_58105433-cd75-4ce6-97b5-c0c0d3d0de77",
+      "occurredAt": "2026-09-15T09:32:00.000+08:00",
+      "recordedAt": "2026-09-15T09:32:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_alex",
+        "displayName": "Alex Chen"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_alex",
+        "role": "grant_administrator"
+      },
+      "action": "register_principal",
+      "entity": {
+        "type": "principal",
+        "id": "stf_wfg_block_a"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "e1a6f503-d14a-48da-aaef-eb9efe381d49",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_476a00f6-756c-4491-b9c4-7e4cf3c07f1c",
+      "occurredAt": "2026-09-14T16:12:00.000+08:00",
+      "recordedAt": "2026-09-14T16:12:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_counter",
+        "displayName": "Ng Siu-fong 吳小芳"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_counter",
+        "role": "estate_staff"
+      },
+      "action": "record_occupancy",
+      "entity": {
+        "type": "occupancy",
+        "id": "occ_wfg_a_12_a1_wong"
+      },
+      "place": {
+        "nodeKind": "unit",
+        "nodeId": "unit_wfg_a_12_a1"
+      },
+      "reasonCode": null,
+      "requestId": "6f97c74a-5fa2-4339-913a-2fa447d875f9",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_c9f214e0-81a5-4725-90e4-eafc4e97533e",
+      "occurredAt": "2026-09-12T11:30:00.000+08:00",
+      "recordedAt": "2026-09-12T11:30:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_alex",
+        "displayName": "Alex Chen"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_alex",
+        "role": "grant_administrator"
+      },
+      "action": "remove_membership",
+      "entity": {
+        "type": "membership",
+        "id": "mem_wfg_old_temp"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "541a6ad6-1940-4a63-8cb0-c0da313e7ed4",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_1ea7d435-822f-43ef-9102-f6e7fe43a5c0",
+      "occurredAt": "2026-09-12T11:05:00.000+08:00",
+      "recordedAt": "2026-09-12T11:05:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_alex",
+        "displayName": "Alex Chen"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_alex",
+        "role": "grant_administrator"
+      },
+      "action": "revoke_grant",
+      "entity": {
+        "type": "grant",
+        "id": "gnt_wfg_temp_cover"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "21dba069-244f-4fbb-bd8f-3ff7560a5793",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_57cd321c-8f0a-4c4a-9796-8fc06e8eb27a",
+      "occurredAt": "2026-09-10T10:00:00.000+08:00",
+      "recordedAt": "2026-09-10T10:00:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "send_invoice_email",
+      "entity": {
+        "type": "invoice",
+        "id": "INV-2026-09-B3B2"
+      },
+      "place": {
+        "nodeKind": "unit",
+        "nodeId": "unit_wfg_b_03_b2"
+      },
+      "reasonCode": null,
+      "requestId": "35b77736-394e-4110-9b5a-0b1b862f66bc",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_fb33e0f7-baae-443f-8029-1995aa5d5d5f",
+      "occurredAt": "2026-09-09T15:20:00.000+08:00",
+      "recordedAt": "2026-09-09T15:20:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_manager",
+        "displayName": "Chan Mei-ling 陳美玲"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_manager",
+        "role": "estate_staff"
+      },
+      "action": "publish_notice",
+      "entity": {
+        "type": "notice",
+        "id": "ntc_wfg_lift_service"
+      },
+      "place": {
+        "nodeKind": "building",
+        "nodeId": "blk_wfg_b"
+      },
+      "reasonCode": null,
+      "requestId": "129a6b91-f97a-48af-bbe1-c9a1eb3282cf",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_176e000c-9c66-4e3e-81a5-172da89eed9a",
+      "occurredAt": "2026-09-08T09:05:00.000+08:00",
+      "recordedAt": "2026-09-08T09:05:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_alex",
+        "displayName": "Alex Chen"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_alex",
+        "role": "grant_administrator"
+      },
+      "action": "confer_grant",
+      "entity": {
+        "type": "grant",
+        "id": "gnt_wfg_manager"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "31a6ad82-2ef6-450d-8b12-32fda6d97b63",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_81c4c8a0-6165-43fa-a83b-34e0a260eba4",
+      "occurredAt": "2026-09-08T09:00:00.000+08:00",
+      "recordedAt": "2026-09-08T09:00:00.014+08:00",
+      "source": "principal",
+      "actor": {
+        "principalId": "stf_wfg_alex",
+        "displayName": "Alex Chen"
+      },
+      "authority": {
+        "groupId": "grp_of_one_stf_wfg_alex",
+        "role": "grant_administrator"
+      },
+      "action": "register_principal",
+      "entity": {
+        "type": "principal",
+        "id": "stf_wfg_manager"
+      },
+      "place": {
+        "nodeKind": "estate",
+        "nodeId": "est_wing_fu_garden"
+      },
+      "reasonCode": null,
+      "requestId": "6bfafc30-5c0b-43c0-ac6b-53e67ca22df6",
+      "clientIp": "10.20.4.17",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) PEMO-management-web"
+    },
+    {
+      "eventId": "aud_104e0c43-3f84-45ec-982e-a1a2bca85850",
+      "occurredAt": "2026-09-01T08:00:00.000+08:00",
+      "recordedAt": "2026-09-01T08:00:00.014+08:00",
+      "source": "provisioning",
+      "actor": null,
+      "authority": null,
+      "action": "provision_organization",
+      "entity": {
+        "type": "organization",
+        "id": "org_wing_fu"
+      },
+      "place": {
+        "nodeKind": "organization",
+        "nodeId": "org_wing_fu"
+      },
+      "reasonCode": null,
+      "requestId": "c792a29a-820d-4cf8-8838-19e4e095362a",
+      "clientIp": null,
+      "userAgent": null
+    }
+  ],
+  "page": {
+    "limit": 50,
+    "hasMore": false,
+    "nextCursor": null
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000067",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "event": {
+    "eventId": "evt_20260813_unmapped",
+    "severity": "unknown",
+    "title": {
+      "en": "A safety signal could not be matched to a home",
+      "zh-Hant": "安全訊號未能配對至住戶"
+    },
+    "instruction": {
+      "en": "The management office is checking which home this relates to. No action is needed from you.",
+      "zh-Hant": "管理處正在確認此訊號涉及哪一住戶。您毋須採取行動。"
+    },
+    "location": {
+      "label": {
+        "en": "Location being confirmed · Block A",
+        "zh-Hant": "位置確認中 · A座"
+      },
+      "locationClass": "common_area",
+      "audienceSource": "serving_scope",
+      "servingScopeLabel": {
+        "en": "All residents of Block A",
+        "zh-Hant": "A座全體住戶"
+      }
+    },
+    "occurredAt": "2026-08-13T09:42:00+08:00",
+    "receivedAt": "2026-08-13T09:42:03+08:00",
+    "reportedBy": {
+      "en": "Building fire panel",
+      "zh-Hant": "大廈火警控制板"
+    },
+    "actions": [
+      {
+        "actionKey": "contact_management",
+        "label": {
+          "en": "Contact management office",
+          "zh-Hant": "聯絡管理處"
+        },
+        "kind": "secondary"
+      }
+    ],
+    "managementUpdates": [],
+    "managementUpdatePending": true,
+    "acknowledgement": {
+      "required": false,
+      "acknowledged": false,
+      "acknowledgedAt": null
+    },
+    "disclaimer": {
+      "en": "This alert supplements the building fire alarm and statutory emergency procedures. It does not replace them, and it may be delayed or unavailable.",
+      "zh-Hant": "此警報為輔助性質，不能取代大廈火警系統及法定緊急程序，並可能延遲或無法提供。"
+    },
+    "revision": {
+      "revisionNumber": 1,
+      "isCorrection": false,
+      "supersedes": null
+    }
+  }
+}

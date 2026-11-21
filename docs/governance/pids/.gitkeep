@@ -1,0 +1,3 @@
+# Keep pids/ tracked in git even when no PID is open. Without this, closing the
+# last PID empties the directory, git drops it, and a fresh CI checkout has no
+# pids/ for the governance battery to snapshot. See prove.sh. (GEN-062)

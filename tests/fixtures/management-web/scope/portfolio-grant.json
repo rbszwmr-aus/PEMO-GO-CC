@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000023",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "grants": [
+    {
+      "kind": "portfolio",
+      "id": "pf_wingfu_residential",
+      "label": {
+        "en": "Wing Fu Residential Portfolio",
+        "zh-Hant": "榮富住宅組合"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "node": {
+        "kind": "organization",
+        "id": "org_wingfu_holdings",
+        "label": {
+          "en": "Wing Fu Property Management",
+          "zh-Hant": "榮富物業管理"
+        }
+      },
+      "parent": null,
+      "label": {
+        "en": "Wing Fu Property Management",
+        "zh-Hant": "榮富物業管理"
+      },
+      "depth": 0,
+      "permittedActions": []
+    },
+    {
+      "node": {
+        "kind": "portfolio",
+        "id": "pf_wingfu_residential",
+        "label": {
+          "en": "Wing Fu Residential Portfolio",
+          "zh-Hant": "榮富住宅組合"
+        }
+      },
+      "parent": {
+        "kind": "organization",
+        "id": "org_wingfu_holdings",
+        "label": {
+          "en": "Wing Fu Property Management",
+          "zh-Hant": "榮富物業管理"
+        }
+      },
+      "label": {
+        "en": "Wing Fu Residential Portfolio",
+        "zh-Hant": "榮富住宅組合"
+      },
+      "depth": 1,
+      "permittedActions": [
+        "composeNotice"
+      ]
+    },
+    {
+      "node": {
+        "kind": "estate",
+        "id": "est_wing_fu_garden",
+        "label": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        }
+      },
+      "parent": {
+        "kind": "portfolio",
+        "id": "pf_wingfu_residential",
+        "label": {
+          "en": "Wing Fu Residential Portfolio",
+          "zh-Hant": "榮富住宅組合"
+        }
+      },
+      "label": {
+        "en": "Wing Fu Garden",
+        "zh-Hant": "榮富花園"
+      },
+      "summary": {
+        "en": "3 blocks · 812 units",
+        "zh-Hant": "3座 · 812單位"
+      },
+      "depth": 2,
+      "permittedActions": [
+        "composeNotice"
+      ]
+    },
+    {
+      "node": {
+        "kind": "building",
+        "id": "blk_wfg_a",
+        "label": {
+          "en": "Block A",
+          "zh-Hant": "A座"
+        }
+      },
+      "parent": {
+        "kind": "estate",
+        "id": "est_wing_fu_garden",
+        "label": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        }
+      },
+      "label": {
+        "en": "Block A",
+        "zh-Hant": "A座"
+      },
+      "depth": 3,
+      "permittedActions": [
+        "composeNotice"
+      ]
+    },
+    {
+      "node": {
+        "kind": "building",
+        "id": "blk_wfg_b",
+        "label": {
+          "en": "Block B",
+          "zh-Hant": "B座"
+        }
+      },
+      "parent": {
+        "kind": "estate",
+        "id": "est_wing_fu_garden",
+        "label": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        }
+      },
+      "label": {
+        "en": "Block B",
+        "zh-Hant": "B座"
+      },
+      "depth": 3,
+      "permittedActions": [
+        "composeNotice"
+      ]
+    },
+    {
+      "node": {
+        "kind": "building",
+        "id": "blk_wfg_c",
+        "label": {
+          "en": "Block C",
+          "zh-Hant": "C座"
+        }
+      },
+      "parent": {
+        "kind": "estate",
+        "id": "est_wing_fu_garden",
+        "label": {
+          "en": "Wing Fu Garden",
+          "zh-Hant": "榮富花園"
+        }
+      },
+      "label": {
+        "en": "Block C",
+        "zh-Hant": "C座"
+      },
+      "depth": 3,
+      "attention": true,
+      "permittedActions": [
+        "composeNotice"
+      ]
+    },
+    {
+      "node": {
+        "kind": "location",
+        "id": "loc_wfg_clubhouse",
+        "label": {
+          "en": "Wing Fu Clubhouse",
+          "zh-Hant": "榮富會所"
+        }
+      },
+      "parent": {
+        "kind": "building",
+        "id": "blk_wfg_c",
+        "label": {
+          "en": "Block C",
+          "zh-Hant": "C座"
+        }
+      },
+      "label": {
+        "en": "Wing Fu Clubhouse",
+        "zh-Hant": "榮富會所"
+      },
+      "depth": 4,
+      "permittedActions": [
+        "composeNotice"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$comment": "Digest snapshot of the READ-ONLY resident-portal fixtures. Re-run `pnpm run digest` only after a deliberate contract-track change.",
+  "surface": "resident-portal",
+  "contractVersion": "0.1.0",
+  "digests": {
+    "availability/function-room-day.json": "263609b7f15aa367199126640b624c5f71abb768609f5914cecb63688550abc8",
+    "explore/default.json": "4eb3685ddc1f2d5b3f267207480eaa9ba938a401c0bee1694ccfc06c907af62b",
+    "explore/empty.json": "6c06399b26268466a63450a89cca47933d99d87c4ebbecfe9b54fd93e2776272",
+    "facility/function-room.json": "e444210fcf155bd60ce10e72624ef47a6f2d9507aaea8215a76749bc4d77601e",
+    "facility/gym.json": "61941d03d77ec89673b8a3438703e0633b45fad634302d43212addba82229b2d",
+    "facility/party-room.json": "be3fdcba72a9805a0edfaad048d0f87995dda1c4a0ad9408f4b148a590bbb996",
+    "facility/sauna.json": "619fcac8abeb246124c7a9e5ffc37bb3000214c0fc85b0b78806a04dc7454cd4",
+    "index.json": "eaecc69398148738d28281f28c9588d17ac8a30d31406920e5c28e15e1693354",
+    "problems/bad-request.json": "6cb80f320d833b93caa264a09dc3aad4804293f26bb4bed63bb21c85fd144531",
+    "problems/internal-error.json": "f8bd1439e315ede24b7cc891cf4e9dee1c52f9483ab93ed6418531d1c8335820",
+    "problems/invalid-credential.json": "44d99d81f6fdbde6696835df7e8d9382c25151d1814cd2533876e2dd05916e88",
+    "problems/record-not-found.json": "1250d23fdcd4ba4f3ca380197137128414b674bd1721db604bd884e823e0b60a",
+    "problems/session-expired.json": "3f2ab9dc80d1f9ec878e660c9ec0c86966fafeb3bab46ac6fc6dcbcc4575d4aa"
+  }
+}

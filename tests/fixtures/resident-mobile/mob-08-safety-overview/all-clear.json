@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000058",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "unit": {
+    "unitId": "unit_wfg_a_12_a1",
+    "estateName": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+    },
+    "blockName": {
+      "en": "Block A",
+      "zh-Hant": "A座"
+    },
+    "floor": "12/F",
+    "flat": "A1",
+    "displayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    }
+  },
+  "safety": {
+    "severity": "normal",
+    "monitoringCoverage": "full",
+    "headline": {
+      "en": "All clear — the alert has ended",
+      "zh-Hant": "警報解除"
+    },
+    "detail": {
+      "en": "The smoke alert in your kitchen has been stood down by the management office. Normal monitoring has resumed.",
+      "zh-Hant": "廚房的煙霧警報已由管理處解除。監察已回復正常。"
+    },
+    "observedAt": "2026-08-13T09:58:00+08:00",
+    "receivedAt": "2026-08-13T09:58:04+08:00",
+    "freshness": {
+      "status": "current",
+      "ageSeconds": 120,
+      "windowSeconds": 3600
+    },
+    "disclaimer": {
+      "en": "PEMO notifications supplement the building fire alarm and statutory emergency procedures. They do not replace them.",
+      "zh-Hant": "此通知為輔助性質，不能取代大廈火警系統及法定緊急程序。"
+    }
+  },
+  "installedServices": [
+    {
+      "serviceKey": "smoke_detector",
+      "name": {
+        "en": "Smoke detector",
+        "zh-Hant": "煙霧探測器"
+      },
+      "location": {
+        "en": "Living room",
+        "zh-Hant": "客廳"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    },
+    {
+      "serviceKey": "gas_detector",
+      "name": {
+        "en": "Gas detector",
+        "zh-Hant": "氣體探測器"
+      },
+      "location": {
+        "en": "Kitchen",
+        "zh-Hant": "廚房"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    },
+    {
+      "serviceKey": "water_leak_sensor",
+      "name": {
+        "en": "Water leak sensor",
+        "zh-Hant": "漏水感應器"
+      },
+      "location": {
+        "en": "Bathroom",
+        "zh-Hant": "浴室"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    },
+    {
+      "serviceKey": "help_button",
+      "name": {
+        "en": "Help button",
+        "zh-Hant": "求助按鈕"
+      },
+      "location": {
+        "en": "Bedroom",
+        "zh-Hant": "睡房"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    }
+  ],
+  "installedServicesNote": {
+    "en": "Sensors were installed by the estate. Contact the management office to add or remove a service.",
+    "zh-Hant": "感應器由屋苑安裝。如需新增或移除服務，請聯絡管理處。"
+  },
+  "recentEvents": [
+    {
+      "eventId": "evt_20260813_smoke01",
+      "severity": "normal",
+      "title": {
+        "en": "All clear — smoke alert ended",
+        "zh-Hant": "警報解除 — 煙霧警報結束"
+      },
+      "occurredAt": "2026-08-13T10:12:00+08:00",
+      "receivedAt": "2026-08-13T10:12:02+08:00",
+      "location": {
+        "label": {
+          "en": "Kitchen · 12/F Flat A1",
+          "zh-Hant": "廚房 · 12樓 A1室"
+        },
+        "locationClass": "unit",
+        "audienceSource": "unit"
+      },
+      "statusNote": {
+        "en": "Issued by the management office",
+        "zh-Hant": "由管理處發出"
+      }
+    }
+  ]
+}

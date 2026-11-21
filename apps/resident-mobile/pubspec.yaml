@@ -1,0 +1,31 @@
+name: pemo_resident_mobile
+description: PEMO resident mobile shell. Fixture-backed. No network client.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  # The ONLY third-party runtime dependency. Chosen because ProviderScope(overrides:)
+  # makes every design-system section 18 screen state reachable in a widget test with
+  # no network, no timer and no manual tap. See UI-007-ST step 1 report section 4.
+  flutter_riverpod: ^2.6.1
+  # The ONLY dependency added by UI-011-ST. The Dart team's own HTTP client:
+  # the minimal standard transport, not an SDK. It carries no analytics, no
+  # attribution and no crash reporting, which is a standing rule here.
+  http: ^1.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true

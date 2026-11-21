@@ -1,0 +1,299 @@
+/* Help desk tickets — portal form/list/detail. Tokens only (no hex). */
+
+.pemo-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 720px;
+}
+
+.pemo-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--pemo-neutral-600);
+}
+
+.pemo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 18px;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--s4-radius-card);
+}
+
+.pemo-field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pemo-neutral-800);
+}
+
+.pemo-field__label {
+  display: block;
+}
+
+.pemo-field input,
+.pemo-field select,
+.pemo-field textarea {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  font: inherit;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--pemo-neutral-950);
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: 8px;
+}
+
+.pemo-field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--pemo-neutral-600) 50%),
+    linear-gradient(135deg, var(--pemo-neutral-600) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+.pemo-field textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.45;
+}
+
+.pemo-field input:focus,
+.pemo-field select:focus,
+.pemo-field textarea:focus {
+  outline: 2px solid var(--pemo-brand-primary);
+  outline-offset: 1px;
+  border-color: var(--pemo-brand-primary);
+}
+
+.pemo-field input[readonly] {
+  background: var(--pemo-neutral-100);
+  color: var(--pemo-neutral-700);
+}
+
+.pemo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.pemo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: 8px;
+  border: 1px solid var(--pemo-neutral-300);
+  background: var(--pemo-common-white);
+  color: var(--pemo-neutral-800);
+  cursor: pointer;
+}
+
+.pemo-btn:hover { background: var(--pemo-neutral-100); }
+
+.pemo-btn:focus-visible {
+  outline: 2px solid var(--pemo-brand-primary);
+  outline-offset: 2px;
+}
+
+.pemo-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.pemo-btn--primary {
+  background: var(--pemo-brand-primary);
+  border-color: var(--pemo-brand-primary);
+  color: var(--pemo-common-white);
+}
+
+.pemo-btn--primary:hover {
+  background: var(--pemo-brand-deep);
+  border-color: var(--pemo-brand-deep);
+}
+
+.pemo-btn--secondary {
+  background: var(--pemo-common-white);
+  border-color: var(--pemo-neutral-300);
+  color: var(--pemo-neutral-800);
+}
+
+.pemo-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--pemo-brand-deep);
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.pemo-btn--ghost:hover {
+  background: var(--pemo-brand-primaryTint);
+}
+
+.pemo-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--s4-tag-neutral-bg);
+  color: var(--s4-tag-neutral-fg);
+  font-size: var(--s4-meta-size);
+  font-weight: 650;
+  white-space: nowrap;
+}
+.pemo-chip[data-status="open"], .pemo-chip[data-status="triaged"], .pemo-chip[data-status="in_progress"] { background: var(--s4-tag-attention-bg); color: var(--s4-tag-attention-fg); }
+.pemo-chip[data-status="resolved"], .pemo-chip[data-status="closed"] { background: var(--s4-tag-success-bg); color: var(--s4-tag-success-fg); }
+
+.pemo-meta {
+  font-size: 13px;
+  color: var(--pemo-neutral-600);
+}
+
+.pemo-dl {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px 16px;
+  margin: 0;
+  padding: 16px;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--s4-radius-card);
+}
+
+.pemo-dl dt {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--pemo-neutral-600);
+}
+
+.pemo-dl dd {
+  margin: 0;
+  color: var(--pemo-neutral-900);
+}
+
+.pemo-cell--wrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.pemo-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pemo-timeline > li,
+.pemo-timeline__item {
+  padding: 12px 14px;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--s4-radius-card);
+}
+
+.pemo-explore__results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pemo-facility-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--s4-radius-card);
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.pemo-facility-card:hover {
+  border-color: var(--pemo-brand-tintBorder);
+  background: var(--pemo-neutral-25);
+}
+
+.pemo-facility-card:focus-visible {
+  outline: 2px solid var(--pemo-brand-primary);
+  outline-offset: 2px;
+}
+
+.pemo-facility-card__title {
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--pemo-neutral-950);
+  margin: 0 0 6px;
+}
+
+.pemo-state {
+  padding: 20px 18px;
+  background: var(--pemo-common-white);
+  border: 1px dashed var(--pemo-neutral-300);
+  border-radius: var(--s4-radius-card);
+}
+
+.pemo-state__title {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--pemo-neutral-900);
+}
+
+.pemo-state__body {
+  margin: 0;
+  color: var(--pemo-neutral-600);
+  font-size: 14px;
+}
+
+.pemo-explore__head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.pemo-panel__title {
+  margin: 8px 0 0;
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--pemo-neutral-900);
+}
+
+.pemo-shell[data-breakpoint="mobile"] .pemo-dl {
+  grid-template-columns: 1fr;
+  gap: 4px 0;
+}
+
+.pemo-shell[data-breakpoint="mobile"] .pemo-dl dt {
+  margin-top: 6px;
+}

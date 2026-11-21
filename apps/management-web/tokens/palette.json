@@ -1,0 +1,165 @@
+{
+  "$comment": "PEMO management-web NON-SEVERITY palette. Approved as decision D3 of the UI-019-ST step 1 ruling, with the parity test as the condition of approval.",
+  "title": "PEMO management-web non-severity design tokens",
+  "source": "PEMO_UI_Design_System_v2.0 sections 2.1, 2.2, 2.4, 2.5 and 9. Sections 2 and 9 are Proposed baseline, not Accepted; a consumer of a Proposed section is inheriting an unapproved dependency and this file says so rather than treating it as settled.",
+  "pid": "UI-019-ST",
+  "whyThisFileExists": "severity.json carries severity colour only — seven levels of strong/surface/border. It carries no brand violet, no neutral ramp, no page ground and no divider, and a management shell cannot be drawn without them. The PID rule 'a hex in your source is a defect' is true of severity colour and was too absolute for the rest; the Product Owner ruled so on 2026-08-14. The rule is preserved in substance by keeping these values as DATA rather than as source: no hex literal appears in any hand-written .ts, .tsx or .css file, and test/tokens/no-hardcoded-hex.test.ts enforces that.",
+  "theRuleThisEncodes": "Two copies with nothing deciding which is real is the disease; two copies with an enforced equality check is a cache. The defect was never duplication — it was silence. test/tokens/palette-parity.test.ts is that check.",
+  "placementDebt": "This is shared vocabulary living inside one consumer, the same misplacement severity.json has inside the resident-mobile package. It cannot move: the shared home is packages/api-contracts/**, which this PID may not write. Recorded beside the severity.json debt rather than worked around.",
+  "parity": {
+    "peer": "apps/resident-mobile/lib/theme/pemo_colors.dart",
+    "rule": "Every token in `shared` MUST appear in the peer with an identical value. Every token in `managementOnly` MUST NOT appear in the peer. Both directions are asserted, so a value that drifts on either surface fails the build.",
+    "why": "Design system v2.0 section 19 requires that web and mobile consume equivalent semantic tokens, and nothing in this project checked it before this file existed."
+  },
+  "shared": {
+    "brand.primary": {
+      "value": "#5B4BC4",
+      "peer": "brandPrimary",
+      "role": "Primary action, active navigation, links, focus accent"
+    },
+    "brand.deep": {
+      "value": "#42349B",
+      "peer": "brandDeep",
+      "role": "Sidebar ground, strong headings, pressed state"
+    },
+    "brand.primaryTint": {
+      "value": "#EFEDFA",
+      "peer": "brandPrimaryTint",
+      "role": "Selected row, brand tint surface"
+    },
+    "brand.tintBorder": {
+      "value": "#DED9F6",
+      "peer": "brandTintBorder",
+      "role": "Border on a brand tint surface"
+    },
+    "brand.accent": {
+      "value": "#F59A08",
+      "peer": "brandAccent",
+      "role": "Active-navigation icon and indicator dot, ON BRAND GROUND ONLY. 2.21:1 on white — never text on a light surface."
+    },
+    "brand.onBrandMuted": {
+      "value": "#E4DBFD",
+      "peer": "onBrandMuted",
+      "role": "Secondary text on brand.primary"
+    },
+    "brand.onDeepMuted": {
+      "value": "#DCD3F8",
+      "peer": "onDeepMuted",
+      "role": "Inactive navigation text on brand.deep"
+    },
+    "brand.onDeepSubtle": {
+      "value": "#CFC0FB",
+      "peer": "onDeepSubtle",
+      "role": "Lowest-emphasis text on brand.deep"
+    },
+    "neutral.950": {
+      "value": "#14161C",
+      "peer": "neutral950",
+      "role": "Primary text"
+    },
+    "neutral.900": {
+      "value": "#2A2E38",
+      "peer": "neutral900",
+      "role": "Strong text and dark controls"
+    },
+    "neutral.800": {
+      "value": "#3A404E",
+      "peer": "neutral800",
+      "role": "Secondary headings"
+    },
+    "neutral.700": {
+      "value": "#4A5060",
+      "peer": "neutral700",
+      "role": "Body text"
+    },
+    "neutral.600": {
+      "value": "#5B6172",
+      "peer": "neutral600",
+      "role": "Secondary text. USE THIS on the page ground, not neutral.500."
+    },
+    "neutral.500": {
+      "value": "#6E7480",
+      "peer": "neutral500",
+      "role": "Metadata and subdued icon. WHITE GROUNDS ONLY — 4.34:1 on neutral.50 fails AA for normal text."
+    },
+    "neutral.400": {
+      "value": "#9AA0AE",
+      "peer": "neutral400",
+      "role": "Disabled text and placeholders"
+    },
+    "neutral.300": {
+      "value": "#D6DAE4",
+      "peer": "neutral300",
+      "role": "Strong border"
+    },
+    "neutral.200": {
+      "value": "#E1E4EC",
+      "peer": "neutral200",
+      "role": "Divider and standard border"
+    },
+    "neutral.150": {
+      "value": "#EDEFF4",
+      "peer": "neutral150",
+      "role": "Secondary section background"
+    },
+    "neutral.100": {
+      "value": "#F0F2F6",
+      "peer": "neutral100",
+      "role": "Section background"
+    },
+    "neutral.50": {
+      "value": "#F5F6F9",
+      "peer": "neutral50",
+      "role": "Page background"
+    },
+    "neutral.25": {
+      "value": "#FAFBFD",
+      "peer": "neutral25",
+      "role": "Subtle raised surface"
+    },
+    "common.white": {
+      "value": "#FFFFFF",
+      "peer": "white",
+      "role": "Paper, panel and dialog surface"
+    }
+  },
+  "managementOnly": {
+    "accent.heading": {
+      "value": "#E17401",
+      "role": "Management web page title (h1) ONLY.",
+      "whyNotInPeer": "Design system v2.0 section 2.5 records that #E17401 appears in the management web export and NOT in mobile. Its absence from the peer is the correct state, and the parity test asserts the absence rather than tolerating it.",
+      "constraint": "Measures 3.13:1 on white — large-text AA only (WCAG 2.2 1.4.3). Permitted ONLY at h1 size and weight, on white or neutral.25. PROHIBITED in body copy, captions, metadata, labels, chips, links and all safety copy. Section 2.5 requires this be expressed as a single constrained pageTitle text style rather than as a raw colour any component can reach for."
+    },
+    "sidebar.ground": {
+      "value": "#3D109C",
+      "role": "Management web left rail ground (Claude Design chrome). Distinct from shared brand.deep used for pressed/strong headings.",
+      "whyNotInPeer": "Design chrome #3D109C appears in management portal export only; mobile peer keeps brandDeep #42349B.",
+      "constraint": "Sidebar / AppShell rail background ONLY."
+    },
+    "sidebar.sectionLabel": {
+      "value": "#A2A2A2",
+      "role": "Nav group section labels on sidebar.ground (IBM Plex Mono).",
+      "whyNotInPeer": "Management rail chrome only.",
+      "constraint": "Section labels on purple rail only."
+    },
+    "sidebar.scopeSurface": {
+      "value": "rgba(255,255,255,0.13)",
+      "role": "SCOPE card surface on sidebar.ground",
+      "whyNotInPeer": "Management rail chrome only."
+    },
+    "sidebar.scopeBorder": {
+      "value": "rgba(255,255,255,0.22)",
+      "role": "SCOPE card border on sidebar.ground",
+      "whyNotInPeer": "Management rail chrome only."
+    }
+  },
+  "nonColorSurfaces": {
+    "$comment": "Section 9.1 sidebar states are alpha composites over brand.deep, not palette entries. Kept here so no component invents them.",
+    "sidebar.activeSurface": "rgba(255,255,255,0.22)",
+    "sidebar.hoverSurface": "rgba(255,255,255,0.08)",
+    "sidebar.activeText": "#FFFFFF",
+    "sidebar.activeDot": "#F59A08",
+    "sidebar.collapseSurface": "rgba(255,255,255,0.14)",
+    "sidebar.collapseBorder": "rgba(255,255,255,0.28)"
+  }
+}

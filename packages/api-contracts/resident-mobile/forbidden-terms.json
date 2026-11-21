@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pemo.local/contracts/resident-mobile/forbidden-terms.json",
+  "title": "PEMO resident-boundary denylist",
+  "contractVersion": "0.4.0",
+  "pid": "API-005-ST",
+  "purpose": "Field names, values and patterns that must never cross the resident-facing boundary. API-005-ST, GEN-006-ST and UI-007-ST all read this same file, so the rule is enforced identically in three places instead of being interpreted three ways.",
+  "whyThisMatters": "2IoThub is a Go API gateway that adapts to whatever contract PEMO defines. A gateway that will carry any shape PEMO asks for makes it materially easier to pass raw upstream data straight through to a resident than a rigid external schema would. This denylist is the mechanical defence against that; it is not a formality.",
+  "howToUse": "Scan the serialized JSON of every resident-facing response and fixture. forbiddenPropertyNames are matched against PROPERTY NAMES ONLY, case-insensitively after stripping non-alphanumerics, so deviceId, device_id, DEVICE-ID and devideid all collide with the same entry. forbiddenValuePatterns are matched against STRING VALUES ONLY. Never apply forbiddenPropertyNames to prose: they are field-name rules, and resident copy legitimately contains ordinary words that are also field-name risks.",
+  "escalation": "A match is a contract defect, not a lint warning. Do not add an exception to this file to make a build pass — a term that genuinely needs to reach a resident requires an API-005-ST contract change and a recorded decision.",
+  "forbiddenPropertyNames": {
+    "deviceIdentity": {
+      "reason": "Device identity is 2IoThub's. A resident never needs it and it is the most common accidental leak.",
+      "terms": [
+        "deviceid",
+        "deviceidentifier",
+        "devicekey",
+        "deviceuuid",
+        "devicename",
+        "sensorid",
+        "sensoridentifier",
+        "sensorkey",
+        "sensoruuid",
+        "serial",
+        "serialno",
+        "serialnumber",
+        "macaddress",
+        "mac",
+        "imei",
+        "iccid",
+        "hardwareid",
+        "hwid",
+        "assettag",
+        "equipmentid",
+        "panelid",
+        "zoneid",
+        "gatewayid",
+        "gateway",
+        "edgeid",
+        "nodeid",
+        "node",
+        "endpointid"
+      ]
+    },
+    "telemetry": {
+      "reason": "Raw measurement values and their units are engineering data. Residents get a plain-language projection.",
+      "terms": [
+        "telemetry",
+        "telemetrydata",
+        "rawvalue",
+        "rawdata",
+        "rawpayload",
+        "raw",
+        "measurement",
+        "measuredvalue",
+        "reading",
+        "sensorreading",
+        "sensorvalue",
+        "unitofmeasure",
+        "uom",
+        "engineeringunits",
+        "threshold",
+        "setpoint",
+        "calibration",
+        "offsetvalue",
+        "batterylevel",
+        "batteryvoltage",
+        "voltage",
+        "rssi",
+        "signalstrength",
+        "ppm",
+        "celsius",
+        "fahrenheit"
+      ]
+    },
+    "protocol": {
+      "reason": "OT/IT protocol fields belong to the gateway. They have no resident meaning.",
+      "terms": [
+        "protocol",
+        "topic",
+        "mqtttopic",
+        "modbus",
+        "bacnet",
+        "opcua",
+        "opc",
+        "lorawan",
+        "zigbee",
+        "znet",
+        "coap",
+        "registeraddress",
+        "coil",
+        "objectidentifier",
+        "pointname",
+        "pointid",
+        "tagname",
+        "tagid",
+        "payloadraw",
+        "framepayload",
+        "packet"
+      ]
+    },
+    "alarmLifecycle": {
+      "reason": "Alarm detection, acknowledgement, suppression, clearing, reclassification and escalation belong to 2IoThub. PEMO must never perform or expose any of them. Resident acknowledgement of having seen a notification is a different concept and uses acknowledgement fields defined in the OpenAPI contract, not these.",
+      "terms": [
+        "alarmack",
+        "alarmacknowledge",
+        "alarmacknowledged",
+        "alarmacknowledgement",
+        "alarmsuppress",
+        "alarmsuppressed",
+        "alarmsuppression",
+        "alarmclear",
+        "alarmcleared",
+        "alarmreset",
+        "alarmshelve",
+        "alarmshelved",
+        "alarmlifecycle",
+        "alarmstate",
+        "alarmpriority",
+        "alarmclass",
+        "escalationpolicy",
+        "escalationlevel",
+        "escalationtier",
+        "faultcode",
+        "errorcode",
+        "diagnosticcode",
+        "troublecode"
+      ]
+    },
+    "clientConnectivity": {
+      "reason": "The server cannot know the client's network state, so it must never emit one. Client connectivity is data-age presentation owned by UI-007-ST and never takes a severity value. See severity.md.",
+      "terms": [
+        "phoneoffline",
+        "deviceoffline",
+        "clientoffline",
+        "networkoffline",
+        "isoffline",
+        "connectionstate",
+        "connectivity",
+        "networkstate",
+        "hasnetwork",
+        "isconnected",
+        "airplanemode",
+        "cachedresponse",
+        "fromcache"
+      ]
+    },
+    "internalAndPrivacy": {
+      "reason": "Internal case handling and other residents' identities are never resident-visible. Handoff document 05 and committed baseline external-work-and-case-lifecycle.md.",
+      "terms": [
+        "internalnote",
+        "internalnotes",
+        "internalcomment",
+        "staffnote",
+        "staffnotes",
+        "otherresident",
+        "otherresidents",
+        "neighbourunit",
+        "neighborunit",
+        "technician",
+        "technicianname",
+        "contractor",
+        "contractorname",
+        "workorder",
+        "workordercost",
+        "parts",
+        "partscost",
+        "inventory",
+        "procurement",
+        "invoice",
+        "cost",
+        "price",
+        "tariff"
+      ]
+    },
+    "secrets": {
+      "reason": "No secret, credential or key may appear anywhere in the repository, including fixtures.",
+      "terms": [
+        "password",
+        "passwd",
+        "secret",
+        "apikey",
+        "apitoken",
+        "accesstoken",
+        "refreshtoken",
+        "bearertoken",
+        "privatekey",
+        "clientsecret",
+        "credential",
+        "credentials",
+        "authorization",
+        "cookie",
+        "sessionsecret"
+      ]
+    },
+    "carParkOperations": {
+      "reason": "Car-park operation belongs to the existing car-park system reached through 2IoThub. ADR-003 Q2 lets PEMO own the space as a property object and who holds it, and nothing that would need to know whether a car is parked or whether a barrier should lift.",
+      "foldedFrom": "Carried locally in apps/api/src/testing/boundary-scanner.ts as CAR_PARK_TERMS. Folded into the pinned file by API-016-ST under G2; the local carry is now redundant and is its owning session's to remove.",
+      "terms": [
+        "vehiclepresent",
+        "vehicleoccupied",
+        "isparked",
+        "parkedvehicle",
+        "barrier",
+        "barrierstate",
+        "gateopen",
+        "gatestate",
+        "boomgate",
+        "platenumber",
+        "licenceplate",
+        "licenseplate",
+        "lpr",
+        "parkingtransaction",
+        "parkingfee",
+        "parkingcharge",
+        "occupancycount",
+        "spacesavailable",
+        "spaceavailable",
+        "baystatus"
+      ]
+    },
+    "mappingIdentifiers": {
+      "reason": "ADR-006 permits PEMO to PERSIST a device or zone reference in integration.* and forbids ever rendering one. These are the identifier names the mapping and provenance tables actually use.",
+      "foldedFrom": "Added by GEN-012-ST and carried locally in apps/api/src/testing/boundary-scanner.ts as MAPPING_IDENTIFIER_TERMS. Folded into the pinned file by API-016-ST under G2; the local carry is now redundant and is its owning session's to remove.",
+      "terms": [
+        "sourcedeviceref",
+        "sourcezoneref",
+        "devicereference",
+        "zonereference",
+        "mappingid",
+        "sourcesystemtype",
+        "sourcesystemversion",
+        "sourceeventcode",
+        "vocabularyid",
+        "policyid"
+      ]
+    }
+  },
+  "forbiddenValuePatterns": [
+    {
+      "name": "mac-address",
+      "pattern": "^([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$",
+      "reason": "Hardware address."
+    },
+    {
+      "name": "mqtt-style-topic",
+      "pattern": "^(/|[A-Za-z0-9_-]+/)([A-Za-z0-9_+#-]+/){2,}[A-Za-z0-9_+#-]*$",
+      "reason": "Protocol topic path."
+    },
+    {
+      "name": "engineering-unit-reading",
+      "pattern": "\\b\\d+(\\.\\d+)?\\s?(ppm|ppb|mV|mA|dBm|kPa|hPa|lux|°C|°F)\\b",
+      "reason": "Raw measurement with an engineering unit."
+    },
+    {
+      "name": "hk-mobile-number",
+      "pattern": "\\b[456789]\\d{7}\\b",
+      "reason": "Looks like a real Hong Kong mobile number. Fixtures must contain no personal data; use the documented placeholder form instead."
+    }
+  ],
+  "allowedExceptions": [
+    {
+      "term": "acknowledgement",
+      "why": "Resident acknowledgement of having seen a notification is in scope and is the contract's single write path. It is not alarm acknowledgement; the alarmAck* family above stays forbidden."
+    },
+    {
+      "term": "reference",
+      "why": "Resident-facing references such as the case reference CS-24115 are in scope and are shown to residents by design."
+    },
+    {
+      "term": "location",
+      "why": "Resident-readable location such as 'Kitchen' or '12/F Flat A1' is in scope. Panel zone and device location identifiers are not; see zoneid above."
+    },
+    {
+      "term": "unit",
+      "why": "'Unit' is PEMO's own entity name in the property hierarchy (Estate > Phase > Building > Floor > Unit) and, in a Hong Kong residential product, the ordinary word a resident uses for their home. Denying it generates a false positive on every screen that lists a resident's homes. The real risk — unit of measure — is covered precisely by unitofmeasure, uom and engineeringunits as property names, and by the engineering-unit-reading value pattern in prose. The bare term 'units' was removed from the telemetry group for the same reason: a 'units' array of a resident's homes is a natural field name and is not engineering data. A denylist that cries wolf gets bypassed, and a bypassed denylist protects nothing.",
+      "residentFacingLabelIsConfigurable": "Recorded, not built. ADR-003 Q5 and PLT-01 make the resident-facing label CONFIGURABLE per customer: Unit, Flat and Room are alternative labels for one level, and the label belongs to the Organization tier. So hardcoding 'flat' in a client is as wrong long-term as hardcoding 'unit'. Today the fixtures say 'Flat A1', so a client saying 'flats' is correct and matches the corpus. When configurable terminology is built, that string comes from configuration and stops being a client constant. Neither the denylist nor this exception solves that; both are orthogonal to it."
+    },
+    {
+      "term": "units",
+      "why": "Plural of unit. Same reasoning; see the 'unit' entry."
+    }
+  ],
+  "appliesTo": {
+    "responsePropertyNames": "forbiddenPropertyNames. The primary surface: a field name that should never exist in a resident-facing response.",
+    "responseStringValues": "forbiddenValuePatterns. Catches engineering data leaking as text, for example a reading with an engineering unit.",
+    "clientAuthoredCopy": "A client may usefully scan its OWN UI strings for leaked engineering vocabulary, since that copy never came from the server. But it must scan against forbiddenValuePatterns and NOT against forbiddenPropertyNames. Applying field-name terms to prose is what produced the 'Your units' false positive under UI-007-ST; the terms were never scoped for that context. This entry exists because the omission was not obvious to a careful implementer."
+  },
+  "role": {
+    "theGuarantee": "The load-bearing check is the STRING-CONTAINMENT assertion: no resident-facing payload may contain a known internal identifier VALUE, under any field name whatsoever. That catches a leak by construction.",
+    "thisList": "This denylist is DIAGNOSTICS. It makes a leak legible to the scanner and names it in a report.",
+    "theRule": "An enumerating check catches what someone thought of; a property check catches by construction. Prefer the property-based check as the guarantee and the enumeration as the explanation, NEVER the reverse.",
+    "theWorkedExample": "G2. `sourceDeviceRef` is the mapping table's actual column name. It was never enumerated, so the name check missed it — found by writing the RED condition for the mapping-containment test, where the injected leak was not flagged. Containment caught it; enumeration did not. A future reader who inverts these two will weaken the boundary while appearing to strengthen it."
+  }
+}

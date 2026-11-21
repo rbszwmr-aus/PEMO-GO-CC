@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000009",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "counters": [
+    {
+      "key": "open-cases",
+      "value": 14,
+      "label": {
+        "en": "Open cases",
+        "zh-Hant": "處理中個案"
+      }
+    },
+    {
+      "key": "safety-events-window",
+      "value": 6,
+      "label": {
+        "en": "Safety events",
+        "zh-Hant": "安全事件"
+      },
+      "windowHours": 24
+    },
+    {
+      "key": "notices-active",
+      "value": 2,
+      "label": {
+        "en": "Notices",
+        "zh-Hant": "通告"
+      }
+    },
+    {
+      "key": "units-unknown-state",
+      "value": 31,
+      "label": {
+        "en": "Units in unknown state",
+        "zh-Hant": "狀態不明單位"
+      },
+      "basis": {
+        "includesSeverities": [
+          "unknown",
+          "offline"
+        ],
+        "deduplicatedByUnit": true
+      }
+    }
+  ],
+  "attention": [
+    {
+      "kind": "safety",
+      "title": {
+        "en": "Quarantined event awaiting mapping",
+        "zh-Hant": "待配對的隔離事件"
+      },
+      "subtitle": {
+        "en": "Unmapped source node",
+        "zh-Hant": "未配對來源節點"
+      },
+      "target": {
+        "state": "overdue",
+        "elapsedMinutes": 11,
+        "dueAt": null,
+        "label": {
+          "en": "Overdue 11m",
+          "zh-Hant": "逾時11分鐘"
+        }
+      },
+      "link": {
+        "kind": "safety-event",
+        "id": "evt_hs_004421"
+      }
+    },
+    {
+      "kind": "case",
+      "title": {
+        "en": "Lift 2 out of service",
+        "zh-Hant": "2號升降機停用"
+      },
+      "subtitle": {
+        "en": "Block A",
+        "zh-Hant": "A座"
+      },
+      "target": {
+        "state": "held",
+        "elapsedMinutes": 360,
+        "dueAt": null,
+        "label": {
+          "en": "6h held",
+          "zh-Hant": "已擱置6小時"
+        }
+      },
+      "link": {
+        "kind": "case",
+        "id": "CS-24118"
+      }
+    },
+    {
+      "kind": "notice",
+      "title": {
+        "en": "Scheduled water interruption",
+        "zh-Hant": "計劃性停水"
+      },
+      "subtitle": {
+        "en": "Awaiting supervisor approval",
+        "zh-Hant": "等待主管批核"
+      },
+      "target": {
+        "state": "action-required",
+        "dueAt": null,
+        "elapsedMinutes": null,
+        "label": {
+          "en": "Approve",
+          "zh-Hant": "批核"
+        }
+      },
+      "link": {
+        "kind": "notice",
+        "id": "ntc_0814_water"
+      }
+    }
+  ],
+  "integrationHealth": [
+    {
+      "key": "twoiothub",
+      "name": "2IoThub",
+      "state": "degraded",
+      "lastExchangeAt": "2026-08-12T09:55:00+08:00"
+    },
+    {
+      "key": "cmms",
+      "name": "CMMS",
+      "state": "healthy",
+      "lastExchangeAt": "2026-08-12T09:54:00+08:00"
+    }
+  ],
+  "recentNotices": [
+    {
+      "noticeId": "ntc_0810_typhoon",
+      "type": "community",
+      "title": {
+        "en": "Typhoon preparation reminder",
+        "zh-Hant": "颱風季節準備提示"
+      },
+      "state": "published",
+      "publishedAt": "2026-08-10T09:30:00+08:00"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "$comment": "Sidebar block follows the live reference app on :18121 (PT, 18 Nov 2026), which wins over guide sections 5 where they differ. Other values copied from 4S-DS-WEB-001 v1.1 sections 2, 3 and 5. Data, so the hex scan has nothing to flag.",
+  "expect": {
+    "colour": {
+      "primary": "#176A5D", "primaryHover": "#125749", "text": "#233C37", "canvas": "#F5F7F6", "listPanel": "#F1F3F2",
+      "card": "#FFFFFF", "controlBorder": "#D9DFE0", "divider": "#E2E9E5", "hover": "#E8F3EB", "hoverBorder": "#C9D9CD",
+      "selectedBorder": "#A5C4AE", "selectedText": "#185B48", "secondaryText": "#74847F"
+    },
+    "tags": {
+      "success": { "fg": "#236B49", "bg": "#EDF8F0" },
+      "attention": { "fg": "#855A14", "bg": "#FFF7E6" },
+      "critical": { "fg": "#A13E2B", "bg": "#FFF0EB" },
+      "unknown": { "fg": "#6850A0", "bg": "#F5F0FF" }
+    },
+    "sidebar": {
+      "ground": "#E0ECEB", "text": "#284E6B", "hover": "#CFE3E2", "activeSurface": "#B6DFE1", "activeText": "#17606B",
+      "childRule": "#A8CDB955", "scrollThumb": "#8EAF9C", "scrollThumbHover": "#6F9682",
+      "widthExpanded": "224px", "widthWide": "224px", "widthNarrow": "190px", "widthRail": "76px"
+    },
+    "type": {
+      "body": { "size": "14px", "weight": "600" },
+      "pageHeading": { "size": "36.4px", "weight": "750" },
+      "cardHeading": { "size": "19.55px", "weight": "750" },
+      "smallHeading": { "size": "16.1px", "weight": "750" },
+      "menu": { "size": "14.52px", "weight": "650" },
+      "meta": { "size": "12px", "weight": "600" }
+    }
+  }
+}

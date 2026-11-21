@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000005",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "event": {
+    "eventId": "evt_hs_004417",
+    "reference": "HS-2026-08-12-004417",
+    "severity": "critical",
+    "title": {
+      "en": "Smoke detected in unit",
+      "zh-Hant": "單位偵測到煙霧"
+    },
+    "scope": {
+      "node": {
+        "kind": "unit",
+        "id": "unit_wfg_b_03_b2",
+        "label": {
+          "en": "Flat B2",
+          "zh-Hant": "B2室"
+        }
+      },
+      "ancestry": [
+        {
+          "kind": "organization",
+          "id": "org_wingfu_holdings",
+          "label": {
+            "en": "Wing Fu Property Management",
+            "zh-Hant": "榮富物業管理"
+          }
+        },
+        {
+          "kind": "portfolio",
+          "id": "pf_wingfu_residential",
+          "label": {
+            "en": "Wing Fu Residential Portfolio",
+            "zh-Hant": "榮富住宅組合"
+          }
+        },
+        {
+          "kind": "estate",
+          "id": "est_wing_fu_garden",
+          "label": {
+            "en": "Wing Fu Garden",
+            "zh-Hant": "榮富花園"
+          }
+        },
+        {
+          "kind": "building",
+          "id": "blk_wfg_b",
+          "label": {
+            "en": "Block B",
+            "zh-Hant": "B座"
+          }
+        },
+        {
+          "kind": "floor",
+          "id": "fl_wfg_b_03",
+          "label": {
+            "en": "3/F",
+            "zh-Hant": "3樓"
+          }
+        }
+      ]
+    },
+    "scopeSummary": {
+      "en": "Block B, 3/F, Flat B2 — 1 household, 4 authorized recipients",
+      "zh-Hant": "B座3樓B2室 — 1住戶，4名獲授權接收者"
+    },
+    "source": "in-unit-sensor",
+    "occurredAt": "2026-08-12T09:42:07+08:00",
+    "communication": "published-acknowledged",
+    "needsAction": false
+  },
+  "residentProjection": {
+    "title": {
+      "en": "Smoke detected in your unit",
+      "zh-Hant": "您的單位偵測到煙霧"
+    },
+    "instruction": {
+      "en": "Leave the flat, close the door behind you and use the staircase. Do not use the lift.",
+      "zh-Hant": "請離開單位、關上大門並使用樓梯。切勿使用升降機。"
+    },
+    "disclaimer": {
+      "en": "This alert supplements the building fire alarm and statutory emergency procedures. It does not replace them.",
+      "zh-Hant": "此警報為輔助性質，不能取代大廈火警系統及法定緊急程序。"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "$comment": "RESIDENT-MOBILE FLUTTER TESTS RED BEFORE GEN-048's gate existed (GEN-048 F6). Each names its cause and the PID that owes the fix. This is GEN-048's spec stop condition made into a tracked debt with a creditor, not a silent skip: the Flutter gate runs the whole suite; whether these named tests are EXEMPTED from blocking merge is the PO's ruling (they weaken F2's 'red blocks merge'). GEN-048 does not touch apps/resident-mobile/**.g.dart — out of its write scope and no Flutter host to regenerate. [GEN-056: the two resident-mobile regeneration debts are PAID — severity_tokens.g.dart and fixture_corpus.g.dart regenerated to 0.4.0; entries removed in the same commit per the gate rule 3.]",
+  "declaredAt": "2026-09-03",
+  "declaredBy": "GEN-048",
+  "debts": []
+}

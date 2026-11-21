@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-retargeting-forbidden",
+  "title": "A correction may not change who the notice addresses",
+  "status": 409,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "A correction may change content and schedule only. To change the audience, withdraw this notice and issue a new one.",
+    "zh-Hant": "更正只可修改內容及時間。如需更改對象，請撤回本通告並另發新通告。"
+  },
+  "retryable": false
+}

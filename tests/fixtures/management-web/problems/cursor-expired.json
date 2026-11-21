@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/cursor-expired",
+  "title": "Cursor expired",
+  "status": 410,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000015",
+  "staffMessage": {
+    "en": "This page position is no longer valid. Restart the list from the beginning.",
+    "zh-Hant": "此頁面位置已失效，請從頭重新載入列表。"
+  },
+  "retryable": false
+}

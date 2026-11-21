@@ -1,0 +1,123 @@
+{
+  "$comment": "ADR-020 D1 made mechanical for the service_case schema \u2014 GEN-038. NOT a contract file: cut A ships no endpoint, so this scans SCHEMA COLUMN NAMES, COLUMN TYPES and seed values rather than a response corpus. DERIVED BY DIFFING tests/integration/interest-forbidden-terms.json (ADR-011 D5, API-027-ST's method), with every decision recorded in diffDecisions.",
+  "pid": "GEN-038",
+  "appliesTo": [
+    "service_case.* column names",
+    "service_case.* column types",
+    "the Ticket/Case seed's string values"
+  ],
+  "purpose": "PEMO is the system of record for the CASE and a CONSUMER of the work order (ADR-020 D1). A column named for a technician, a part, a labour line, a cost or a crew schedule is a defect, because that is precisely the thing PEMO does not hold.",
+  "theInversion": "The interest list moved the money family IN because PEMO holds the relationship, never the instrument. This list KEEPS that and adds the WORK-EXECUTION family for the same reason one layer out: PEMO holds that work happened, never how it was done. It also scans TYPES, which no earlier list did.",
+  "forbiddenPropertyNames": {
+    "money": {
+      "reason": "Any monetary amount or charge. D1: if a fact would change when the money changes, it is not PEMO's.",
+      "terms": [
+        "rent",
+        "deposit",
+        "premium",
+        "servicecharge",
+        "managementfee",
+        "arrears",
+        "charge",
+        "price",
+        "cost",
+        "tariff",
+        "fee",
+        "invoice",
+        "amount",
+        "balance",
+        "payment",
+        "mortgage",
+        "commission",
+        "stampduty"
+      ]
+    },
+    "secrets": {
+      "reason": "Universal, kept verbatim from all three lists. No credential in any row.",
+      "terms": [
+        "password",
+        "passwd",
+        "secret",
+        "apikey",
+        "apitoken",
+        "accesstoken",
+        "refreshtoken",
+        "bearertoken",
+        "privatekey",
+        "clientsecret",
+        "credential",
+        "credentials",
+        "authorization",
+        "cookie",
+        "sessionsecret"
+      ]
+    },
+    "work_execution": {
+      "reason": "ADR-020 D1: PEMO records THAT a job exists in another system and what that system last said. The moment a column names who did the work, what it consumed, or when the crew is coming, PEMO has started to MODEL the work \u2014 and the pressure to add 'just the cost' arrives with the first report anybody asks for.",
+      "terms": [
+        "technician",
+        "technicianname",
+        "engineer",
+        "crew",
+        "contractorstaff",
+        "parts",
+        "part",
+        "partnumber",
+        "material",
+        "materials",
+        "labour",
+        "labor",
+        "labourhours",
+        "labourrate",
+        "workorderschedule",
+        "maintenanceschedule",
+        "jobschedule",
+        "dispatchtime",
+        "crewshift"
+      ]
+    },
+    "monetary_type": {
+      "reason": "The dispatch requires 'any monetary type', not only a monetary NAME. A column called `adjustment numeric(12,2)` carries money while dodging every name-based term, so this denylist scans DATA TYPES too \u2014 the first thing this list does that the interest's did not.",
+      "terms": [
+        "money",
+        "numeric",
+        "decimal"
+      ],
+      "appliesToTypesOnly": true
+    }
+  },
+  "allowedExceptions": [
+    {
+      "term": "reference",
+      "reason": "external_ref and display_ref are references TO other systems, which is exactly what D1 permits."
+    },
+    {
+      "term": "summary",
+      "reason": "last_summary caches what the other system said. Cached foreign text, not modelled work."
+    },
+    {
+      "term": "status",
+      "reason": "last_status is the other system's word, cached for display and never this Case's state (CAS-04)."
+    },
+    {
+      "term": "rating",
+      "reason": "case_satisfaction.rating is a resident's judgement of handling, not a monetary or work-execution fact."
+    }
+  ],
+  "diffDecisions": {
+    "keptVerbatim": {
+      "money": "Inherited unchanged. ADR-020 D1 is the same boundary as ADR-011 D1 one layer out: no cost, price, amount, invoice or charge on a Case.",
+      "secrets": "Inherited unchanged. A credential in any schema is a defect regardless of which module it is in; there is no argument for narrowing it here."
+    },
+    "dropped": {
+      "instrument": "DROPPED, and this is the only whole group removed. lease/deed/mortgagee/landregistry are TENANCY instruments \u2014 the resident.interest boundary. A Case about a leaking pipe has no reason to name them, but neither would a false positive here be catching an ADR-020 violation: it would be catching an ADR-011 one, in a schema ADR-011's own scan does not cover. Keeping it would make this list assert a boundary it is not the guard for, and a check that fails for another rule's reason teaches people to widen the allowlist. Terms dropped: lease, leasereference, tenancyagreement, breakclause, renewal, renewaloption, rentreview, agent, agentname, deed, titledeed, landregistry, memorial, chargee, mortgagee, assignment"
+    },
+    "invertedIn": {
+      "work_execution": "ADDED \u2014 the group this list exists for. Nothing equivalent appears in any earlier denylist because no earlier module consumed an external work order. This is the ADR-020 D1 boundary made mechanical.",
+      "monetary_type": "ADDED, and it changes the SCAN, not just the terms: a monetary column can hide behind an innocent name and a numeric type. The interest list scanned names only and did not need this."
+    },
+    "modified": {
+      "allowedExceptions": "The interest list allowed source/reference/unit/company. `reference` is kept and joined by summary, status and rating \u2014 all four are things PEMO legitimately holds ABOUT foreign work or about a resident's judgement, rather than the work itself. source/unit/company are dropped as unused here: an exception nothing needs is an unexplained hole."
+    }
+  }
+}

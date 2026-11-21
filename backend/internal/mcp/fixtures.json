@@ -1,0 +1,462 @@
+{
+ "health": {
+  "status": "ok",
+  "service": "pemo"
+ },
+ "scopeTree": {
+  "meta": {
+   "correlationId": "mcp-fix-scope-0000-4000-8000-000000000001",
+   "contractVersion": "2.5.0",
+   "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "grants": [
+   {
+    "kind": "estate",
+    "id": "est_wing_fu_garden",
+    "label": {
+     "en": "Wing Fu Garden",
+     "zh-Hant": "榮富花園"
+    }
+   }
+  ],
+  "nodes": [
+   {
+    "node": {
+     "kind": "organization",
+     "id": "org_wingfu_holdings",
+     "label": {
+      "en": "Wing Fu Property Management",
+      "zh-Hant": "榮富物業管理"
+     }
+    },
+    "parent": null,
+    "label": {
+     "en": "Wing Fu Property Management",
+     "zh-Hant": "榮富物業管理"
+    },
+    "depth": 0,
+    "permittedActions": []
+   },
+   {
+    "node": {
+     "kind": "estate",
+     "id": "est_wing_fu_garden",
+     "label": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+     }
+    },
+    "parent": {
+     "kind": "organization",
+     "id": "org_wingfu_holdings",
+     "label": {
+      "en": "Wing Fu Property Management",
+      "zh-Hant": "榮富物業管理"
+     }
+    },
+    "label": {
+     "en": "Wing Fu Garden",
+     "zh-Hant": "榮富花園"
+    },
+    "depth": 1,
+    "permittedActions": [
+     "composeNotice"
+    ]
+   },
+   {
+    "node": {
+     "kind": "building",
+     "id": "blk_wfg_a",
+     "label": {
+      "en": "Block A",
+      "zh-Hant": "A座"
+     }
+    },
+    "parent": {
+     "kind": "estate",
+     "id": "est_wing_fu_garden",
+     "label": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+     }
+    },
+    "label": {
+     "en": "Block A",
+     "zh-Hant": "A座"
+    },
+    "depth": 2,
+    "permittedActions": [
+     "composeNotice"
+    ]
+   },
+   {
+    "node": {
+     "kind": "building",
+     "id": "blk_wfg_b",
+     "label": {
+      "en": "Block B",
+      "zh-Hant": "B座"
+     }
+    },
+    "parent": {
+     "kind": "estate",
+     "id": "est_wing_fu_garden",
+     "label": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+     }
+    },
+    "label": {
+     "en": "Block B",
+     "zh-Hant": "B座"
+    },
+    "depth": 2,
+    "permittedActions": [
+     "composeNotice"
+    ]
+   },
+   {
+    "node": {
+     "kind": "building",
+     "id": "blk_wfg_c",
+     "label": {
+      "en": "Block C",
+      "zh-Hant": "C座"
+     }
+    },
+    "parent": {
+     "kind": "estate",
+     "id": "est_wing_fu_garden",
+     "label": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+     }
+    },
+    "label": {
+     "en": "Block C",
+     "zh-Hant": "C座"
+    },
+    "depth": 2,
+    "permittedActions": [
+     "composeNotice"
+    ]
+   }
+  ]
+ },
+ "households": {
+  "meta": {
+   "correlationId": "mcp-fix-hh-0000-4000-8000-000000000001",
+   "contractVersion": "2.3.0",
+   "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "counts": {
+   "all": 3,
+   "occupied": 3,
+   "withCaregiver": 0,
+   "multiMember": 2
+  },
+  "households": [
+   {
+    "householdId": "hh_wfg_a_12_a1",
+    "unitId": "unit_wfg_a_12_a1",
+    "unitSummary": {
+     "en": "Block A · 12/F · Flat A1",
+     "zh-Hant": "A座 · 12樓 · A1室"
+    },
+    "scope": {
+     "node": {
+      "kind": "unit",
+      "id": "unit_wfg_a_12_a1",
+      "label": {
+       "en": "Flat A1",
+       "zh-Hant": "A1室"
+      }
+     },
+     "ancestry": [
+      {
+       "kind": "organization",
+       "id": "org_wingfu_holdings",
+       "label": {
+        "en": "Wing Fu Property Management",
+        "zh-Hant": "榮富物業管理"
+       }
+      },
+      {
+       "kind": "estate",
+       "id": "est_wing_fu_garden",
+       "label": {
+        "en": "Wing Fu Garden",
+        "zh-Hant": "榮富花園"
+       }
+      },
+      {
+       "kind": "building",
+       "id": "blk_wfg_a",
+       "label": {
+        "en": "Block A",
+        "zh-Hant": "A座"
+       }
+      },
+      {
+       "kind": "floor",
+       "id": "fl_wfg_a_12",
+       "label": {
+        "en": "12/F",
+        "zh-Hant": "12樓"
+       }
+      }
+     ]
+    },
+    "primaryName": "Ho Mei-yi 何美儀",
+    "primaryRole": "owner_occupier",
+    "memberCount": 3,
+    "occupancyFrom": "2024-03-01",
+    "notificationLanguage": "zh-Hant",
+    "contactEmail": "ho.meiyi@wingfu.example",
+    "status": "occupied"
+   },
+   {
+    "householdId": "hh_wfg_b_03_b2",
+    "unitId": "unit_wfg_b_03_b2",
+    "unitSummary": {
+     "en": "Block B · 3/F · Flat B2",
+     "zh-Hant": "B座 · 3樓 · B2室"
+    },
+    "scope": {
+     "node": {
+      "kind": "unit",
+      "id": "unit_wfg_b_03_b2",
+      "label": {
+       "en": "Flat B2",
+       "zh-Hant": "B2室"
+      }
+     },
+     "ancestry": [
+      {
+       "kind": "organization",
+       "id": "org_wingfu_holdings",
+       "label": {
+        "en": "Wing Fu Property Management",
+        "zh-Hant": "榮富物業管理"
+       }
+      },
+      {
+       "kind": "estate",
+       "id": "est_wing_fu_garden",
+       "label": {
+        "en": "Wing Fu Garden",
+        "zh-Hant": "榮富花園"
+       }
+      },
+      {
+       "kind": "building",
+       "id": "blk_wfg_b",
+       "label": {
+        "en": "Block B",
+        "zh-Hant": "B座"
+       }
+      },
+      {
+       "kind": "floor",
+       "id": "fl_wfg_b_03",
+       "label": {
+        "en": "3/F",
+        "zh-Hant": "3樓"
+       }
+      }
+     ]
+    },
+    "primaryName": "Tam Siu-fong 譚小芳",
+    "primaryRole": "owner_occupier",
+    "memberCount": 2,
+    "occupancyFrom": "2022-11-15",
+    "notificationLanguage": "zh-Hant",
+    "contactEmail": "tam.siufong@wingfu.example",
+    "status": "occupied"
+   },
+   {
+    "householdId": "hh_wfg_c_08_c3",
+    "unitId": "unit_wfg_c_08_c3",
+    "unitSummary": {
+     "en": "Block C · 8/F · Flat C3",
+     "zh-Hant": "C座 · 8樓 · C3室"
+    },
+    "scope": {
+     "node": {
+      "kind": "unit",
+      "id": "unit_wfg_c_08_c3",
+      "label": {
+       "en": "Flat C3",
+       "zh-Hant": "C3室"
+      }
+     },
+     "ancestry": [
+      {
+       "kind": "organization",
+       "id": "org_wingfu_holdings",
+       "label": {
+        "en": "Wing Fu Property Management",
+        "zh-Hant": "榮富物業管理"
+       }
+      },
+      {
+       "kind": "estate",
+       "id": "est_wing_fu_garden",
+       "label": {
+        "en": "Wing Fu Garden",
+        "zh-Hant": "榮富花園"
+       }
+      },
+      {
+       "kind": "building",
+       "id": "blk_wfg_c",
+       "label": {
+        "en": "Block C",
+        "zh-Hant": "C座"
+       }
+      },
+      {
+       "kind": "floor",
+       "id": "fl_wfg_c_08",
+       "label": {
+        "en": "8/F",
+        "zh-Hant": "8樓"
+       }
+      }
+     ]
+    },
+    "primaryName": "Chan Wai-keung 陳偉強",
+    "primaryRole": "tenant",
+    "memberCount": 1,
+    "occupancyFrom": "2025-01-01",
+    "notificationLanguage": "zh-Hant",
+    "contactEmail": "chan.waikeung@wingfu.example",
+    "status": "occupied"
+   }
+  ]
+ },
+ "notices": {
+  "meta": {
+   "correlationId": "mcp-fix-ntc-0000-4000-8000-000000000001",
+   "contractVersion": "2.5.0",
+   "generatedAt": "2026-09-19T11:00:00+08:00"
+  },
+  "notices": [
+   {
+    "noticeId": "ntc_wfg_fee_q3",
+    "noticeType": "general",
+    "titleEn": "Q3 management fee reminder — Wing Fu Garden",
+    "titleZhHant": "榮富花園第三季管理費繳付提示",
+    "lifecycleState": "live",
+    "publishAt": "2026-09-15T09:00:00+08:00",
+    "expireAt": "2026-10-15T00:00:00+08:00",
+    "mandatoryAck": true,
+    "version": 2
+   },
+   {
+    "noticeId": "ntc_wfg_maint_lift",
+    "noticeType": "planned_interruption",
+    "titleEn": "Block A low-zone lift maintenance, 22–23 September",
+    "titleZhHant": "A座低區升降機保養（9月22至23日）",
+    "lifecycleState": "live",
+    "publishAt": "2026-09-18T08:30:00+08:00",
+    "expireAt": "2026-09-24T00:00:00+08:00",
+    "mandatoryAck": false,
+    "version": 2
+   },
+   {
+    "noticeId": "ntc_0820_bbq",
+    "noticeType": "event_community",
+    "titleEn": "Mid-Autumn gathering, 20 September",
+    "titleZhHant": "9月20日中秋聚會",
+    "lifecycleState": "draft",
+    "publishAt": null,
+    "expireAt": null,
+    "mandatoryAck": false,
+    "version": 1
+   }
+  ]
+ },
+ "charges": {
+  "meta": {
+   "correlationId": "mcp-fix-chg-0000-4000-8000-000000000001",
+   "contractVersion": "fixture",
+   "generatedAt": "2026-09-19T12:00:00+08:00"
+  },
+  "note": "Management-fee charges only. ParkCore parking fees are out of this MCP.",
+  "charges": [
+   {
+    "chargeId": "chg_wfg_a1_202609",
+    "householdId": "hh_wfg_a_12_a1",
+    "payerName": "Ho Mei-yi 何美儀",
+    "unitSummary": {
+     "en": "Block A · 12/F · Flat A1",
+     "zh-Hant": "A座 · 12樓 · A1室"
+    },
+    "period": "2026-09",
+    "kind": {
+     "en": "Monthly management fee",
+     "zh-Hant": "每月管理費"
+    },
+    "dueOn": "2026-09-30",
+    "amountHkd": 3280,
+    "paidHkd": 0,
+    "status": "due"
+   },
+   {
+    "chargeId": "chg_wfg_b2_202609",
+    "householdId": "hh_wfg_b_03_b2",
+    "payerName": "Tam Siu-fong 譚小芳",
+    "unitSummary": {
+     "en": "Block B · 3/F · Flat B2",
+     "zh-Hant": "B座 · 3樓 · B2室"
+    },
+    "period": "2026-09",
+    "kind": {
+     "en": "Monthly management fee",
+     "zh-Hant": "每月管理費"
+    },
+    "dueOn": "2026-09-30",
+    "amountHkd": 3150,
+    "paidHkd": 1500,
+    "status": "partial"
+   },
+   {
+    "chargeId": "chg_wfg_c3_202608",
+    "householdId": "hh_wfg_c_08_c3",
+    "payerName": "Chan Wai-keung 陳偉強",
+    "unitSummary": {
+     "en": "Block C · 8/F · Flat C3",
+     "zh-Hant": "C座 · 8樓 · C3室"
+    },
+    "period": "2026-08",
+    "kind": {
+     "en": "Monthly management fee",
+     "zh-Hant": "每月管理費"
+    },
+    "dueOn": "2026-08-31",
+    "amountHkd": 2980,
+    "paidHkd": 0,
+    "status": "overdue"
+   },
+   {
+    "chargeId": "chg_wfg_a1_202608",
+    "householdId": "hh_wfg_a_12_a1",
+    "payerName": "Ho Mei-yi 何美儀",
+    "unitSummary": {
+     "en": "Block A · 12/F · Flat A1",
+     "zh-Hant": "A座 · 12樓 · A1室"
+    },
+    "period": "2026-08",
+    "kind": {
+     "en": "Monthly management fee",
+     "zh-Hant": "每月管理費"
+    },
+    "dueOn": "2026-08-31",
+    "amountHkd": 3280,
+    "paidHkd": 3280,
+    "status": "paid"
+   }
+  ]
+ }
+}

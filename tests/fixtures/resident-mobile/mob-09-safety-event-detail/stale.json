@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000039",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "event": {
+    "eventId": "evt_20260813_smoke01",
+    "severity": "offline",
+    "title": {
+      "en": "Gas detector stopped reporting",
+      "zh-Hant": "氣體探測器停止回報"
+    },
+    "instruction": {
+      "en": "No action is needed from you. The management office has been told and will check the sensor.",
+      "zh-Hant": "您毋須採取行動。已通知管理處，將會檢查感應器。"
+    },
+    "location": {
+      "label": {
+        "en": "Kitchen · 12/F Flat A1",
+        "zh-Hant": "廚房 · 12樓 A1室"
+      },
+      "locationClass": "unit",
+      "audienceSource": "unit"
+    },
+    "occurredAt": "2026-08-13T05:14:00+08:00",
+    "receivedAt": "2026-08-13T05:14:06+08:00",
+    "reportedBy": {
+      "en": "Home Safety monitoring",
+      "zh-Hant": "家居安全監察"
+    },
+    "actions": [
+      {
+        "actionKey": "contact_management",
+        "label": {
+          "en": "Contact management office",
+          "zh-Hant": "聯絡管理處"
+        },
+        "kind": "secondary"
+      }
+    ],
+    "managementUpdates": [],
+    "managementUpdatePending": true,
+    "acknowledgement": {
+      "required": false,
+      "acknowledged": false,
+      "acknowledgedAt": null
+    },
+    "disclaimer": {
+      "en": "This alert supplements the building fire alarm and statutory emergency procedures. It does not replace them, and it may be delayed or unavailable.",
+      "zh-Hant": "此警報為輔助性質，不能取代大廈火警系統及法定緊急程序，並可能延遲或無法提供。"
+    },
+    "revision": {
+      "revisionNumber": 1,
+      "isCorrection": false,
+      "supersedes": null
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$comment": "Events seeded into the world that NO fixture names. The world is PERMITTED to be larger than the corpus -- scenario-binding-unbacked asserts fixture-ids SUBSET-OF world and deliberately not the converse -- and the seed-first coordination rule depends on that asymmetry. But an intermediate state that is green is indistinguishable from a transition that never completes, so the orphan set is declared EXACTLY rather than merely permitted. Observed set must EQUAL permanent + every transition's eventIds. An undeclared orphan fails; a declared orphan that does not exist fails just as hard, so an expectation cannot be nudged to match reality.",
+  "pid": "API-025-ST",
+  "limitation": "Covers event identifiers (evt_*) only. Other entity classes can still be seeded without any fixture naming them, and nothing here reports it.",
+  "permanent": [
+    {
+      "eventId": "evt_20260813_other01",
+      "scenario": "scenarios/mob-09-safety-event-detail__resident-not-authorized.sql",
+      "why": "BEHAVIOURAL scenario. The fixture is a Problem body -- the resident is not authorised for this event -- so it names no event, while the world must contain one for the authorisation check to have something to refuse. Permanent by design, not a stalled transition."
+    },
+    {
+      "eventId": "evt_20260813_retract",
+      "scenario": "scenarios/mob-09-safety-event-detail__retracted-event.sql",
+      "why": "BEHAVIOURAL scenario. The fixture is a Problem body -- the event was retracted -- so it names no event, while the world must contain the retracted one for there to be anything to retract. Permanent by design, not a stalled transition."
+    }
+  ],
+  "transitions": []
+}

@@ -1,0 +1,14 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+  errors:
+    # A missing design-system section 18 state must not compile.
+    non_exhaustive_switch_expression: error
+    non_exhaustive_switch_statement: error
+
+linter:
+  rules:
+    prefer_const_constructors: true
+    avoid_print: true

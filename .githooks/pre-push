@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+#
+# THE MERGE GATE, RUN BEFORE THE PUSH RATHER THAN REMEMBERED.
+#
+# THIS IS A HABIT, NOT A GUARANTEE — and the distinction is the point.
+#
+#   `git push --no-verify` bypasses this entirely, and no repository can prevent
+#   that: a hook lives in git config, which is per-clone and unversioned. What
+#   this closes is the ACCIDENTAL case — GEN-013 pushed a register that failed
+#   `pid-index --check` because its shell chain gated the push on the COMMIT
+#   succeeding rather than on the generator. Nobody decided to skip the gate;
+#   the gate was simply not what the push depended on.
+#
+#   THE GUARANTEE IS CI. `.github/workflows/governance.yml` runs the same checks
+#   after the push and cannot be bypassed. If this hook and CI ever disagree, CI
+#   is right. Describing this as a guarantee would be worse than not having it,
+#   because people stop checking what they believe is impossible.
+#
+# WHAT IT RUNS, and why only this much: the register check (0.07s) and the
+# battery (~3s with no database). A slow hook is a bypassed hook, so the full
+# suite is deliberately NOT here — CI runs that.
+#
+# WITH NO DATABASE the battery's database-dependent cases SKIP loudly and it
+# still exits 0, so a developer without Docker is gated on everything that can
+# be checked and told plainly what could not.
+#
+# ─── WHY THE GIT ENVIRONMENT IS STRIPPED ─────────────────────────────────────
+#
+# Git EXPORTS `GIT_DIR`, `GIT_PREFIX` and friends into every hook, and a child
+# process inherits them. Two battery cases exist to prove the generator behaves
+# correctly OUTSIDE a git work tree — they run it from a temporary directory and
+# expect it to notice it has no repository. With `GIT_DIR` inherited it finds one
+# anyway, and both cases fail: `expected 4, got 0`.
+#
+# Measured, not guessed: run unstripped inside this hook the battery reports
+# 21 passed, 2 failed, while standalone it is 23/23. The hook is the abnormal
+# context, so the hook normalises it rather than the battery defending against
+# every caller.
+set -uo pipefail
+REPO="$(git rev-parse --show-toplevel)"
+cd "$REPO" || exit 1
+
+# Strip git's exported environment for the children. `env -u` and not `unset`,
+# so the hook's own later `git` calls are unaffected.
+GATE=(env -u GIT_DIR -u GIT_PREFIX -u GIT_INDEX_FILE -u GIT_WORK_TREE \
+          -u GIT_OBJECT_DIRECTORY -u GIT_ALTERNATE_OBJECT_DIRECTORIES -u GIT_QUARANTINE_PATH)
+
+printf '\n  pre-push gate — a habit, not a guarantee (CI is the guarantee)\n\n'
+# ─── A PUSH IS A FINISHED TREE (GEN-053 D1) ───────────────────────────────────
+# A rebase, merge, cherry-pick or revert in progress means the tree being pushed
+# is not the tree anyone reviewed: HEAD may be mid-replay, and the index may hold
+# conflict markers that git would happily commit later. Refuse and name the
+# state; finishing or aborting it is the only way through.
+GITDIR="$(git rev-parse --git-path .)"
+IN_PROGRESS=""
+for st in rebase-merge rebase-apply MERGE_HEAD CHERRY_PICK_HEAD REVERT_HEAD; do
+  [ -e "$(git rev-parse --git-path "$st")" ] && IN_PROGRESS="$IN_PROGRESS $st"
+done
+if [ -n "$IN_PROGRESS" ]; then
+  printf '  REFUSED: an operation is in progress in this worktree —%s.\n' "$IN_PROGRESS"
+  printf '    A push is a finished tree. Finish it (git rebase --continue / git commit)\n'
+  printf '    or abort it (git rebase --abort / git merge --abort) and push again.\n\n'
+  exit 1
+fi
+
+
+if ! (cd backend && go vet ./... && go test ./...); then
+  printf "\n  REFUSED: go vet / go test failed in backend/.\n\n"
+  exit 1
+fi
+
+if ! "${GATE[@]}" node docs/governance/bin/pid-index.mjs --check --require-git; then
+  printf '\n  REFUSED: the register does not match the directory.\n'
+  printf '    Regenerate with: (cd docs/governance && node bin/pid-index.mjs)\n'
+  printf '    To push anyway:  git push --no-verify   (CI will still catch it)\n\n'
+  exit 1
+fi
+
+# Go build: docs/governance/bin/prove.sh drove the Node API's guard battery
+# (dependency-cruiser over apps/api). The Go equivalents are the vet/test step
+# above and `backend/bin/pemo verify-boundaries` (needs the database; CI runs it).
+
+printf '\n  gate passed.\n\n'

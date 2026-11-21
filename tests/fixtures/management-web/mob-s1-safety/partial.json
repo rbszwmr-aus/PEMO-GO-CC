@@ -1,0 +1,330 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000004",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00",
+    "partial": true,
+    "degraded": [
+      {
+        "section": "events",
+        "reason": {
+          "en": "One feed is degraded; some events may be missing.",
+          "zh-Hant": "一個資料來源狀態異常，部分事件可能未顯示。"
+        }
+      }
+    ]
+  },
+  "window": {
+    "hours": 24,
+    "returned": 5,
+    "total": 6,
+    "retentionMonths": 24
+  },
+  "events": [
+    {
+      "eventId": "evt_hs_004417",
+      "reference": "HS-2026-08-12-004417",
+      "severity": "critical",
+      "title": {
+        "en": "Smoke detected in unit",
+        "zh-Hant": "單位偵測到煙霧"
+      },
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_b_03_b2",
+          "label": {
+            "en": "Flat B2",
+            "zh-Hant": "B2室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_b",
+            "label": {
+              "en": "Block B",
+              "zh-Hant": "B座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_b_03",
+            "label": {
+              "en": "3/F",
+              "zh-Hant": "3樓"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block B, 3/F, Flat B2 — 1 household, 4 authorized recipients",
+        "zh-Hant": "B座3樓B2室 — 1住戶，4名獲授權接收者"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T09:42:07+08:00",
+      "communication": "published-acknowledged",
+      "needsAction": false
+    },
+    {
+      "eventId": "evt_hs_004423",
+      "reference": "HS-2026-08-12-004423",
+      "severity": "offline",
+      "title": {
+        "en": "Gas detector stopped reporting",
+        "zh-Hant": "氣體探測器停止回報"
+      },
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_c_08_c3",
+          "label": {
+            "en": "Flat C3",
+            "zh-Hant": "C3室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_c",
+            "label": {
+              "en": "Block C",
+              "zh-Hant": "C座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_c_08",
+            "label": {
+              "en": "8/F",
+              "zh-Hant": "8樓"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block C, 8/F, Flat C3 — one service not reporting",
+        "zh-Hant": "C座8樓C3室 — 一項服務沒有回報"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T05:14:00+08:00",
+      "communication": "published",
+      "needsAction": true
+    },
+    {
+      "eventId": "evt_hs_004424",
+      "reference": "HS-2026-08-12-004424",
+      "severity": "information",
+      "title": {
+        "en": "Fire drill completed",
+        "zh-Hant": "消防演習完成"
+      },
+      "scope": {
+        "node": {
+          "kind": "building",
+          "id": "blk_wfg_a",
+          "label": {
+            "en": "Block A",
+            "zh-Hant": "A座"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block A, all floors — 268 households notified",
+        "zh-Hant": "A座全層 — 已通知268住戶"
+      },
+      "source": "management",
+      "occurredAt": "2026-08-12T07:30:00+08:00",
+      "communication": "published",
+      "needsAction": false
+    },
+    {
+      "eventId": "evt_hs_004425",
+      "reference": "HS-2026-08-12-004425",
+      "severity": "advisory",
+      "title": {
+        "en": "Typhoon preparation reminder issued",
+        "zh-Hant": "颱風前準備提示已發出"
+      },
+      "scope": {
+        "node": {
+          "kind": "estate",
+          "id": "est_wing_fu_garden",
+          "label": {
+            "en": "Wing Fu Garden",
+            "zh-Hant": "榮富花園"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Wing Fu Garden, all blocks",
+        "zh-Hant": "榮富花園全屋苑"
+      },
+      "source": "management",
+      "occurredAt": "2026-08-12T08:40:00+08:00",
+      "communication": "published",
+      "needsAction": false
+    },
+    {
+      "eventId": "evt_hs_004426",
+      "reference": "HS-2026-08-12-004426",
+      "severity": "warning",
+      "title": {
+        "en": "Water leak detected in the function room",
+        "zh-Hant": "多用途室偵測到漏水"
+      },
+      "scope": {
+        "node": {
+          "kind": "location",
+          "id": "loc_wfg_function_room",
+          "label": {
+            "en": "Function room",
+            "zh-Hant": "多用途室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_c",
+            "label": {
+              "en": "Block C",
+              "zh-Hant": "C座"
+            }
+          },
+          {
+            "kind": "location",
+            "id": "loc_wfg_clubhouse",
+            "label": {
+              "en": "Wing Fu Clubhouse",
+              "zh-Hant": "榮富會所"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block C, Wing Fu Clubhouse, Function room",
+        "zh-Hant": "C座榮富會所多用途室"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T09:05:00+08:00",
+      "communication": "published",
+      "needsAction": true
+    }
+  ]
+}

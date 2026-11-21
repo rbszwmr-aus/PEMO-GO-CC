@@ -1,0 +1,23 @@
+{
+  "notices": [
+    {
+      "noticeId": "ntc_4d701742b65df9de3cf0396f73fa49fa",
+      "noticeType": "planned_interruption",
+      "titleEn": "Scheduled water interruption, 14 August (revised)",
+      "titleZhHant": "8月14日計劃性停水",
+      "bodyEn": "Water to Block A will be interrupted from 09:00 to 18:00 on 14 August.",
+      "bodyZhHant": "A座供水將於8月14日上午九時至下午五時暫停。",
+      "publishedAt": null,
+      "expiresAt": null,
+      "expired": false,
+      "mandatoryAck": true,
+      "responseOptions": [
+        "will_be_home",
+        "will_be_away"
+      ],
+      "myRead": "2026-09-03T04:03:52.827Z",
+      "myAcknowledged": "2026-09-03T04:03:52.829Z",
+      "myResponse": "will_be_home"
+    }
+  ]
+}

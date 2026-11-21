@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-09-03T09:00:00+08:00"
+  },
+  "noticeId": "ntc_4d701742b65df9de3cf0396f73fa49fa",
+  "mandatoryAck": true,
+  "recipients": [
+    {
+      "residentId": "res_fx_notices",
+      "unitId": "unit_wfg_a_01_a1",
+      "read": null,
+      "acknowledged": null,
+      "response": null
+    },
+    {
+      "residentId": "res_wfg_000412",
+      "unitId": "unit_wfg_a_12_a1",
+      "read": null,
+      "acknowledged": null,
+      "response": null
+    },
+    {
+      "residentId": "res_wfg_000908",
+      "unitId": "unit_wfg_a_12_a1",
+      "read": null,
+      "acknowledged": null,
+      "response": null
+    }
+  ]
+}

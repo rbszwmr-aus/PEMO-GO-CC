@@ -1,0 +1,40 @@
+{
+  "$comment": "THE ONE SOURCE for notice reasonCode vocabularies (GEN-052 D3). generate-notice-reasons.mjs writes apps/api/src/management/notice-reason-codes.ts from this and VERIFIES the contract's NoticeTransitionRequest.reasonCode enum equals the union. A code added here without regeneration reds prove.sh; a code added anywhere else is a type error.",
+  "acts": {
+    "approve_notice": {
+      "required": false,
+      "codes": [
+        "approved_as_submitted",
+        "with_amendments"
+      ]
+    },
+    "decline_notice": {
+      "required": true,
+      "codes": [
+        "inaccurate",
+        "wrong_audience",
+        "poor_timing",
+        "needs_translation",
+        "not_required"
+      ]
+    },
+    "correct_notice": {
+      "required": true,
+      "codes": [
+        "factual_error",
+        "wrong_schedule",
+        "translation_error",
+        "clarification"
+      ]
+    },
+    "withdraw_notice": {
+      "required": true,
+      "codes": [
+        "issued_in_error",
+        "no_longer_applicable",
+        "superseded",
+        "wrong_audience"
+      ]
+    }
+  }
+}

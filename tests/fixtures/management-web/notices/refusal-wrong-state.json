@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-wrong-state",
+  "title": "Notice is not in a state that allows this",
+  "status": 409,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "This notice cannot accept that act right now. state is withdrawn",
+    "zh-Hant": "此通告目前不可執行該操作。"
+  },
+  "retryable": false
+}

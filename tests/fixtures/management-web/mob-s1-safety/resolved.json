@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000024",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "window": {
+    "hours": 24,
+    "returned": 2,
+    "total": 2,
+    "retentionMonths": 24
+  },
+  "events": [
+    {
+      "eventId": "evt_hs_004430",
+      "reference": "HS-2026-08-12-004430",
+      "severity": "warning",
+      "title": {
+        "en": "Smoke detected in the kitchen",
+        "zh-Hant": "廚房偵測到煙霧"
+      },
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_a_12_a1",
+          "label": {
+            "en": "Flat A1",
+            "zh-Hant": "A1室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_a",
+            "label": {
+              "en": "Block A",
+              "zh-Hant": "A座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_a_12",
+            "label": {
+              "en": "12/F",
+              "zh-Hant": "12樓"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block A, 12/F, Flat A1",
+        "zh-Hant": "A座12樓A1室"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T06:20:00+08:00",
+      "communication": "published",
+      "needsAction": true
+    },
+    {
+      "eventId": "evt_hs_004431",
+      "reference": "HS-2026-08-12-004431",
+      "severity": "normal",
+      "title": {
+        "en": "All clear — kitchen sensor reset",
+        "zh-Hant": "警報解除 — 廚房感應器已重設"
+      },
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_a_12_a1",
+          "label": {
+            "en": "Flat A1",
+            "zh-Hant": "A1室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_a",
+            "label": {
+              "en": "Block A",
+              "zh-Hant": "A座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_a_12",
+            "label": {
+              "en": "12/F",
+              "zh-Hant": "12樓"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block A, 12/F, Flat A1",
+        "zh-Hant": "A座12樓A1室"
+      },
+      "source": "management",
+      "occurredAt": "2026-08-12T09:10:00+08:00",
+      "communication": "all-clear-sent",
+      "needsAction": false
+    }
+  ]
+}

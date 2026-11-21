@@ -1,0 +1,20 @@
+{
+  "$comment": "Declared open gaps: failures this suite is EXPECTED to produce, because the honest state of the corpus is that they are open. A run passes IF AND ONLY IF the observed failure set equals this set EXACTLY. Not 'at least these'. A MISSING expected failure is as much a finding as an unexpected one — it means a gap closed silently or a check stopped running. Adding an entry here is a decision to ship a known gap; it is never a way to quiet a failure.",
+  "pid": "API-020-ST",
+  "gaps": [
+    {
+      "check": "derivation-unevaluable",
+      "where": "management-web/mob-s2-overview/default.json",
+      "why": "units-unknown-state is estate-wide and the per-unit states it derives from are absent from the contract, so 2.2's third arm cannot evaluate for any value.",
+      "closedBy": "Version B — carry the dedup RESOLUTION parameter and a per-unit state set. Product decision first.",
+      "tracked": "API-020-ST step 4/5 reports"
+    },
+    {
+      "check": "derivation-unevaluable",
+      "where": "management-web/mob-s2-overview/integration-down.json",
+      "why": "Same figure, same absent inputs, in the second overview fixture.",
+      "closedBy": "Version B — as above.",
+      "tracked": "API-020-ST step 4/5 reports"
+    }
+  ]
+}

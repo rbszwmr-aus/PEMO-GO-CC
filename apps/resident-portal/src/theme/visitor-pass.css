@@ -1,0 +1,100 @@
+/* Visitor pass (QR) on the resident portal. Tokens only. */
+.pemo-pass {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--pemo-neutral-200);
+}
+.pemo-pass__title {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--pemo-neutral-900);
+}
+.pemo-pass__none-title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: var(--pemo-neutral-800);
+}
+.pemo-pass__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+.pemo-pass__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.pemo-pass__qr--inactive .pemo-qr {
+  opacity: 0.45;
+}
+.pemo-pass__facts {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.pemo-pass__status-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+.pemo-qr {
+  display: block;
+  width: min(325px, 84vw);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--pemo-neutral-200);
+}
+.pemo-qr__quiet {
+  fill: var(--pemo-common-white);
+}
+.pemo-qr__dark {
+  fill: var(--pemo-neutral-950);
+}
+.pemo-pass-pill--active {
+  color: var(--pemo-sev-normal-strong);
+  background: var(--pemo-sev-normal-surface);
+  border-color: var(--pemo-sev-normal-border);
+}
+.pemo-pass-pill--used {
+  color: var(--pemo-sev-information-strong);
+  background: var(--pemo-sev-information-surface);
+  border-color: var(--pemo-sev-information-border);
+}
+.pemo-pass-pill--expired {
+  color: var(--pemo-sev-offline-strong);
+  background: var(--pemo-sev-offline-surface);
+  border-color: var(--pemo-sev-offline-border);
+}
+.pemo-pass-pill--revoked {
+  color: var(--pemo-sev-critical-strong);
+  background: var(--pemo-sev-critical-surface);
+  border-color: var(--pemo-sev-critical-border);
+}
+.pemo-pass__manual {
+  width: 100%;
+  font-family: monospace;
+  font-size: 12px;
+}.pemo-qr--img {
+  image-rendering: pixelated;
+  background: var(--pemo-common-white);
+}
+.pemo-pass__hold { margin: 0; text-align: center; max-width: min(325px, 84vw); }
+.pemo-pass__details { margin: 4px 0 12px; }
+.pemo-pass__details > summary { cursor: pointer; font-weight: 600; color: var(--pemo-neutral-700); }
+.pemo-pass__toast {
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid var(--pemo-sev-normal-border);
+  background: var(--pemo-sev-normal-surface);
+  color: var(--pemo-sev-normal-strong);
+}
+.pemo-pass__toast--error {
+  border-left-color: var(--pemo-sev-critical-border);
+  background: var(--pemo-sev-critical-surface);
+  color: var(--pemo-sev-critical-strong);
+}

@@ -1,0 +1,49 @@
+{
+  "//": "ADR-019 D7. THE declared source of truth for notice types. Consumed by the DDL (the CHECK constraint on notices.notice.notice_type) and by the module's TypeScript union, both PROJECTED from here by `pnpm gen:notice-types` \u2014 never hand-listed. A type added here and nowhere else is a drift the --check step refuses.",
+  "types": {
+    "general": {
+      "description": "An ordinary announcement with no operational consequence. The default, and deliberately first: a type system whose fallback is 'emergency' teaches people to downgrade."
+    },
+    "planned_interruption": {
+      "description": "A scheduled loss of a service \u2014 water, lift, power. Distinguished from an emergency because it is KNOWN IN ADVANCE, which is what makes the schedule meaningful and the audience precise."
+    },
+    "emergency": {
+      "description": "Unplanned and urgent. A separate type rather than a severity flag, because the operational handling differs: it is not scheduled, and it is not withheld pending approval."
+    },
+    "event_community": {
+      "description": "A community event. Kept apart from 'general' because residents opting out of social announcements must not thereby opt out of operational ones."
+    }
+  },
+  "//vocabularies": "GEN-042 H2. The DISPOSITION vocabulary (what an actor DID) and the LIFECYCLE vocabulary (what state the notice is IN) are DISJOINT BY CONSTRUCTION. They used to share `approved` and `withdrawn`, and GEN-040 lost an afternoon to it: a state check written against a disposition literal type-checked and silently never matched, so every approval refused as wrong-state. Disjoint vocabularies make that comparison a TS2367 'no overlap' error instead of a false condition.",
+  "dispositions": {
+    "draft_saved": {
+      "state": "draft",
+      "description": "The author saved a draft."
+    },
+    "approval_requested": {
+      "state": "pending_approval",
+      "description": "The author sent it for approval."
+    },
+    "approval_granted": {
+      "state": "approved",
+      "description": "An approver agreed it may be published."
+    },
+    "publication_released": {
+      "state": null,
+      "description": "It was published; the schedule then decides live/scheduled/expired."
+    },
+    "withdrawal_recorded": {
+      "state": "withdrawn",
+      "description": "It was withdrawn; the audience snapshot is retained."
+    }
+  },
+  "lifecycleStates": [
+    "draft",
+    "pending_approval",
+    "approved",
+    "scheduled",
+    "live",
+    "expired",
+    "withdrawn"
+  ]
+}

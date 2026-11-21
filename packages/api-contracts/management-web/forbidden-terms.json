@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pemo.local/contracts/management-web/forbidden-terms.json",
+  "title": "PEMO management-web boundary denylist — estate-staff tier",
+  "contractVersion": "2.7.0",
+  "surface": "management",
+  "owner": "API-017-ST / PEMO Contract",
+  "decidedBy": "ADR-007 D3",
+
+  "whyASecondList": "ADR-007 D2 chose separate packages so each surface's scan is UNCONDITIONAL within it. This is a second scan, never a conditional one. The resident scan is untouched and its list is unchanged: the resident boundary's value is that no resident response may carry a device identifier, provable over the whole corpus without evaluating anything. Serving both audiences from one list would make that scan role-conditional — a structural guarantee replaced by a policy that must be evaluated correctly every time.",
+
+  "theBoundaryHereIsDifferent": "The management boundary does not RELAX the resident one, it INVERTS parts of it. Estate staff MUST see device and location references — dispatching somebody to a fault requires naming the faulty thing — so `deviceid`, `sourcedeviceref` and `zoneref` are permitted here and forbidden there. What is forbidden here is the next tier down.",
+
+  "theTest": "Does this field describe HOW THE MESSAGE TRAVELLED, or WHAT THE EVENT IS? Travel is a correlation trace and belongs to integration support. Identity and provenance — which source, which classification, which node, which record, when it occurred — are estate-staff material. That test produced this list; the list is its enumeration, not its definition.",
+
+  "role": {
+    "theGuarantee": "As on the resident surface, the load-bearing check is the string-containment assertion. This list is diagnostics.",
+    "theRule": "An enumerating check catches what someone thought of; a property check catches by construction. A reader who inverts these two will weaken the boundary while appearing to strengthen it.",
+    "structureNotProse": "Anything this boundary must check has to exist as a FIELD. A scan over structure cannot see into a string, and a scan over strings cannot tell an identifier from a word. The export rendered a device reference inside the quarantined event's scope prose, where it reached the Overview dashboard invisibly; this contract carries it as `unmappedSourceRef`."
+  },
+
+  "forbiddenPropertyNames": {
+    "correlationTrace": {
+      "reason": "Message-delivery mechanics. ADR-007 D3 places raw payloads and correlation traces with integration support, not estate staff. These describe how a message travelled rather than what the event is.",
+      "terms": [
+        "idempotencykey", "idempotency", "messageid", "sourcemessageid",
+        "supersedes", "supersededby", "supersessionchain",
+        "duplicatedeliveries", "duplicatecount", "deliveryattempt", "attemptnumber",
+        "replay", "replayed", "replayon", "replaywindow",
+        "receivedat", "transportdelta", "transportlatency", "ingestlatency",
+        "correlationtrace", "causationid", "deadletter", "quarantinepayload"
+      ]
+    },
+    "rawPayload": {
+      "reason": "The payload itself and anything reconstructing it. The export's own restriction names this, and the estate-staff tier does not have it.",
+      "terms": [
+        "rawpayload", "payload", "payloadraw", "sourcepayload", "originalpayload",
+        "rawmessage", "rawbody", "framepayload", "packet", "envelope"
+      ]
+    },
+    "telemetry": {
+      "reason": "No numeric reading, threshold, trend, point name, register, protocol name, firmware version or device model appears anywhere in the export, and section 8.4 lists these as deliberate exclusions. Absent by design on this surface too.",
+      "terms": [
+        "telemetry", "rawvalue", "reading", "sensorreading", "sensorvalue",
+        "measurement", "measuredvalue", "threshold", "setpoint", "calibration",
+        "unitofmeasure", "uom", "engineeringunits", "firmware", "firmwareversion",
+        "devicemodel", "pointname", "registeraddress", "protocol", "modbus", "bacnet", "opcua"
+      ]
+    },
+    "crossTenant": {
+      "reason": "ADR-007 D3: no tier sees another organization's data. Rooted at the ADR-002 tenancy root.",
+      "terms": ["otherorganization", "otherorganisation", "allorganizations", "crosstenant", "tenantlist"]
+    },
+    "secrets": {
+      "reason": "No secret, credential or key may appear in any response or fixture.",
+      "terms": [
+        "password", "passwd", "secret", "apikey", "apitoken", "accesstoken",
+        "refreshtoken", "bearertoken", "privatekey", "clientsecret", "credential", "cookie"
+      ]
+    }
+  },
+
+  "forbiddenValuePatterns": [
+    {
+      "name": "engineering-unit-reading",
+      "pattern": "\\b\\d+(\\.\\d+)?\\s?(ppm|ppb|mV|mA|dBm|kPa|hPa|lux|°C|°F)\\b",
+      "reason": "A raw measurement with an engineering unit."
+    },
+    {
+      "name": "hk-mobile-number",
+      "pattern": "\\b[456789]\\d{7}\\b",
+      "reason": "Looks like a real Hong Kong mobile number. Fixtures carry no personal data."
+    },
+    {
+      "name": "idempotency-key-shape",
+      "pattern": "^i2h-evt-\\d+-v\\d+$",
+      "reason": "The export's idempotency key form. Correlation trace, integration-support tier."
+    }
+  ],
+
+  "allowedExceptions": [
+    { "term": "sourcedeviceref", "why": "PERMITTED HERE AND FORBIDDEN ON THE RESIDENT SURFACE. ADR-007 D3 gives estate staff device and location references; dispatching somebody to a fault requires naming the faulty thing. This is the clearest instance of the boundary inverting rather than relaxing." },
+    { "term": "sourceeventid", "why": "Provenance. It answers 'which record in the source system is this?', the reconciliation question of an incident investigation. ADR-006 C5's list is a floor, not an enumeration — amended by API-017-ST. This tier already sees device and node references, so a source event id is not what the boundary protects." },
+    { "term": "sourcenoderef", "why": "Same as sourcedeviceref. Carried as a FIELD rather than inside prose, so the scan can see it." },
+    { "term": "occurredat", "why": "Occurrence time is provenance. Note that `receivedat` is denied above: the gap between the two is transport latency, which is correlation trace." },
+    { "term": "policyversion", "why": "ADR-006 C5 provenance — which approved policy produced the PEMO severity." },
+    { "term": "unit", "why": "As on the resident surface: PEMO's own entity name and the ordinary word for a home." },
+    { "term": "units", "why": "Plural of unit." },
+    { "term": "reference", "why": "Resident-facing and staff-facing references — CS-24118, HS-2026-08-12-004417, external ERP and CMMS references — are shown by design." }
+  ]
+}

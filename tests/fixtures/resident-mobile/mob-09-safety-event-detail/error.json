@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/internal-error",
+  "title": "Internal error",
+  "status": 500,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000017",
+  "residentMessage": {
+    "en": "Something went wrong on our side. Please try again shortly.",
+    "zh-Hant": "我們的系統出現問題，請稍後再試。"
+  },
+  "retryable": true
+}

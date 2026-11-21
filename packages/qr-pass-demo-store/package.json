@@ -1,0 +1,23 @@
+{
+  "name": "@pemo/qr-pass-demo-store",
+  "version": "0.0.0",
+  "private": true,
+  "description": "In-memory demo of the Shared QR Pass Service v0 (VISITOR_ACCESS only): COSE_Sign1/CWT + base45 passes signed with an in-memory Ed25519 key, online use consume, revocation list, demo outbox. Pure TS on node:crypto, no deps, no pg.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "typecheck": "tsc -b",
+    "test": "pnpm run build && node --test dist/base45.test.js dist/cbor.test.js dist/store.test.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/node": "^22.10.2"
+  }
+}

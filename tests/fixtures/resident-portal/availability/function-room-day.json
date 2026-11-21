@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "correlationId": "3c4d5e6f-0000-4000-8000-000000000006",
+    "contractVersion": "0.1.0",
+    "generatedAt": "2026-08-18T10:00:00+08:00"
+  },
+  "facilityId": "fac_wfg_function_room",
+  "view": "day",
+  "from": "2026-08-18",
+  "facilityState": {
+    "state": "open",
+    "reason": null,
+    "expectedReturn": null
+  },
+  "slots": [
+    {
+      "startsAt": "2026-08-18T09:00:00+08:00",
+      "endsAt": "2026-08-18T10:00:00+08:00",
+      "state": "past"
+    },
+    {
+      "startsAt": "2026-08-18T10:00:00+08:00",
+      "endsAt": "2026-08-18T11:00:00+08:00",
+      "state": "past"
+    },
+    {
+      "startsAt": "2026-08-18T11:00:00+08:00",
+      "endsAt": "2026-08-18T12:00:00+08:00",
+      "state": "past"
+    },
+    {
+      "startsAt": "2026-08-18T12:00:00+08:00",
+      "endsAt": "2026-08-18T13:00:00+08:00",
+      "state": "blocked"
+    },
+    {
+      "startsAt": "2026-08-18T13:00:00+08:00",
+      "endsAt": "2026-08-18T14:00:00+08:00",
+      "state": "unavailable"
+    },
+    {
+      "startsAt": "2026-08-18T14:00:00+08:00",
+      "endsAt": "2026-08-18T15:00:00+08:00",
+      "state": "unavailable"
+    },
+    {
+      "startsAt": "2026-08-18T15:00:00+08:00",
+      "endsAt": "2026-08-18T16:00:00+08:00",
+      "state": "available"
+    },
+    {
+      "startsAt": "2026-08-18T16:00:00+08:00",
+      "endsAt": "2026-08-18T17:00:00+08:00",
+      "state": "available"
+    },
+    {
+      "startsAt": "2026-08-18T17:00:00+08:00",
+      "endsAt": "2026-08-18T18:00:00+08:00",
+      "state": "available"
+    },
+    {
+      "startsAt": "2026-08-18T18:00:00+08:00",
+      "endsAt": "2026-08-18T19:00:00+08:00",
+      "state": "available"
+    },
+    {
+      "startsAt": "2026-08-18T19:00:00+08:00",
+      "endsAt": "2026-08-18T20:00:00+08:00",
+      "state": "available"
+    },
+    {
+      "startsAt": "2026-08-18T20:00:00+08:00",
+      "endsAt": "2026-08-18T21:00:00+08:00",
+      "state": "available"
+    },
+    {
+      "startsAt": "2026-08-18T21:00:00+08:00",
+      "endsAt": "2026-08-18T22:00:00+08:00",
+      "state": "available"
+    }
+  ]
+}

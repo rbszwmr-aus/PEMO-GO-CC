@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000043",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "unit": {
+    "unitId": "unit_wfg_a_12_a1",
+    "estateName": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+    },
+    "blockName": {
+      "en": "Block A",
+      "zh-Hant": "A座"
+    },
+    "floor": "12/F",
+    "flat": "A1",
+    "displayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    }
+  },
+  "safety": {
+    "severity": "normal",
+    "monitoringCoverage": "full",
+    "headline": {
+      "en": "Everything is reporting normally",
+      "zh-Hant": "所有裝置運作正常"
+    },
+    "detail": {
+      "en": "Following the scheduled inspection of the fresh water pumping installation serving Block A, the management office wishes to advise all residents that the supply interruption originally notified for the morning of 14 August has been extended into the early afternoon, and that residents on floors above the twentieth may experience discoloured water for a short period after the supply is restored, which is expected and not a cause for concern.",
+      "zh-Hant": "因應為A座供水的食水泵房裝置進行既定檢查，管理處謹此通知各住戶，原定於八月十四日上午的供水中斷已延長至下午初段，二十樓以上的住戶在恢復供水後可能會在短時間內遇到食水變色的情況，此屬預期之內，毋須擔心。"
+    },
+    "observedAt": "2026-08-13T09:58:00+08:00",
+    "receivedAt": "2026-08-13T09:58:04+08:00",
+    "freshness": {
+      "status": "current",
+      "ageSeconds": 120,
+      "windowSeconds": 3600
+    },
+    "disclaimer": {
+      "en": "PEMO notifications supplement the building fire alarm and statutory emergency procedures. They do not replace them.",
+      "zh-Hant": "此通知為輔助性質，不能取代大廈火警系統及法定緊急程序。"
+    }
+  },
+  "installedServices": [
+    {
+      "serviceKey": "smoke_detector",
+      "name": {
+        "en": "Smoke detector",
+        "zh-Hant": "煙霧探測器"
+      },
+      "location": {
+        "en": "Living room",
+        "zh-Hant": "客廳"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    },
+    {
+      "serviceKey": "gas_detector",
+      "name": {
+        "en": "Gas detector",
+        "zh-Hant": "氣體探測器"
+      },
+      "location": {
+        "en": "Kitchen",
+        "zh-Hant": "廚房"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    },
+    {
+      "serviceKey": "water_leak_sensor",
+      "name": {
+        "en": "Water leak sensor",
+        "zh-Hant": "漏水感應器"
+      },
+      "location": {
+        "en": "Bathroom",
+        "zh-Hant": "浴室"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    },
+    {
+      "serviceKey": "help_button",
+      "name": {
+        "en": "Help button",
+        "zh-Hant": "求助按鈕"
+      },
+      "location": {
+        "en": "Bedroom",
+        "zh-Hant": "睡房"
+      },
+      "state": {
+        "en": "Normal",
+        "zh-Hant": "正常"
+      },
+      "severity": "normal",
+      "observedAt": "2026-08-13T09:58:00+08:00"
+    }
+  ],
+  "installedServicesNote": {
+    "en": "Following the scheduled inspection of the fresh water pumping installation serving Block A, the management office wishes to advise all residents that the supply interruption originally notified for the morning of 14 August has been extended into the early afternoon, and that residents on floors above the twentieth may experience discoloured water for a short period after the supply is restored, which is expected and not a cause for concern.",
+    "zh-Hant": "因應為A座供水的食水泵房裝置進行既定檢查，管理處謹此通知各住戶，原定於八月十四日上午的供水中斷已延長至下午初段，二十樓以上的住戶在恢復供水後可能會在短時間內遇到食水變色的情況，此屬預期之內，毋須擔心。"
+  },
+  "recentEvents": []
+}

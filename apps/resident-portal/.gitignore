@@ -1,0 +1,7 @@
+# Playwright run artefacts. The root .gitignore covers dist/ and node_modules
+# but predates this app's browser suite, and widening a root file is outside
+# this PID's write scope — so the ignore lives with the tool that produces it.
+test-results/
+playwright-report/
+blob-report/
+.playwright/

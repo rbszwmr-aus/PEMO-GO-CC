@@ -1,0 +1,60 @@
+{
+  "@@locale": "en",
+  "@@comment": "Interface chrome ONLY. All resident-facing safety copy, event text, notices, service names and the statutory disclaimer come from the server payload in both languages and are never duplicated here.",
+
+  "navHome": "Home",
+  "navServices": "Services",
+  "navSafety": "Safety",
+  "navInbox": "Inbox",
+  "navAccount": "Account",
+
+  "sectionOpenCase": "Open case",
+  "sectionNotices": "Notices",
+  "sectionQuickServices": "Quick services",
+  "sectionHelpDesk": "Help desk",
+  "sectionInstalledServices": "Installed services",
+  "sectionRecentEvents": "Recent events",
+  "sectionManagementUpdates": "Management updates",
+  "sectionYourUnits": "Your flats",
+  "sectionNotificationPreferences": "Notification preferences",
+
+  "titleHomeSafety": "Home Safety",
+  "titleAccount": "Account",
+  "residentPass": "RESIDENT PASS",
+
+  "actionCallOffice": "Call management office",
+  "actionAcknowledge": "Acknowledge alert",
+  "actionAcknowledged": "Acknowledged",
+
+  "stateEmpty": "Nothing to show yet.",
+  "statePartial": "Some sections could not be loaded.",
+  "stateSessionExpired": "Your session has expired. Please sign in again.",
+  "stateDuplicateSubmission": "This was already recorded. It has not been repeated.",
+  "stateNoEvent": "No event to show.",
+
+  "clientOffline": "Your device has no connection, so this screen is showing previously received information. Do not rely on it to judge safety.",
+  "conditionUnknown": "We are unable to confirm the current condition for this flat.",
+  "notMonitored": "This flat has no PEMO-connected sensors installed.",
+  "notMonitoredDetail": "This flat has no PEMO-connected sensors, so there is no safety condition to report.",
+
+  "managementUpdatePending": "Management has not published an update yet.",
+  "correctionLinked": "This is a correction and remains linked to the original event.",
+
+  "dataAgeUpdated": "Updated {age}",
+  "@dataAgeUpdated": { "placeholders": { "age": {} } },
+  "dataAgeStale": "This is not current. Last reported {age}. Do not rely on it to judge safety.",
+  "@dataAgeStale": { "placeholders": { "age": {} } },
+  "typicalReply": "Typical reply within {minutes} minutes during office hours",
+  "@typicalReply": { "placeholders": { "minutes": {} } },
+
+  "ageSeconds": "{n} seconds ago",
+  "@ageSeconds": { "placeholders": { "n": {} } },
+  "ageMinutes": "{n} minutes ago",
+  "@ageMinutes": { "placeholders": { "n": {} } },
+  "ageHours": "{n} hours ago",
+  "@ageHours": { "placeholders": { "n": {} } },
+  "ageDays": "{n} days ago",
+  "@ageDays": { "placeholders": { "n": {} } },
+
+  "inboxSpecifiedNotBuilt": "This screen is specified but not yet built (MOB-06)."
+}

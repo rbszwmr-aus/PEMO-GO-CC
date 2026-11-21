@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000061",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "event": {
+    "eventId": "evt_20260813_late01",
+    "severity": "warning",
+    "title": {
+      "en": "Water leak detected in your bathroom",
+      "zh-Hant": "浴室偵測到漏水"
+    },
+    "instruction": {
+      "en": "Turn off the water supply valve if you can do so safely, and move items away from the floor. The management office has been notified.",
+      "zh-Hant": "如可安全操作，請關上供水閥並將地面物品移開。已通知管理處。"
+    },
+    "location": {
+      "label": {
+        "en": "Bathroom · 12/F Flat A1",
+        "zh-Hant": "浴室 · 12樓 A1室"
+      },
+      "locationClass": "unit",
+      "audienceSource": "unit"
+    },
+    "occurredAt": "2026-08-13T09:18:00+08:00",
+    "receivedAt": "2026-08-13T10:07:41+08:00",
+    "reportedBy": {
+      "en": "Installed water leak sensor",
+      "zh-Hant": "已安裝的漏水感應器"
+    },
+    "actions": [
+      {
+        "actionKey": "acknowledge_safe",
+        "label": {
+          "en": "I have dealt with it",
+          "zh-Hant": "我已處理"
+        },
+        "kind": "primary"
+      },
+      {
+        "actionKey": "call_management_office",
+        "label": {
+          "en": "Call management office",
+          "zh-Hant": "致電管理處"
+        },
+        "kind": "secondary"
+      }
+    ],
+    "managementUpdates": [],
+    "managementUpdatePending": true,
+    "acknowledgement": {
+      "required": true,
+      "acknowledged": false,
+      "acknowledgedAt": null
+    },
+    "disclaimer": {
+      "en": "This alert supplements the building fire alarm and statutory emergency procedures. It does not replace them, and it may be delayed or unavailable.",
+      "zh-Hant": "此警報為輔助性質，不能取代大廈火警系統及法定緊急程序，並可能延遲或無法提供。"
+    },
+    "revision": {
+      "revisionNumber": 1,
+      "isCorrection": false,
+      "supersedes": null
+    }
+  }
+}

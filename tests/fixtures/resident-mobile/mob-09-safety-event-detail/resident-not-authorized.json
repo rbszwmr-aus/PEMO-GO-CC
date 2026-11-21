@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/event-not-found",
+  "title": "Event not found",
+  "status": 404,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000064",
+  "residentMessage": {
+    "en": "This alert is not available to you.",
+    "zh-Hant": "您無法查看此警報。"
+  },
+  "retryable": false
+}

@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pemo.local/contracts/resident-mobile/severity.json",
+  "title": "PEMO canonical safety severity tokens",
+  "contractVersion": "0.4.0",
+  "pid": "API-005-ST",
+  "source": "PEMO_UI_Design_System_v2.0 sections 3, 3.1, 3.2 and 11. Sections 3 and 3.1 are Accepted; the rest of that document remains Proposed. v2.0 replaces v1.1 as the source: the Product Owner ruled on 2026-08-13 that the design export is the visual authority, so the colour values below are re-derived in the export idiom. The seven levels and the section 3.1 rules are unchanged.",
+  "revisedBy": "UI-010-ST",
+  "revisedOn": "2026-08-13",
+  "colorDerivation": "Hue is preserved from the design export inline severity object; lightness is re-banded. The export placed every severity strong on one lightness plane (L* 40.2 to 45.2), which made the ladder indistinguishable in greyscale: worst surface pair 0.20 L*. Each level now holds its own lightness band across L* 70 to 98, so severity survives desaturation, greyscale rendering and red-violet colour vision deficiency. Every strong-on-surface pair meets WCAG 2.2 AA 4.5:1 and every border meets 1.4.11 3:1 against its own surface. Measured ratios are in severity.md and the UI-010-ST report.",
+  "decidedOn": "2026-08-13",
+  "levelOrder": [
+    "normal",
+    "information",
+    "advisory",
+    "warning",
+    "critical",
+    "offline",
+    "unknown"
+  ],
+  "levels": {
+    "normal": {
+      "value": "normal",
+      "label": { "en": "Normal", "zh-Hant": "正常" },
+      "color": { "strong": "#377C60", "surface": "#EBFEF5", "border": "#679A83" },
+      "icon": "check-circle",
+      "meaning": "Current valid data indicates a normal condition.",
+      "mayBeShownWhen": "The data is current, valid and explicitly classified as normal by the classifying authority. All three conditions must hold.",
+      "mustNotBeShownWhen": "Data is offline, stale, invalid, missing or unclassified. Absence of a reported problem is not a normal classification."
+    },
+    "information": {
+      "value": "information",
+      "label": { "en": "Information", "zh-Hant": "資訊" },
+      "color": { "strong": "#20727C", "surface": "#CDF3F8", "border": "#509098" },
+      "icon": "information",
+      "meaning": "Useful update; no urgent response required.",
+      "mayBeShownWhen": "A factual, non-urgent statement is being made to the resident.",
+      "mustNotBeShownWhen": "The condition requires timely attention. Use advisory or higher."
+    },
+    "advisory": {
+      "value": "advisory",
+      "label": { "en": "Advisory", "zh-Hant": "提示" },
+      "color": { "strong": "#754C02", "surface": "#F2CB9D", "border": "#976C30" },
+      "icon": "notifications-active",
+      "meaning": "Attention may be useful.",
+      "mayBeShownWhen": "The resident may benefit from noticing this, but no action is required of them.",
+      "mustNotBeShownWhen": "Action is required. Use warning or higher."
+    },
+    "warning": {
+      "value": "warning",
+      "label": { "en": "Warning", "zh-Hant": "警告" },
+      "color": { "strong": "#7B3800", "surface": "#F0B995", "border": "#9C5B2A" },
+      "icon": "warning-triangle",
+      "meaning": "Timely attention or action is required.",
+      "mayBeShownWhen": "A safety-relevant condition needs the resident to act, but is not immediately life-threatening.",
+      "mustNotBeShownWhen": "The condition is immediately life-threatening. Use critical."
+    },
+    "critical": {
+      "value": "critical",
+      "label": { "en": "Critical", "zh-Hant": "緊急" },
+      "color": { "strong": "#85110F", "surface": "#E8A99B", "border": "#9D493B" },
+      "icon": "emergency-octagon",
+      "meaning": "Immediate safety-related action is required.",
+      "mayBeShownWhen": "A genuinely critical safety condition is classified as such by the classifying authority. Reserved styling; see design system section 1.3 principle 6 on alarm fatigue.",
+      "mustNotBeShownWhen": "The condition is not genuinely critical. Overuse degrades the channel that critical events depend on."
+    },
+    "offline": {
+      "value": "offline",
+      "label": { "en": "Offline", "zh-Hant": "離線" },
+      "color": { "strong": "#5C616D", "surface": "#DCDEE8", "border": "#797D8B" },
+      "icon": "cloud-off",
+      "meaning": "The monitored service or sensor is not communicating.",
+      "mayBeShownWhen": "A service or sensor that is expected to report has not reported within its contract-defined freshness window. This is a statement about the monitored thing, never about the client device.",
+      "mustNotBeShownWhen": "The client application has no network connection. That is a client presentation concern and never takes a severity value; see notASeverity below."
+    },
+    "unknown": {
+      "value": "unknown",
+      "label": { "en": "Status unknown", "zh-Hant": "狀態不明" },
+      "color": { "strong": "#3B364E", "surface": "#ADA9BC", "border": "#5A556D" },
+      "icon": "help-outline",
+      "meaning": "The current condition cannot be determined.",
+      "mayBeShownWhen": "A condition exists that PEMO is expected to be able to classify, and it cannot be classified — unmapped unit, ambiguous audience resolution, or a classification the server could not complete.",
+      "mustNotBeShownWhen": "No monitored service exists at all. There is then no condition to be uncertain about; see monitoringCoverage below."
+    }
+  },
+  "notASeverity": {
+    "description": "Conditions that must never be expressed as a severity value. Each has a designated home elsewhere in the contract. The validation script enforces the first of these mechanically through forbidden-terms.json.",
+    "clientConnectivity": {
+      "rule": "The client application's own network state must never take a severity value and must never be emitted by the server.",
+      "reason": "Severity is a server-side classification of a safety condition. The server has no knowledge of the client's network state, so a client-connectivity severity would be unemittable in principle. In practice it would show a resident a severity unrelated to their actual safety while genuinely stale critical data sat underneath it.",
+      "ownedBy": "UI-007-ST",
+      "expressedAs": "Data-age presentation over the last successfully retrieved payload, plus an explicit do-not-rely-on-this warning. Every safety projection carries observedAt and freshness fields for exactly this purpose.",
+      "enforcedBy": "forbidden-terms.json, category client-connectivity"
+    },
+    "monitoringCoverage": {
+      "rule": "Whether a unit has any monitored service installed is carried by the monitoringCoverage field, not by the severity value.",
+      "reason": "Coverage is a statement about what exists, severity is a statement about a condition. A unit with no installed service has no safety condition to classify: it is not normal, nothing is failing to report so it is not offline, and nothing is indeterminate so it is not unknown. Collapsing coverage into severity forces one of those three to be wrong.",
+      "values": ["full", "partial", "none"],
+      "pairingRule": "When monitoringCoverage is none, severity is information and the client must render the explicit not-monitored copy. The information level is correct because the statement being made is factual and non-urgent, but severity alone is insufficient to render the state and a client must read monitoringCoverage as well.",
+      "decidedOn": "2026-08-13",
+      "note": "The design prototype mapped this condition to its info token. That mapping is adopted here on its merits, not inherited: see ADR-001."
+    }
+  },
+  "consumerObligations": {
+    "source": "PEMO_UI_Design_System_v1.1 section 3.1, carried forward verbatim where quoted.",
+    "rules": [
+      "Show Normal only when data is current, valid and explicitly classified as normal.",
+      "Offline, stale, invalid or missing data must never appear green.",
+      "Use critical red only for critical safety or destructive confirmation.",
+      "A critical event must show icon, label, event time, affected location and action instruction.",
+      "Resident UI must show a plain-language event projection, not a raw 2IoThub payload.",
+      "Fire and life-safety messages must state that PEMO notification supplements rather than replaces statutory alarms and procedures.",
+      "Corrections, updates and all-clear messages must remain linked to the original event.",
+      "Severity must never be encoded by colour alone. Every severity rendering carries icon, visible text label and plain-language meaning.",
+      "Clients must not derive, infer, recompute or override a severity value. Severity is assigned server-side and rendered client-side."
+    ]
+  }
+}

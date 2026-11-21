@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/invalid-request",
+  "title": "Request is not valid",
+  "status": 400,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000025",
+  "staffMessage": {
+    "en": "limit must be a positive integer.",
+    "zh-Hant": "limit 必須為正整數。"
+  },
+  "retryable": false
+}

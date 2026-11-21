@@ -1,0 +1,83 @@
+# PEMO Go build — CI. Read-only: CI runs checks and never writes to the repository.
+name: ci
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: pemo_dev
+          POSTGRES_USER: pemo_owner
+          POSTGRES_PASSWORD: ci-local-only
+          POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+        ports: ['25480:5432']
+        options: >-
+          --health-cmd "pg_isready -U pemo_owner -d pemo_dev"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      PEMO_ENV: development
+      PEMO_DB_HOST: 127.0.0.1
+      PEMO_DB_PORT: '25480'
+      PEMO_DB_NAME: pemo_dev
+      PEMO_DB_USER: pemo_app
+      PEMO_DB_PASSWORD: ci-local-only
+      PEMO_DB_OWNER_USER: pemo_owner
+      PEMO_DB_OWNER_PASSWORD: ci-local-only
+      PEMO_DEV_TOKEN_SECRET: ci-only-secret
+      PEMO_HTTP_PORT: '23280'
+      PEMO_RATE_LIMIT_PER_MINUTE: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml jsonschema
+      - name: build, vet, unit tests
+        working-directory: backend
+        run: |
+          test -z "$(gofmt -l .)" || { gofmt -l .; echo 'gofmt needed'; exit 1; }
+          go build -o bin/ ./cmd/...
+          go vet ./...
+          go test ./...
+      - name: bootstrap and seed the database
+        run: backend/bin/pemo bootstrap --with-seed
+      - name: module boundaries
+        run: backend/bin/pemo verify-boundaries
+      - name: database tests
+        working-directory: backend
+        run: PEMO_TEST_DB=1 go test ./internal/caseacts/
+      - name: start the API
+        run: |
+          backend/bin/pemo-api &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:23280/ready && break; sleep 1; done
+      - name: resident fixture parity (byte-for-byte)
+        run: python3 tests/go/fixture_parity.py --pemo backend/bin/pemo
+      - name: OpenAPI conformance
+        run: |
+          ST=$(backend/bin/pemo dev-token stf_wfg_manager)
+          RT=$(backend/bin/pemo resident-token res_wfg_000412)
+          python3 tests/go/conformance.py --staff-token "$ST" --resident-token "$RT"
+
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm validate:fixtures

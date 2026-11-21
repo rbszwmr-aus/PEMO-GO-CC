@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "correlationId": "8b2c3d4e-hh00-4000-8000-0000000000e0",
+    "contractVersion": "2.3.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "counts": {
+    "all": 0,
+    "occupied": 0,
+    "withCaregiver": 0,
+    "multiMember": 0
+  },
+  "households": []
+}

@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000054",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "unit": {
+    "unitId": "unit_wfg_a_12_a1",
+    "estateName": {
+      "en": "Wing Fu Garden",
+      "zh-Hant": "榮富花園"
+    },
+    "blockName": {
+      "en": "Block A",
+      "zh-Hant": "A座"
+    },
+    "floor": "12/F",
+    "flat": "A1",
+    "displayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    }
+  },
+  "safety": {
+    "severity": "information",
+    "monitoringCoverage": "none",
+    "headline": {
+      "en": "No in-unit safety service on this flat",
+      "zh-Hant": "此單位未安裝室內安全服務"
+    },
+    "detail": {
+      "en": "This flat has no PEMO-connected sensors, so there is nothing to report here. You will still receive building safety notices from the management office.",
+      "zh-Hant": "此單位沒有連接PEMO的感應器，因此沒有狀態可報告。您仍會收到管理處的大廈安全通告。"
+    },
+    "observedAt": "2026-08-13T09:58:00+08:00",
+    "receivedAt": "2026-08-13T09:58:01+08:00",
+    "freshness": {
+      "status": "current",
+      "ageSeconds": 120,
+      "windowSeconds": 3600
+    },
+    "disclaimer": {
+      "en": "PEMO notifications supplement the building fire alarm and statutory emergency procedures. They do not replace them.",
+      "zh-Hant": "此通知為輔助性質，不能取代大廈火警系統及法定緊急程序。"
+    }
+  },
+  "installedServices": [],
+  "installedServicesNote": {
+    "en": "Nothing installed. This screen never implies the flat is monitored.",
+    "zh-Hant": "未有安裝。此畫面不表示此單位受到監察。"
+  },
+  "recentEvents": []
+}

@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-schedule-inverted",
+  "title": "The schedule ends before it starts",
+  "status": 422,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "The expiry time must be after the publication time.",
+    "zh-Hant": "結束時間必須晚於發佈時間。"
+  },
+  "retryable": false
+}

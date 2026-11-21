@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "correlationId": "8b2c3d4e-hh00-4000-8000-0000000000d3",
+    "contractVersion": "2.3.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "household": {
+    "householdId": "hh_wfg_c_08_c3",
+    "unitId": "unit_wfg_c_08_c3",
+    "unitReference": "unit-8801-C3",
+    "contactEmail": "chan.kaming@wingfu.example",
+    "unitLabel": {
+      "en": "Flat C3, 8/F, Block C",
+      "zh-Hant": "C座8樓C3室"
+    },
+    "scope": {
+      "node": {
+        "kind": "unit",
+        "id": "unit_wfg_c_08_c3",
+        "label": {
+          "en": "Flat C3",
+          "zh-Hant": "C3室"
+        }
+      },
+      "ancestry": [
+        {
+          "kind": "organization",
+          "id": "org_wingfu_holdings",
+          "label": {
+            "en": "Wing Fu Property Management",
+            "zh-Hant": "榮富物業管理"
+          }
+        },
+        {
+          "kind": "estate",
+          "id": "est_wing_fu_garden",
+          "label": {
+            "en": "Wing Fu Garden",
+            "zh-Hant": "榮富花園"
+          }
+        },
+        {
+          "kind": "building",
+          "id": "blk_wfg_c",
+          "label": {
+            "en": "Block C",
+            "zh-Hant": "C座"
+          }
+        },
+        {
+          "kind": "floor",
+          "id": "fl_wfg_c_08",
+          "label": {
+            "en": "8/F",
+            "zh-Hant": "8樓"
+          }
+        }
+      ]
+    },
+    "occupancyFrom": "2023-06-01",
+    "notificationLanguage": "en",
+    "status": "occupied",
+    "contactPreferences": {
+      "channels": {
+        "en": "Email · app inbox",
+        "zh-Hant": "電郵 · 應用程式收件箱"
+      },
+      "quietHours": {
+        "en": "None recorded",
+        "zh-Hant": "未登記免打擾時段"
+      }
+    },
+    "members": [
+      {
+        "residentId": "res_wfg_000908",
+        "name": "Chan Ka-ming 陳家明",
+        "role": "household_member",
+        "effectiveFrom": "2023-06-01",
+        "effectiveTo": null,
+        "safety": {
+          "state": "not-permitted"
+        },
+        "authorisation": {
+          "en": "Sole recorded occupant at this unit — household_member role; no caregiver authorisation on file.",
+          "zh-Hant": "此單位唯一登記佔用人（住戶成員身分）；未有照顧者授權紀錄。"
+        }
+      }
+    ]
+  }
+}

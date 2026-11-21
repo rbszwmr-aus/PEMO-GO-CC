@@ -1,0 +1,366 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000002",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "window": {
+    "hours": 24,
+    "returned": 6,
+    "total": 6,
+    "retentionMonths": 24
+  },
+  "events": [
+    {
+      "eventId": "evt_hs_004417",
+      "reference": "HS-2026-08-12-004417",
+      "severity": "critical",
+      "title": {
+        "en": "Smoke detected in unit",
+        "zh-Hant": "單位偵測到煙霧"
+      },
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_b_03_b2",
+          "label": {
+            "en": "Flat B2",
+            "zh-Hant": "B2室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_b",
+            "label": {
+              "en": "Block B",
+              "zh-Hant": "B座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_b_03",
+            "label": {
+              "en": "3/F",
+              "zh-Hant": "3樓"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block B, 3/F, Flat B2 — 1 household, 4 authorized recipients",
+        "zh-Hant": "B座3樓B2室 — 1住戶，4名獲授權接收者"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T09:42:07+08:00",
+      "communication": "published-acknowledged",
+      "needsAction": false
+    },
+    {
+      "eventId": "evt_hs_004418",
+      "reference": "HS-2026-08-12-004418",
+      "severity": "warning",
+      "title": {
+        "en": "Water leak detected",
+        "zh-Hant": "偵測到漏水"
+      },
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_a_12_a1",
+          "label": {
+            "en": "Flat A1",
+            "zh-Hant": "A1室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_a",
+            "label": {
+              "en": "Block A",
+              "zh-Hant": "A座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_a_12",
+            "label": {
+              "en": "12/F",
+              "zh-Hant": "12樓"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block A, 12/F, Flat A1",
+        "zh-Hant": "A座12樓A1室"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T09:42:07+08:00",
+      "communication": "published",
+      "needsAction": true
+    },
+    {
+      "eventId": "evt_hs_004419",
+      "reference": "HS-2026-08-12-004419",
+      "severity": "warning",
+      "title": {
+        "en": "Fire supervisory signal",
+        "zh-Hant": "火警監察訊號"
+      },
+      "scope": {
+        "node": {
+          "kind": "location",
+          "id": "loc_wfg_clubhouse",
+          "label": {
+            "en": "Wing Fu Clubhouse",
+            "zh-Hant": "榮富會所"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_c",
+            "label": {
+              "en": "Block C",
+              "zh-Hant": "C座"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block C, Wing Fu Clubhouse",
+        "zh-Hant": "C座榮富會所"
+      },
+      "source": "fire-panel",
+      "occurredAt": "2026-08-12T09:42:07+08:00",
+      "communication": "not-resident-visible",
+      "needsAction": false
+    },
+    {
+      "eventId": "evt_hs_004420",
+      "reference": "HS-2026-08-12-004420",
+      "severity": "advisory",
+      "title": {
+        "en": "Planned water interruption",
+        "zh-Hant": "計劃性停水"
+      },
+      "scope": {
+        "node": {
+          "kind": "building",
+          "id": "blk_wfg_a",
+          "label": {
+            "en": "Block A",
+            "zh-Hant": "A座"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block A, all floors — 268 households",
+        "zh-Hant": "A座全層 — 268住戶"
+      },
+      "source": "management",
+      "occurredAt": "2026-08-12T09:42:07+08:00",
+      "communication": "scheduled",
+      "needsAction": false
+    },
+    {
+      "eventId": "evt_hs_004421",
+      "reference": "HS-2026-08-12-004421",
+      "severity": "unknown",
+      "title": {
+        "en": "Gas event could not be matched to a home",
+        "zh-Hant": "氣體事件未能配對至住戶"
+      },
+      "scope": {
+        "node": {
+          "kind": "location",
+          "id": "loc_unmapped",
+          "label": {
+            "en": "Location being confirmed",
+            "zh-Hant": "位置確認中"
+          }
+        },
+        "ancestry": [],
+        "unassigned": true
+      },
+      "unmappedSourceRef": "site 8829 / node C-903",
+      "scopeSummary": {
+        "en": "Source reports an unmapped node — not assigned to any household",
+        "zh-Hant": "來源報告未配對節點 — 未指派予任何住戶"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T09:42:07+08:00",
+      "communication": "quarantined",
+      "needsAction": true
+    },
+    {
+      "eventId": "evt_hs_004422",
+      "reference": "HS-2026-08-12-004422",
+      "severity": "normal",
+      "title": {
+        "en": "Monthly sensor self-test completed",
+        "zh-Hant": "每月感應器自我測試完成"
+      },
+      "scope": {
+        "node": {
+          "kind": "unit",
+          "id": "unit_wfg_c_08_c3",
+          "label": {
+            "en": "Flat C3",
+            "zh-Hant": "C3室"
+          }
+        },
+        "ancestry": [
+          {
+            "kind": "organization",
+            "id": "org_wingfu_holdings",
+            "label": {
+              "en": "Wing Fu Property Management",
+              "zh-Hant": "榮富物業管理"
+            }
+          },
+          {
+            "kind": "portfolio",
+            "id": "pf_wingfu_residential",
+            "label": {
+              "en": "Wing Fu Residential Portfolio",
+              "zh-Hant": "榮富住宅組合"
+            }
+          },
+          {
+            "kind": "estate",
+            "id": "est_wing_fu_garden",
+            "label": {
+              "en": "Wing Fu Garden",
+              "zh-Hant": "榮富花園"
+            }
+          },
+          {
+            "kind": "building",
+            "id": "blk_wfg_c",
+            "label": {
+              "en": "Block C",
+              "zh-Hant": "C座"
+            }
+          },
+          {
+            "kind": "floor",
+            "id": "fl_wfg_c_08",
+            "label": {
+              "en": "8/F",
+              "zh-Hant": "8樓"
+            }
+          }
+        ]
+      },
+      "scopeSummary": {
+        "en": "Block C, 8/F, Flat C3 — all four services reported",
+        "zh-Hant": "C座8樓C3室 — 四項服務均已回報"
+      },
+      "source": "in-unit-sensor",
+      "occurredAt": "2026-08-12T06:00:00+08:00",
+      "communication": "not-resident-visible",
+      "needsAction": false
+    }
+  ]
+}

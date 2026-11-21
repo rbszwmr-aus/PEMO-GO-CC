@@ -1,0 +1,74 @@
+# PEMO repository ignore rules.
+#
+# Created by API-005-ST, which owns the repository root exclusively. Both the
+# Node and the Flutter entries are written now, before any Flutter code exists,
+# so that GEN-006-ST and UI-007-ST never both edit this file. If either PID
+# finds an entry genuinely missing, that is an API-005-ST finding and a new
+# version of that PID, not a local fix on a downstream branch.
+
+# ---------------------------------------------------------------- Node / pnpm
+# No trailing slash: `node_modules/` matches a directory but NOT a symlink of
+# the same name. A symlink slipped past that pattern once, into a commit, and
+# pointed at an absolute path inside a sibling worktree.
+node_modules
+dist/
+build/
+out/
+coverage/
+*.tsbuildinfo
+.eslintcache
+.pnpm-store/
+.pnpm-debug.log*
+npm-debug.log*
+yarn-error.log*
+
+# Environment files. Never commit secrets, keys or credentials to this
+# repository; see the security notes in the AG-002-AG handoff package.
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------------- Flutter
+# Written before apps/resident-mobile exists. UI-007-ST must not add these.
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+*.iml
+*.ipr
+*.iws
+doc/api/
+
+# Flutter build output. The bare `build/` rule above already covers the Dart
+# build directory; these are the platform-specific ones.
+**/ios/Flutter/.last_build_id
+**/ios/Pods/
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+**/macos/Pods/
+**/windows/flutter/ephemeral/
+**/linux/flutter/ephemeral/
+
+# ------------------------------------------------------------------- Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*~
+
+# --------------------------------------------------------------------- OS
+.DS_Store
+Thumbs.db
+
+# ------------------------------------------------------ Local run state
+# scripts/amd128-up.sh pid + log files.
+.run/
+
+# ------------------------------------------------------------------ Go build
+backend/bin/
+*.exe
+*.test
+*.out

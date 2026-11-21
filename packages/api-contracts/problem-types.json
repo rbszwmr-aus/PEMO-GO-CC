@@ -1,0 +1,1056 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pemo.local/contracts/problem-types.json",
+  "title": "PEMO Problem.type registry",
+  "contractVersion": "0.4.0",
+  "owner": "API-005-ST / PEMO Contract",
+  "decidedBy": "ADR-009, amended by API-016-ST; surface applicability confirmed by ADR-007 D2",
+  "why": "Problem.type was declared as string / uri-reference with no enum and no registry, so a typo was undetectable by every check this project runs. `session-expried` validated, passed the fixture validator, passed the contract suite, and would have silently broken every client branching on the field — which is the field's entire purpose. A discriminator that is not validated is not a discriminator. It is a string.",
+  "location": "This file sits ABOVE the per-surface packages deliberately. ADR-007 D2 decides separate contract packages with shared vocabulary and confirms one registry with per-surface applicability. A registry inside resident-mobile/ would force any second surface either to reach into a sibling package or to keep its own copy, and a second copy is the two-spellings-of-one-concept outcome ADR-009 exists to prevent.",
+  "howToUse": {
+    "normative": "This file is the source of truth. The Problem.type enum in each surface's openapi.yaml is GENERATED from it, filtered by `surfaces`, and the validator asserts the two agree. Do not author a type URI in a schema.",
+    "forward": "Every type URI a fixture carries, and every type URI the running service emits, must appear here. This is the assertion that catches the typo.",
+    "reverse": "Every entry with status `active` must be reachable: it appears in at least one fixture, or it names `emittedOnlyBy`. An entry meeting neither fails. A declared type nobody emits is a client branch that can never be taken.",
+    "containment": "A fixture on a given surface may only carry a type whose `surfaces` includes that surface."
+  },
+  "addingAType": {
+    "steadyState": "The emitting session proposes the URI, its httpStatus, surfaces and client guidance. The contract track adds it here with `since` set to the version being released. A new type is a new value a client must accept, so it is a MINOR bump under ADR-008.",
+    "interim": "A session emitting before it can edit this file carries a local assertion that its emitted type URIs equal an explicit expected set, and the contract track folds it in at the next contract change. A local carry is a debt with a named creditor: it is recorded in the register against the contract track, and the next contract change folds it in.",
+    "supersedes": "This registry supersedes GEN-013-ST's session-local assertion in tests/contract/error-surface.test.ts, which was the interim stand-in for exactly this. That assertion is forward-only and constrains one session's emissions; this file is both directions and constrains the contract. It should be retired by its owning session — two sources of truth for one set is the condition this registry exists to remove.",
+    "sharedMeaning": "A type applies to more than one surface ONLY when the meaning is identical — session expiry, an invalid credential and an internal error mean the same thing to a resident and to staff. Where the meaning differs the surfaces get different URIs even if the shape matches: management scope failure is `insufficient-scope`, NOT the resident `not-authorized`, because the resident one is unit-scoped and the management one is a grant over hierarchy nodes and Locations. Two surfaces meaning different things by one discriminator is the defect this registry exists to prevent."
+  },
+  "types": {
+    "bad-request": {
+      "uri": "https://pemo.local/problems/bad-request",
+      "status": "active",
+      "httpStatus": [
+        400
+      ],
+      "surfaces": [
+        "resident",
+        "resident-portal"
+      ],
+      "since": "0.1.0",
+      "declaredSince": "0.3.0",
+      "emittedOnlyBy": [
+        "getHome",
+        "getServices",
+        "getSafetyOverview",
+        "acknowledgeSafetyEvent"
+      ],
+      "summary": "The request was malformed or failed validation at the edge.",
+      "clientGuidance": "A client fault, not a resident-visible condition. Do not surface the detail; the body carries no driver or SQL text by design.",
+      "note": "Emitted undeclared from 0.1.0 — shipped by GEN-006-ST, found by GEN-013-ST reviewing its own prior work (G5). Declared for the first time in 0.3.0, fixtured for the first time in 0.3.1 by API-020-ST. G5 IS ONLY HALF CLOSED: of the four operations named here, only acknowledgeSafetyEvent declares a 400 response, so the other three still emit a status their contract does not declare. Closing that is a surface change and a minor bump."
+    },
+    "caregiver-scope-expired": {
+      "uri": "https://pemo.local/problems/caregiver-scope-expired",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.1.0",
+      "summary": "A caregiver's authorization to view this home has ended.",
+      "clientGuidance": "Distinct from not-authorized: the relationship existed and lapsed. Tell the caregiver when it ended and who can renew it."
+    },
+    "communications-unavailable": {
+      "uri": "https://pemo.local/problems/communications-unavailable",
+      "status": "active",
+      "httpStatus": [
+        503
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "2.7.0",
+      "emittedOnlyBy": [
+        "sendStrataChargeInvoiceEmail",
+        "getNoticeEmailDelivery",
+        "sendNoticeEmail"
+      ],
+      "summary": "The communications port is unconfigured. This is not a successful send.",
+      "clientGuidance": "Render an explicit unavailable state. Do not treat this as a log-only or accepted send. Retry after communications are configured.",
+      "note": "Declared in management-web 2.7.0. Invoice-email, notice email, and notice delivery map an unconfigured port to 503 rather than 500."
+    },
+    "cursor-expired": {
+      "uri": "https://pemo.local/problems/cursor-expired",
+      "status": "active",
+      "httpStatus": [
+        410
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "2.6.0",
+      "emittedOnlyBy": [
+        "getScope",
+        "getPropertyTree",
+        "listHelpdeskQueue"
+      ],
+      "summary": "A paging cursor is no longer in this result set (deleted, stale, or unknown).",
+      "clientGuidance": "Restart the walk from the first page. Never treat this as an empty last page.",
+      "note": "Added by Batch B Round 3 (P2-3). An unknown after previously sliced as a silent empty last page and dropped rows."
+    },
+
+    "duplicate-acknowledgement": {
+      "uri": "https://pemo.local/problems/duplicate-acknowledgement",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.1.0",
+      "summary": "A different acknowledgement already exists for this resident and event.",
+      "clientGuidance": "Not an error to retry. The resident has already acknowledged; say so rather than asking again."
+    },
+    "estate-not-found": {
+      "uri": "https://pemo.local/problems/estate-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.4.0",
+      "emittedOnlyBy": [
+        "addEstateContact"
+      ],
+      "summary": "No such estate, or its existence must not be disclosed to this principal.",
+      "clientGuidance": "Produced by the in-query scope filter, which is this operation's authoritative gate: an estate outside every grant the principal holds returns no row and is indistinguishable from one that does not exist. A distinct refusal would confirm the estate, which is why addEstateContact declares no 403.",
+      "note": "Added by GEN-014, the third scope-only write."
+    },
+    "event-not-found": {
+      "uri": "https://pemo.local/problems/event-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.1.0",
+      "summary": "No such safety event, or its existence must not be disclosed to this resident.",
+      "clientGuidance": "Deliberately indistinguishable from another household's event. Confirming existence would disclose a safety event in another home."
+    },
+    "event-retracted": {
+      "uri": "https://pemo.local/problems/event-retracted",
+      "status": "active",
+      "httpStatus": [
+        410
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.1.0",
+      "summary": "The event was retracted or corrected by its source.",
+      "clientGuidance": "Follow supersededBy to the replacement. A correction stays linked to its original."
+    },
+    "grant-already-exists": {
+      "uri": "https://pemo.local/problems/grant-already-exists",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.6.0",
+      "emittedOnlyBy": [
+        "conferGrant"
+      ],
+      "summary": "A live grant already confers this role at this node to this group.",
+      "clientGuidance": "A DOMAIN refusal, not a scope one. Two DIFFERENT groups holding the same role at one node is legal (ADR-012 D5) and is not this case: the conflict is per (group, role, node).",
+      "note": "Added by GEN-027. The cardinality guard moved from a constraint to the write path at GEN-024."
+    },
+    "grant-not-live": {
+      "uri": "https://pemo.local/problems/grant-not-live",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.6.0",
+      "emittedOnlyBy": [
+        "revokeGrant"
+      ],
+      "summary": "This grant is not live -- already revoked, or lapsed by its own dating.",
+      "clientGuidance": "Nothing is appended. A failed precondition must not leave a no-op assertion in the version chain.",
+      "note": "Added by GEN-027."
+    },
+    "grant-target-not-found": {
+      "uri": "https://pemo.local/problems/grant-target-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.6.0",
+      "emittedOnlyBy": [
+        "conferGrant",
+        "revokeGrant"
+      ],
+      "summary": "No such node or grant, or its existence must not be disclosed to this principal.",
+      "clientGuidance": "G-2 (ADR-010 D3) admits a grant act only within a node the caller already holds as `grant_administrator`. A caller with no such grant receives this, indistinguishable from a node that does not exist -- which is why these operations declare no 403: a distinct refusal would confirm the target exists to someone with no authority over it.",
+      "note": "Added by GEN-027, the first surface that creates authority."
+    },
+    "idempotency-key-conflict": {
+      "uri": "https://pemo.local/problems/idempotency-key-conflict",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.6.0",
+      "emittedOnlyBy": [
+        "conferGrant",
+        "revokeGrant",
+        "provisionOrganization"
+      ],
+      "summary": "This idempotency key was already used for a different request.",
+      "clientGuidance": "ADR-015 D5. The key is never silently answered with the earlier act's result -- that would report something that did not happen. Use a new key, or repeat the original request exactly.",
+      "note": "Added by GEN-027. Detected on the request fingerprint, because the act id is derived from (operation, key) and is therefore identical for both."
+    },
+    "identity-already-recorded": {
+      "uri": "https://pemo.local/problems/identity-already-recorded",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.1.0",
+      "emittedOnlyBy": [
+        "registerPrincipal"
+      ],
+      "summary": "This external identity is already recorded in this organization.",
+      "clientGuidance": "Recorded once per organization (ADR-016 D3). The same person in a DIFFERENT organization is a separate principal and is not this case.",
+      "note": "Added by GEN-033. The derived-key stance means an identical retry replays rather than reaching this."
+    },
+    "insufficient-administration-scope": {
+      "uri": "https://pemo.local/problems/insufficient-administration-scope",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.1.0",
+      "emittedOnlyBy": [
+        "addMembership",
+        "removeMembership"
+      ],
+      "summary": "The caller does not administer every node the group confers authority at.",
+      "clientGuidance": "ADR-017's delegation floor: membership is conferral by proxy, so the floor is G-2 lifted to the SET of nodes the group holds live grants at -- a conjunction, never a subset. A group with no live grants requires grant_administrator at the ORGANIZATION node, which closes the pre-staging path. A 403 rather than a 404 here, deliberately: the group's existence is not a secret to a caller who administers the organization at all, and telling them WHICH authority they lack is what lets them obtain it.",
+      "note": "Added by GEN-033."
+    },
+    "insufficient-scope": {
+      "uri": "https://pemo.local/problems/insufficient-scope",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.1.0",
+      "summary": "The requested target lies outside every scope grant this principal holds.",
+      "clientGuidance": "NOT the resident `not-authorized`, which is unit-scoped and narrower. This is scope-grant failure over the ADR-002 hierarchy or an ADR-003 Location, and reusing the resident URI would make two surfaces mean different things by one discriminator.",
+      "note": "Added by API-017-ST; fixtured in tests/fixtures/management-web."
+    },
+    "integration-unavailable": {
+      "uri": "https://pemo.local/problems/integration-unavailable",
+      "status": "active",
+      "httpStatus": [
+        503
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.1.0",
+      "summary": "An upstream integration this projection depends on is unavailable.",
+      "clientGuidance": "Render an explicit unavailable state. NEVER fall back to a normal or all-clear presentation — missing data must not render as normal."
+    },
+    "internal-error": {
+      "uri": "https://pemo.local/problems/internal-error",
+      "status": "active",
+      "httpStatus": [
+        500
+      ],
+      "surfaces": [
+        "resident",
+        "management",
+        "resident-portal"
+      ],
+      "since": "0.1.0",
+      "summary": "An unexpected server-side failure.",
+      "clientGuidance": "Render an explicit error state. The same never-render-as-normal rule applies to a failed request as to stale data."
+    },
+    "invalid-credential": {
+      "uri": "https://pemo.local/problems/invalid-credential",
+      "status": "active",
+      "httpStatus": [
+        401
+      ],
+      "surfaces": [
+        "resident",
+        "management",
+        "resident-portal"
+      ],
+      "since": "0.2.2",
+      "declaredSince": "0.3.0",
+      "emittedOnlyBy": [
+        "getHome",
+        "getServices",
+        "getSafetyOverview",
+        "getSafetyEvent",
+        "getAccount",
+        "acknowledgeSafetyEvent"
+      ],
+      "summary": "The credential is absent, malformed or not a credential this service issued.",
+      "clientGuidance": "NOT recoverable by refresh — this is the distinction from session-expired, which is. Re-authenticate from the start.",
+      "note": "Added by GEN-013-ST under B5, which separated four causes previously collapsed into one 401. Fixtured in 0.3.1 by API-020-ST, provoked by an absent token. G7 REMAINS OPEN AND IS NOT THIS FIXTURE'S CONCERN: the five session-expired fixtures were provoked by an ABSENT token, which under B5 is this type. Three possibilities differ in severity — the fixture's type is wrong, the backend emits session-expired for an absent token, or the provocation record is stale. GEN-013-ST landed B1's TTL and B5's types together so the honest provocation became possible; whether the five were RE-PROVOKED after the TTL landed is the backend track's to answer."
+    },
+    "invalid-request": {
+      "uri": "https://pemo.local/problems/invalid-request",
+      "status": "active",
+      "httpStatus": [
+        400
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "2.6.0",
+      "emittedOnlyBy": [
+        "getScope",
+        "getPropertyTree",
+        "listHelpdeskQueue"
+      ],
+      "summary": "The request could not be read or a query parameter is not valid.",
+      "clientGuidance": "Correct the request and retry. The detail names the field and the problem and never echoes the rejected value.",
+      "note": "Declared in Batch B Round 3. staffProblems.badRequest already emitted this URI; malformed page limits now map to it instead of 500."
+    },
+
+    "last-grant-administrator": {
+      "uri": "https://pemo.local/problems/last-grant-administrator",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.6.0",
+      "emittedOnlyBy": [
+        "revokeGrant"
+      ],
+      "summary": "This is the last live grant administrator in the organization.",
+      "clientGuidance": "Refused because the state is unrecoverable: with no live grant_administrator anywhere in the organization, no grant can be conferred again, and provisioning cannot re-enter because the organization has already held grants. Revoke a different administrator, or confer another first.",
+      "note": "Added by GEN-027. Refusing to remove the last way in is not a break-glass -- it opens no path to self-granting."
+    },
+    "management-office-contact-exists": {
+      "uri": "https://pemo.local/problems/management-office-contact-exists",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.4.0",
+      "emittedOnlyBy": [
+        "addEstateContact"
+      ],
+      "summary": "This estate already has a management office contact.",
+      "clientGuidance": "A DOMAIN refusal, per contact kind: emergency and approved-service contacts are legitimately plural, so the rule is not blanket uniqueness. Reachable only in scope.",
+      "note": "Added by GEN-014."
+    },
+    "membership-already-exists": {
+      "uri": "https://pemo.local/problems/membership-already-exists",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.1.0",
+      "emittedOnlyBy": [
+        "addMembership"
+      ],
+      "summary": "This person already holds a current membership of this group.",
+      "clientGuidance": "A DOMAIN refusal. Re-adding after a removal is legitimate and is NOT this case -- that creates a new membership instance.",
+      "note": "Added by GEN-033."
+    },
+    "membership-not-live": {
+      "uri": "https://pemo.local/problems/membership-not-live",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.1.0",
+      "emittedOnlyBy": [
+        "removeMembership"
+      ],
+      "summary": "This membership has already ended.",
+      "clientGuidance": "Nothing is appended: a failed precondition must not leave a no-op assertion in the version chain.",
+      "note": "Added by GEN-033."
+    },
+    "not-authorized": {
+      "uri": "https://pemo.local/problems/not-authorized",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.1.0",
+      "summary": "Authenticated, but not authorized for the requested unit.",
+      "clientGuidance": "Used where the resident's own lack of access is safe to state. Where confirming existence would leak another household's data, event-not-found is used instead."
+    },
+    "occupancy-already-exists": {
+      "uri": "https://pemo.local/problems/occupancy-already-exists",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.3.0",
+      "emittedOnlyBy": [
+        "recordOccupancy"
+      ],
+      "summary": "This resident already holds a current occupancy of this unit.",
+      "clientGuidance": "A DOMAIN refusal, not a scope one, and reachable only in scope: the conflict lookup is scope-filtered, so an out-of-scope caller receives the 404 and never learns an occupancy exists.",
+      "note": "Added by GEN-013. Distinct from the 404 because the act is refused for a reason the caller can act on."
+    },
+    "occupancy-not-live": {
+      "uri": "https://pemo.local/problems/occupancy-not-live",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.5.0",
+      "emittedOnlyBy": [
+        "endOccupancy"
+      ],
+      "summary": "The occupancy is not live — already ended, or lapsed by its own dating.",
+      "clientGuidance": "A precondition refusal, and nothing is appended: a failed precondition must not leave a no-op row in the assertion chain. NOT a retry response — repeating an end answers this, not the original 200, because retry-idempotency is the request-token half of ADR-013 D6 and is not built.",
+      "note": "Added by GEN-016, the occupancy end write."
+    },
+    "occupancy-target-not-found": {
+      "uri": "https://pemo.local/problems/occupancy-target-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.3.0",
+      "emittedOnlyBy": [
+        "recordOccupancy"
+      ],
+      "summary": "No such unit or resident, or its existence must not be disclosed to this principal.",
+      "clientGuidance": "Deliberately indistinguishable from a unit outside every grant this principal holds, and from a resident of another Organization. A distinct refusal would confirm the target exists to someone with no scope over it, which is why recordOccupancy declares no 403. A management-specific URI rather than the resident `event-not-found`: the registry's sharedMeaning rule forbids two surfaces meaning different things by one discriminator.",
+      "note": "Added by GEN-013, the second scope-only write (ADR-010 D1)."
+    },
+    "organization-already-provisioned": {
+      "uri": "https://pemo.local/problems/organization-already-provisioned",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.6.0",
+      "emittedOnlyBy": [
+        "provisionOrganization"
+      ],
+      "summary": "This organization has held a grant before and can never be provisioned again.",
+      "clientGuidance": "The predicate is ZERO GRANTS EVER, not zero live grants. Under a liveness predicate an organization that revoked its last grant would become provisionable again by anyone -- the standing break-glass ADR-010 A1 forbids, reached through an ordinary revocation.",
+      "note": "Added by GEN-027."
+    },
+    "principal-target-not-found": {
+      "uri": "https://pemo.local/problems/principal-target-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.1.0",
+      "emittedOnlyBy": [
+        "addMembership",
+        "removeMembership",
+        "registerPrincipal"
+      ],
+      "summary": "No such group, person or membership, or its existence must not be disclosed.",
+      "clientGuidance": "Deliberately indistinguishable from a target in another Organization: cross-organization isolation is absolute (ADR-007) and is not a role.",
+      "note": "Added by GEN-033."
+    },
+    "record-not-found": {
+      "uri": "https://pemo.local/problems/record-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management",
+        "resident-portal"
+      ],
+      "since": "0.1.0",
+      "summary": "No such record, or its existence must not be disclosed to this principal.",
+      "clientGuidance": "One URI across resource kinds, with `instance` identifying the record — RFC 9457's own shape. Deliberately NOT the resident `event-not-found`, whose meaning is narrower: that one hides another household's safety event, this one hides another tenant's record of any kind.",
+      "note": "Added by API-017-ST; fixtured in tests/fixtures/management-web."
+    },
+    "restricted-projection": {
+      "uri": "https://pemo.local/problems/restricted-projection",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.1.0",
+      "summary": "The requested projection is integration-support material and is not available to the estate-staff tier.",
+      "clientGuidance": "ADR-007 D3 tier boundary. The export already draws the denied view and a `Request access` path; that path is a write and is deferred. Raw payloads and correlation traces are not in this contract at all — absent, not gated.",
+      "note": "Added by API-017-ST; fixtured in tests/fixtures/management-web."
+    },
+    "scope-not-found": {
+      "uri": "https://pemo.local/problems/scope-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "0.1.0",
+      "summary": "No such scope node or Location, or its existence must not be disclosed to this principal.",
+      "clientGuidance": "Deliberately indistinguishable from a node in another Organization. Confirming existence would leak another tenant's structure.",
+      "note": "Added by API-017-ST; fixtured in tests/fixtures/management-web."
+    },
+    "session-expired": {
+      "uri": "https://pemo.local/problems/session-expired",
+      "status": "active",
+      "httpStatus": [
+        401
+      ],
+      "surfaces": [
+        "resident",
+        "management",
+        "resident-portal"
+      ],
+      "since": "0.1.0",
+      "summary": "A previously valid session has passed its expiry.",
+      "clientGuidance": "Recoverable by re-authenticating. Distinct from invalid-credential, which is not."
+    },
+    "unmapped-unit": {
+      "uri": "https://pemo.local/problems/unmapped-unit",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.1.0",
+      "summary": "The unit is not mapped to a monitored location, so no safety status can be resolved. This is the quarantine path.",
+      "clientGuidance": "Tell the resident plainly that status cannot be shown. NEVER say everything is normal. Guessing the nearest unit would send one household's safety alert to another."
+    },
+    "notice-not-found": {
+      "uri": "https://pemo.local/problems/notice-not-found",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "composeNotice",
+        "reviseNotice",
+        "submitNotice",
+        "approveNotice",
+        "declineNotice",
+        "publishNotice",
+        "correctNotice",
+        "withdrawNotice",
+        "getNoticeOutstanding"
+      ],
+      "summary": "No such notice, or none this caller may act on.",
+      "note": "ALSO the answer when the caller holds no authority over the notice, deliberately: a distinct 403 would confirm the notice exists to someone with no scope over it. Same decision as the grant surface (ADR-010 D3)."
+    },
+    "notice-out-of-scope": {
+      "uri": "https://pemo.local/problems/notice-out-of-scope",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "composeNotice",
+        "reviseNotice",
+        "submitNotice",
+        "approveNotice",
+        "declineNotice",
+        "publishNotice",
+        "correctNotice",
+        "withdrawNotice"
+      ],
+      "summary": "The caller does not hold a live grant covering EVERY node the notice addresses.",
+      "note": "ADR-017 D1 lifted to notices: covering some addressed nodes is not partial authority to address some of them, because there is no partial notice. Returned as 404 for the reason above."
+    },
+    "notice-wrong-state": {
+      "uri": "https://pemo.local/problems/notice-wrong-state",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "composeNotice",
+        "reviseNotice",
+        "submitNotice",
+        "approveNotice",
+        "declineNotice",
+        "publishNotice",
+        "correctNotice",
+        "withdrawNotice"
+      ],
+      "summary": "The transition is not legal from the notice current state.",
+      "note": "A domain refusal, never a fault (ADR-013 C4): the caller asked for something reasonable about a notice that has moved on."
+    },
+    "notice-stale-version": {
+      "uri": "https://pemo.local/problems/notice-stale-version",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "composeNotice",
+        "reviseNotice",
+        "submitNotice",
+        "approveNotice",
+        "declineNotice",
+        "publishNotice",
+        "correctNotice",
+        "withdrawNotice"
+      ],
+      "summary": "The act names a version that is no longer current.",
+      "note": "The derived-key stance (ADR-015 D1): a repeat naming the CURRENT version is a retry and replays; one naming a superseded version is a caller acting on a notice that changed under them. Applying it to the new state would be them approving text they never read."
+    },
+    "notice-approval-required": {
+      "uri": "https://pemo.local/problems/notice-approval-required",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "publishNotice"
+      ],
+      "summary": "This notice type is gated and the notice has not been approved.",
+      "note": "FAIL-CLOSED: a type with no approval-policy row is GATED, because a missing row is \"nobody has decided\" and the safe reading of an undecided question about broadcasting to residents is that a second person looks."
+    },
+    "notice-incomplete-translation": {
+      "uri": "https://pemo.local/problems/notice-incomplete-translation",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "publishNotice"
+      ],
+      "summary": "A draft may be half-written; a publication may not.",
+      "note": "Publishing English-only silently decides that Chinese readers get nothing."
+    },
+    "notice-empty-audience": {
+      "uri": "https://pemo.local/problems/notice-empty-audience",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "publishNotice",
+        "composeNotice",
+        "reviseNotice"
+      ],
+      "summary": "The targeting rule resolves to nobody.",
+      "note": "FAIL-CLOSED: far likelier a mistargeted notice than a deliberate broadcast to an empty building, and publishing it would record that residents were told something when none were."
+    },
+    "notice-schedule-inverted": {
+      "uri": "https://pemo.local/problems/notice-schedule-inverted",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "publishNotice"
+      ],
+      "summary": "expire_at is not after publish_at.",
+      "note": "A schedule that ends before it starts is not a schedule."
+    },
+    "notice-retargeting-forbidden": {
+      "uri": "https://pemo.local/problems/notice-retargeting-forbidden",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "management"
+      ],
+      "since": "1.3.0",
+      "declaredSince": "1.3.0",
+      "emittedOnlyBy": [
+        "correctNotice"
+      ],
+      "summary": "A correction may change content and schedule only.",
+      "note": "The audience snapshot records who WAS addressed; a correction that retargeted would leave it describing an audience the notice no longer has. Retarget by withdrawing and issuing a new one."
+    },
+    "notice-not-addressed": {
+      "uri": "https://pemo.local/problems/notice-not-addressed",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.4.0",
+      "declaredSince": "0.4.0",
+      "emittedOnlyBy": [
+        "markNoticeRead",
+        "acknowledgeNotice",
+        "respondToNotice"
+      ],
+      "summary": "This resident is not in the audience snapshot for the published notice.",
+      "note": "Membership is the SNAPSHOT taken at publication, never a re-resolution of where the resident lives today: those differ the moment somebody moves, and re-resolving would let a resident who arrived afterwards acknowledge a notice they were never sent."
+    },
+    "notice-not-this-resident": {
+      "uri": "https://pemo.local/problems/notice-not-this-resident",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.4.0",
+      "declaredSince": "0.4.0",
+      "emittedOnlyBy": [
+        "markNoticeRead",
+        "acknowledgeNotice",
+        "respondToNotice"
+      ],
+      "summary": "The authenticated principal is not the resident named.",
+      "note": "Acting as oneself. A staff member recording an acknowledgement on a resident behalf is a different act with a different floor and a different forgery risk, and it is deliberately absent."
+    },
+    "notice-not-yet-visible": {
+      "uri": "https://pemo.local/problems/notice-not-yet-visible",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.4.0",
+      "declaredSince": "0.4.0",
+      "emittedOnlyBy": [
+        "markNoticeRead",
+        "acknowledgeNotice",
+        "respondToNotice"
+      ],
+      "summary": "The notice is published but its publish_at is still in the future.",
+      "note": "Scheduled, not yet said."
+    },
+    "notice-no-question-asked": {
+      "uri": "https://pemo.local/problems/notice-no-question-asked",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.4.0",
+      "declaredSince": "0.4.0",
+      "emittedOnlyBy": [
+        "respondToNotice"
+      ],
+      "summary": "This notice declares no response options.",
+      "note": "No declared question means there is no answer to record, not that any answer will do."
+    },
+    "notice-undeclared-option": {
+      "uri": "https://pemo.local/problems/notice-undeclared-option",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "resident"
+      ],
+      "since": "0.4.0",
+      "declaredSince": "0.4.0",
+      "emittedOnlyBy": [
+        "respondToNotice"
+      ],
+      "summary": "The chosen key is not one of the notice declared options.",
+      "note": "Responses are a controlled vocabulary per notice; free text waits on ADR-019 OQ4 (retention), because prose is what a retention rule is actually about."
+    },
+    "ticket-invalid-transition": {
+      "uri": "https://pemo.local/problems/ticket-invalid-transition",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "The requested ticket status does not follow from its current one.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "ticket-message-visibility-fixed": {
+      "uri": "https://pemo.local/problems/ticket-message-visibility-fixed",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "A message's visibility is set at write and cannot be changed; a resident-authored message is always resident-visible.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "ticket-anonymous-no-conversation": {
+      "uri": "https://pemo.local/problems/ticket-anonymous-no-conversation",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "An anonymous ticket accepts no resident message and no resident-visible reply.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "ticket-not-the-reporter": {
+      "uri": "https://pemo.local/problems/ticket-not-the-reporter",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "Only the ticket's reporter may perform this act as a resident.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "ticket-reopen-not-permitted": {
+      "uri": "https://pemo.local/problems/ticket-reopen-not-permitted",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "Residents may not reopen tickets in this organization, or the reopen window has closed.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "ticket-not-closed": {
+      "uri": "https://pemo.local/problems/ticket-not-closed",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "The act needs a closed ticket.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "satisfaction-already-recorded": {
+      "uri": "https://pemo.local/problems/satisfaction-already-recorded",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "Satisfaction was already recorded for this closure.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "case-invalid-transition": {
+      "uri": "https://pemo.local/problems/case-invalid-transition",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "The requested case state does not follow from its current one.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "case-owner-cannot-see-case": {
+      "uri": "https://pemo.local/problems/case-owner-cannot-see-case",
+      "status": "active",
+      "httpStatus": [
+        403
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "The proposed owner holds no grant covering the case's node.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "case-external-link-required": {
+      "uri": "https://pemo.local/problems/case-external-link-required",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "awaiting_external needs a recorded external link.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "case-not-closable": {
+      "uri": "https://pemo.local/problems/case-not-closable",
+      "status": "active",
+      "httpStatus": [
+        409
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "A case closes only from pending_verification or resolved, by a person.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "case-note-visibility-refused": {
+      "uri": "https://pemo.local/problems/case-note-visibility-refused",
+      "status": "active",
+      "httpStatus": [
+        422
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "Case notes are always internal; a visibility field is refused.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    },
+    "no-such-case": {
+      "uri": "https://pemo.local/problems/no-such-case",
+      "status": "active",
+      "httpStatus": [
+        404
+      ],
+      "surfaces": [
+        "internal"
+      ],
+      "since": "internal-acts",
+      "declaredSince": "GEN-055",
+      "emittedOnlyBy": [],
+      "summary": "The case does not exist in this organization.",
+      "clientGuidance": "Declared on the internal act contract (GEN-055); a route surfaces it when C4 lands, at which point its surface is widened and its fixture is recorded over HTTP."
+    }
+  }
+}

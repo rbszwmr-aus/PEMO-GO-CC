@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000003",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "window": {
+    "hours": 24,
+    "returned": 0,
+    "total": 0,
+    "retentionMonths": 24
+  },
+  "events": []
+}

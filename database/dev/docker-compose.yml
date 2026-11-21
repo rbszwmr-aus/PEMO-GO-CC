@@ -1,0 +1,50 @@
+# PEMO development database.
+#
+# GEN-006-ST only. This is a local development fixture: it is not a deployment,
+# not infrastructure-as-code and not a production topology. Cloud provider and
+# environment topology remain Unresolved in the committed architecture baseline
+# and are not selected here.
+#
+# Deliberate choices, recorded because the recovered FEAT-001 v3 section 3.10
+# persistence gate asks for them:
+#
+#   * A DEDICATED service. The host already runs an unrelated PostgreSQL 16 on
+#     127.0.0.1:5432, an unrelated carpark-review-db on 127.0.0.1:55432 and the
+#     Node build's pemo-dev-db on 127.0.0.1:55433. None is reused, connected to
+#     or modified. The Go build publishes on 127.0.0.1:25480, and its container,
+#     volume and compose project are named pemo-go-* so `docker compose down -v`
+#     here can never remove the Node build's database.
+#   * A NAMED VOLUME, never tmpfs. A development database that silently loses
+#     state on restart wastes days before anyone suspects the storage layer.
+#   * Loopback only. The port is bound to 127.0.0.1, never 0.0.0.0.
+#   * No credential in this file. Values come from database/dev/.env, which is
+#     git-ignored. database/dev/.env.example carries placeholders only.
+
+name: pemo-go-dev
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: pemo-go-dev-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-pemo_dev}
+      # The owning/DDL role. The application does NOT connect as this — it
+      # connects as the pemo_app_<schema> logins, which `pemo bootstrap` sets up.
+      POSTGRES_USER: ${POSTGRES_USER:-pemo_owner}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in database/dev/.env}
+      # Deterministic collation so ordering does not drift between machines.
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-25480}:5432"
+    volumes:
+      - pemo-go-dev-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pemo_owner} -d ${POSTGRES_DB:-pemo_dev}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pemo-go-dev-db-data:
+    name: pemo-go-dev-db-data

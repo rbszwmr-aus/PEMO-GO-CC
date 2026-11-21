@@ -1,0 +1,146 @@
+# Final candidate — six-area R&T v1.0
+
+- Branch: `review/final-candidate` in `~/code/PEMO-grok-wt/final-candidate`
+- Date: 2026-11-20, Australia/Sydney (AEDT, UTC+11)
+- Private clusters: PostgreSQL 16 `initdb`. Official gates used `/tmp/pemo-fc` (socket `/tmp/pemo-fc-sock`, port 5515, unix socket only, `listen_addresses=''`). Playwright used `/tmp/pemo-fc-pw` (socket `/tmp/pemo-fc-pw-sock`, port 5517) plus a private-cluster API on `127.0.0.1:3921`. Shared `127.0.0.1:5432` was SELECT-only and was not written. Both clusters were stopped and deleted after their runs. Live :3200 / :5185 / :5186 / :5173–:5176 were not bound, restarted, or killed.
+
+## Changelog
+
+- v1.0 (2026-11-20 AEDT): Recorded six-area R&T candidate. `--no-ff` merge of accepted Batch C D1 and accepted R9 onto the accepted RT5-F6 base; official gates and full Playwright vs the baseline 14 known failures.
+
+## SHAs
+
+| Role | Ref | SHA |
+| --- | --- | --- |
+| Base (accepted RT5-F6 note tip) | `fix/rt5-f6-module-privileges` / `b07e6dc` | `b07e6dcd4ed12b5bc77b10512deb5448445faebd` |
+| Accepted Batch C D1 tip (incl. v0.15.1 note) | `fix/batch-c-d1` / `2d57710` | `2d57710cb6426593aefa1e7c90834750a61a6acf` |
+| Accepted R9 tip | `perf/r9-initial-bundle` / `9776ff9` | `9776ff9b655e74ddaa315d83a776eaba3092c347` |
+| Merge 1 (`git merge --no-ff fix/batch-c-d1`) | parents `b07e6dc` + `2d57710` | `814d1613e5d381a6a558907dee7cf6130afa3bf6` |
+| **Merged product tip** (`git merge --no-ff perf/r9-initial-bundle`) | parents `814d161` + `9776ff9` | `88a72e6dace4627a8a964d22b2b208eb4dc63a33` |
+
+Both source branches descend from `b07e6dc` (merge-base is F6). Merges were `--no-ff`, no squash. Surfaces' worktree `~/code/PEMO-grok/.worktrees/r9-initial-bundle` was not entered; R9 was merged from the branch ref only. `fix/batch-c-d1`, `fix/rt5-f6-module-privileges`, and `fix/p1-review-r1-r3` were not modified (still `2d57710`, `b07e6dc`, `b4fe994`, all clean).
+
+Every official gate and the Playwright run below was taken on product SHA `88a72e6dace4627a8a964d22b2b208eb4dc63a33`. This docs-only note is committed after those runs.
+
+## Task IDs covered
+
+Derived from the run notes already on this tree and from the merged commit subjects. Nothing below is invented.
+
+On the F6 base (already accepted; recorded in `docs/reviews/p1-fix-round2-testrun_v0.1.md`, `p1-fix-round3-testrun_v0.2`–`v0.12`, and `rt5-f6-testrun_v0.13.md`):
+
+- P1 F1, F2, F3
+- R1, R2, R3, R6, R7, R8
+- Batch B R4 and R5, including subsequent Batch B rounds recorded in v0.7–v0.12 (accepted product `664d7f5` / `b4fe994` is an ancestor of this F6 base line)
+- RT5-F2, RT5-F4, RT5-F6, RT5-F11, RT5-F14
+
+On the D1 merge (recorded in `docs/reviews/batch-c-d1-testrun_v0.14.md` and `v0.15.md` / v0.15.1 addendum):
+
+- Batch C P3-1 (`/ready` probes every module pool; a failed probe keeps the pool's name)
+- Batch C P3-5 (case SQL commands constrain `organization_id`; migration `0150`)
+- Batch C D1 communications port, plus follow-ups F-1, F-2, F-3, F-4, F-5
+- Management-web contract declaration of 503 `communications-unavailable` (2.6.0 → 2.7.0)
+
+On the R9 merge (commit subjects on `perf/r9-initial-bundle`, no separate Surfaces run note in `docs/reviews/`):
+
+- R9 initial bundle: lazy-load feature screens, clients, and corpus off the entry graph (`d288904`)
+- R9 R&T P2 fixes: load-failure boundary, nav transition, live mode off the corpus (`c1d4a89`)
+- R9 R&T round 2: reload retry, live mode off the corpus, rail states, live node labels (`d8b40b2`)
+- R9 R&T round 3: log out from a live session loads the corpora first (`9776ff9`)
+
+F-6 (invoice smtp-vs-log official-integration failure) was left untouched throughout D1 and remains one of the known ten.
+
+## Changed contracts and migrations
+
+- **management-web** OpenAPI / `contract-lock.json`: **2.7.0** (D1 503 declaration; changelog: "declare 503 `communications-unavailable` on invoice-email, notice email, and notice delivery."). `surfaceHash` `sha256:3472fd5035efceac92d1cdd1240c9a8ef7bd93506cc2451b03195c45d0533270`. `corpusHash` `sha256:6e1ce3307971f749e6fc16a571868a29f3d18692e770892ce224f225a8089514`.
+- **resident-mobile** remains 0.4.0. **resident-portal** remains 0.1.0. `problem-types.json` `contractVersion` remains 0.4.0 (`communications-unavailable` is registered against the management surface, `since` 2.7.0).
+- **Migrations new on this candidate versus the F6 base:** `0150_service_case_org_constraint` (P3-5). Official migrate on the private cluster applied 66 files, `0001` through `0150`. `0146`–`0149` (named-command / outbox work) are already on the F6 base. R9 added no migrations.
+
+## Merge conflicts
+
+None. `git merge-tree` preview for R9 into F6+D1 reported zero conflict paths. Both `--no-ff` merges completed with the `ort` strategy and a clean tree (`MERGE_CLEAN`). No lockfile, digest, contract-lock, or generated file needed regeneration.
+
+## Official gates
+
+All rows are on product SHA `88a72e6dace4627a8a964d22b2b208eb4dc63a33`. Private cluster `/tmp/pemo-fc`, 2026-11-20 18:38:58–18:42:20 AEDT.
+
+| Gate | SHA | Result | At (AEDT) |
+| --- | --- | --- | --- |
+| management-web `typecheck` | `88a72e6` | PASS | 18:39:09 |
+| management-web production `build` | `88a72e6` | PASS | 18:39:13 |
+| `apps/api` `tsc -b` | `88a72e6` | PASS | 18:39:09 |
+| management-web `test:node` | `88a72e6` | **405 tests, 402 pass, 0 fail, 3 skipped** (D1 `7395c1b` was 401 pass / 404 tests / 3 skipped; R9 added node tests) | 18:39:15 |
+| `pnpm run test:contract` | `88a72e6` | **116/117**. The only failure is the pre-existing `operation-fixture-parity` list (`every declared operation has a fixture, or a named debt`). Eight uncovered operations remain; `sendStrataChargeInvoiceEmail` is covered by the 503 fixture. | 18:40:09 |
+| `grants-complete` (`REQUIRE_DB=1`) | `88a72e6` | PASS — role model holds for module logins (BYPASSRLS, CREATEDB, CREATEROLE, SUPERUSER), 63 tables, SELECT+INSERT per module, plus documented extra: `strata.email_outbox` UPDATE (columns) | 18:39:19 |
+| `premise-arm-guard` (`REQUIRE_DB=1`) | `88a72e6` | PASS | 18:39:40 |
+| F6 exit-evidence (`rt5-f6-module-privileges.test.ts`) | `88a72e6` | **13/13 pass**, including P3-5 item 13 (case named commands refuse a foreign `organization_id`) | 18:40:16 |
+| Focused D1 / F-2 / P3-1 | `88a72e6` | **1/1**, **1/1**, and **3/3** pass | 18:39:11 / 18:40:18 / 18:40:17 |
+| `pnpm run test:integration` | `88a72e6` | **561/571 pass, 10 fail: the known ten only** (listed below) | 18:42:19 |
+| `pnpm --filter @pemo/api run check:dependencies` | `88a72e6` | PASS after module dists were built (see deviations). Output: | 18:39:11 |
+
+```
+✔ no dependency violations found (363 modules, 1436 dependencies cruised)
+‼ 2 known violations ignored. Run with --no-ignore-known to see them.
+```
+
+Known ten integration failures (unchanged titles vs v0.12 / D1 v0.15.1):
+
+1. BITING — database state disappearing after a restart is caught (`biting-tests.test.ts`)
+2. F2 — 0145 keeps historical duplicates; down refuses while pending, sending or unknown rows exist (`p1-f2-send-key-migration.test.ts`)
+3. the seeded magnitudes are UNCHANGED — interests are additive, no household added (`party-interest-seed.test.ts`)
+4. D7 — the Novatek case: five occupied units, the company holds the tenancy, occupants hold NO interest (`party-interest-seed.test.ts`)
+5. D7 — occupancy WITHOUT interest and interest WITHOUT occupancy both exist, which is the whole point (`party-interest-seed.test.ts`)
+6. F1 as a tested STATE — the contradiction is CONSTRUCTED in a test, never seeded (`party-interest-seed.test.ts`)
+7. the total is the PRODUCT of the basis, not a number anybody typed (`seed-basis.test.ts`)
+8. households are NOT units — vacancy is non-zero at every block (`seed-basis.test.ts`)
+9. the corpus-stated fact is a FACT, and the rest are inventions (`seed-basis.test.ts`)
+10. invoice email records a log-transport outbox row when SMTP is unset (F-6 smtp-vs-log)
+
+## Playwright versus the baseline 14
+
+Baseline, as recorded in `docs/reviews/p1-fix-round3-testrun_v0.7.md` and carried in v0.8 / v0.10 / v0.12: **1805 passed, 14 failed, 5 skipped**, all 14 in fixture `state-matrix` visitor screens (`visitor-detail` visibility / unmarked controls on `visitorLog` / `visitorRegister`).
+
+This run, 2026-11-20 18:43–18:45:50 AEDT, on `88a72e6`, against the official production `dist` (in-process static server on `listen(0, 127.0.0.1)` — a throwaway port). `ss -ltn` was taken first. A private-cluster API listened on `127.0.0.1:3921` (not a reserved port) and was stopped afterwards. Live :3200 / :5173–:5176 / :5185 / :5186 were still listening after cleanup; :3921 and :5517 were gone. Tree remained clean at `88a72e6`.
+
+**Result: 1813 expected (passed), 14 unexpected (failed), 4 skipped, 0 flaky.** Playwright exit 1. The failure *count* matches the baseline 14, but the *set* is not the same as the v0.7-described visitor `state-matrix` list. Passed 1805 → 1813; skipped 5 → 4 (R9 added browser tests).
+
+Remaining failures that match the recorded baseline class (visitor `state-matrix`):
+
+- `state-matrix.spec.ts` — `visitorLog · detail · en` / `zh-Hant` / `zh-Hans` (`visitor-detail` not visible)
+- `state-matrix.spec.ts` — `visitorRegister · blank · en` / `zh-Hant` / `zh-Hans` (unmarked controls in main)
+
+New failures versus that recorded baseline (must be named):
+
+- `dense-cells.spec.ts` — "Chinese and Latin break differently, and both stay in the column" (Traditional Chinese body overflow: expected ≤ 13, received 17)
+- `front-counter.spec.ts` — "live source: the Bearer goes with every call, the log is read from the API, and a refused session is said" (**timed out** at 30 s)
+- `notices.spec.ts` — "Notices is in the nav, once, and the nav stayed flat" (expected 5 `nav-item`s, received 20)
+- `scope-rail.spec.ts` — "picked Block A filters households and help-desk fixture rows"
+- `state-matrix.spec.ts` — `adminRoles · matrix · en` / `zh-Hant` / `zh-Hans` (unmarked controls; not part of the v0.7 visitor-screen description)
+- `state-matrix.spec.ts` — "a Portfolio-level grant renders — the form a scope check descends from" (grant testid not found; not part of the v0.7 visitor-screen description)
+
+The production build has empty `VITE_API_BASE`, so live-mode credentialed requests go same-origin (the ephemeral static host), not the private API on :3921. The front-counter live timeout is recorded in that light; the live :3200 service was not used.
+
+## Deferred
+
+Consolidated from the run notes on this tree (`p1-fix-round3` v0.10/v0.12, `rt5-f6-testrun_v0.13`, `batch-c-d1-testrun` v0.14/v0.15.1) and the latest R&T P3s named for this candidate. R9 is no longer deferred (it is merged here). The 503 `communications-unavailable` OpenAPI/`problem-types` declaration recorded as interim debt in v0.15 is closed (v0.15.1).
+
+- Latest R&T P3s named for this candidate: missing 200/503 fixtures; resend not in OpenAPI; `check:dependencies` needs a built strata `dist`
+- `email-send-forbidden` remains an undeclared staff mail type (not added to the registry or debt lists)
+- Contract `operation-fixture-parity`: eight uncovered operations remain (down from nine after the invoice-email 503 fixture)
+- The known ten official-integration failures, including F-6 invoice smtp-vs-log
+- Playwright: the six visitor `state-matrix` failures that remain from the v0.7 baseline, plus the new failures named above
+- F6 P3-2, P3-3, P4
+- Batch B leftovers still named as deferred in the F6 note: P3-1 mid-walk 410 UI restart; P3-2 `/properties/tree` 15 s snapshot vs live `/scope` walks; `/scope` row order; page size default and max of 2,000; `getResidents` fan-out and the per-ticket helpdesk query; RT5-F12
+- N2: empty `limit=` means default
+- N3: `/notices` unbounded (notice-list paging)
+- Physical relocation of `strata.email_outbox` (after-MVP)
+- 403/404 oracle (carried in Batch B v0.10 / v0.12)
+- Remainder of Batch C (anything not P3-1, P3-5, or D1 F-1..F-5)
+
+## Deviations
+
+- Official contract and integration commands exit non-zero because of the known fixture-parity debt and the known ten, same shape as D1 v0.15.1. They were not "fixed."
+- `check:dependencies` was run after `tsc -b` of `apps/api` and sibling modules (including strata) so dists existed. The gate passed (363 modules, 1436 dependencies, 2 known violations ignored). The standing R&T caveat that the gate needs a built strata `dist` still applies to a tree without those dists.
+- Playwright failure *count* stayed at 14, but four failures are outside `state-matrix` and two further `state-matrix` groups (`adminRoles`, Portfolio grant) are outside the v0.7 visitor-screen description. All new titles are listed above. This is not "the same 14."
+- The private Playwright API on :3921 was not the credential destination of the production `dist` (empty `VITE_API_BASE` → same-origin). Reserved live ports were left untouched.
+- No history rewrite, no squash, no push, no worktree reset. No amendment of source branches.
+

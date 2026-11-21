@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-out-of-scope",
+  "title": "Notice not found",
+  "status": 404,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "This notice is not available.",
+    "zh-Hant": "無法使用此通告。"
+  },
+  "retryable": false
+}

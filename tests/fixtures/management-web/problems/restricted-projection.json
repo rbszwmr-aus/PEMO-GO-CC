@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/restricted-projection",
+  "title": "Restricted to integration support",
+  "status": 403,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000019",
+  "staffMessage": {
+    "en": "Raw payloads and correlation traces are available to integration support only.",
+    "zh-Hant": "原始資料及關聯追蹤僅供整合支援人員查閱。"
+  },
+  "retryable": false
+}

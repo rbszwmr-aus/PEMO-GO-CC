@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "correlationId": "2b3c4d5e-0000-4000-8000-000000000014",
+    "contractVersion": "2.7.0",
+    "generatedAt": "2026-08-12T09:56:00+08:00"
+  },
+  "notices": [
+    {
+      "noticeId": "ntc_state_draft",
+      "noticeType": "general",
+      "titleEn": "Draft, not yet submitted",
+      "lifecycleState": "draft",
+      "publishAt": null,
+      "expireAt": null,
+      "mandatoryAck": false,
+      "version": 1,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "publishNotice",
+        "reviseNotice"
+      ]
+    },
+    {
+      "noticeId": "ntc_state_pending",
+      "noticeType": "emergency",
+      "titleEn": "Awaiting approval",
+      "lifecycleState": "pending_approval",
+      "publishAt": null,
+      "expireAt": null,
+      "mandatoryAck": true,
+      "version": 2,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": []
+    },
+    {
+      "noticeId": "ntc_state_approved",
+      "noticeType": "emergency",
+      "titleEn": "Approved, not yet published",
+      "lifecycleState": "approved",
+      "publishAt": null,
+      "expireAt": null,
+      "mandatoryAck": true,
+      "version": 3,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "publishNotice"
+      ]
+    },
+    {
+      "noticeId": "ntc_state_scheduled",
+      "noticeType": "planned_interruption",
+      "titleEn": "Scheduled for next week",
+      "lifecycleState": "scheduled",
+      "publishAt": "2026-09-10T09:00:00+08:00",
+      "expireAt": null,
+      "mandatoryAck": false,
+      "version": 2,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "correctNotice",
+        "withdrawNotice"
+      ]
+    },
+    {
+      "noticeId": "ntc_state_live",
+      "noticeType": "general",
+      "titleEn": "Live now",
+      "lifecycleState": "live",
+      "publishAt": "2026-08-12T09:00:00+08:00",
+      "expireAt": null,
+      "mandatoryAck": false,
+      "version": 2,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "correctNotice",
+        "withdrawNotice"
+      ]
+    },
+    {
+      "noticeId": "ntc_state_expired",
+      "noticeType": "planned_interruption",
+      "titleEn": "Expired last week",
+      "lifecycleState": "expired",
+      "publishAt": "2026-08-01T09:00:00+08:00",
+      "expireAt": "2026-08-05T00:00:00+08:00",
+      "mandatoryAck": false,
+      "version": 2,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": [
+        "correctNotice",
+        "withdrawNotice"
+      ]
+    },
+    {
+      "noticeId": "ntc_state_withdrawn",
+      "noticeType": "general",
+      "titleEn": "Withdrawn in error",
+      "lifecycleState": "withdrawn",
+      "publishAt": "2026-08-11T09:00:00+08:00",
+      "expireAt": null,
+      "mandatoryAck": false,
+      "version": 3,
+      "titleZhHant": "（未翻譯）",
+      "stateEnteredAt": "2026-08-12T09:00:00+08:00",
+      "permittedActions": []
+    }
+  ]
+}

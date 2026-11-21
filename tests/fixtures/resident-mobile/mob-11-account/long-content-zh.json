@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "correlationId": "1a2b3c4d-0000-4000-8000-000000000050",
+    "contractVersion": "0.4.0",
+    "generatedAt": "2026-08-13T10:00:00+08:00"
+  },
+  "resident": {
+    "residentId": "res_wfg_000412",
+    "displayName": "Ho Mei-yi 何美儀",
+    "greeting": {
+      "en": "Good morning",
+      "zh-Hant": "早晨"
+    }
+  },
+  "pass": {
+    "passReference": "RP-A1-4471",
+    "holderName": "Ho Mei-yi 何美儀",
+    "unitDisplayLine": {
+      "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+      "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+    },
+    "carriesAccess": false,
+    "note": {
+      "en": "Shown at the counter to identify you. It carries no door access — access cards stay with the existing system.",
+      "zh-Hant": "於櫃檯出示以核實身分。此通行證不含門禁功能，門禁卡仍由現有系統管理。"
+    }
+  },
+  "memberships": [
+    {
+      "unitId": "unit_wfg_a_12_a1",
+      "displayLine": {
+        "en": "Wing Fu Garden · Block A · 12/F Flat A1",
+        "zh-Hant": "榮富花園 · A座 · 12樓 A1室"
+      },
+      "role": "owner_occupier",
+      "isCurrent": true,
+      "effectiveTo": null
+    },
+    {
+      "unitId": "unit_wfg_c_08_c3",
+      "displayLine": {
+        "en": "Wing Fu Garden · Block C · 8/F Flat C3",
+        "zh-Hant": "榮富花園 · C座 · 8樓 C3室"
+      },
+      "role": "household_member",
+      "isCurrent": false,
+      "effectiveTo": null
+    }
+  ],
+  "notificationPreferences": [
+    {
+      "preferenceKey": "critical_safety",
+      "label": {
+        "en": "Critical safety alerts",
+        "zh-Hant": "緊急安全警報"
+      },
+      "description": {
+        "en": "Always on — cannot be switched off",
+        "zh-Hant": "永久開啟，不能關閉"
+      },
+      "enabled": true,
+      "locked": true,
+      "lockReason": {
+        "en": "Following the scheduled inspection of the fresh water pumping installation serving Block A, the management office wishes to advise all residents that the supply interruption originally notified for the morning of 14 August has been extended into the early afternoon, and that residents on floors above the twentieth may experience discoloured water for a short period after the supply is restored, which is expected and not a cause for concern.",
+        "zh-Hant": "因應為A座供水的食水泵房裝置進行既定檢查，管理處謹此通知各住戶，原定於八月十四日上午的供水中斷已延長至下午初段，二十樓以上的住戶在恢復供水後可能會在短時間內遇到食水變色的情況，此屬預期之內，毋須擔心。"
+      },
+      "channels": [
+        "in_app",
+        "push"
+      ]
+    },
+    {
+      "preferenceKey": "notices_and_advisories",
+      "label": {
+        "en": "Notices and advisories",
+        "zh-Hant": "通告及提示"
+      },
+      "description": {
+        "en": "App and push",
+        "zh-Hant": "應用程式及推送通知"
+      },
+      "enabled": true,
+      "locked": false,
+      "channels": [
+        "in_app",
+        "push"
+      ]
+    },
+    {
+      "preferenceKey": "case_replies",
+      "label": {
+        "en": "Case replies",
+        "zh-Hant": "個案回覆"
+      },
+      "description": {
+        "en": "App and push",
+        "zh-Hant": "應用程式及推送通知"
+      },
+      "enabled": true,
+      "locked": false,
+      "channels": [
+        "in_app",
+        "push"
+      ]
+    }
+  ],
+  "language": "en"
+}

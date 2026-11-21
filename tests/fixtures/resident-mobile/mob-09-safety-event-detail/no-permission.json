@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/not-authorized",
+  "title": "Not authorized for this unit",
+  "status": 403,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000018",
+  "residentMessage": {
+    "en": "You do not have access to this home. Contact the management office if you think this is wrong.",
+    "zh-Hant": "您沒有此住戶的存取權限。如認為有誤，請聯絡管理處。"
+  },
+  "retryable": false
+}

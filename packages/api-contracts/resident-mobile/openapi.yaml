@@ -1,0 +1,1363 @@
+openapi: 3.1.0
+
+info:
+  title: PEMO Resident Mobile API
+  version: 0.4.0
+  summary: Read contract for the five designed resident-mobile screens, plus resident acknowledgement.
+  description: |
+    Resident-facing read contract behind the five screens designed in the PEMO mobile
+    design export: `MOB-02` Home, `MOB-03` Services, `MOB-08` Safety overview,
+    `MOB-09` Safety-event detail and `MOB-11` Account.
+
+    **Scope.** This is deliberately not the whole product API. It covers only what those
+    five screens need, so that `GEN-006-ST` and `UI-007-ST` can run concurrently against a
+    frozen contract. The six unexported screens (`MOB-01`, `MOB-04`–`MOB-07`, `MOB-10`) are a
+    known gap, recorded rather than invented. The resident navigation has an `Inbox` tab with
+    no designed destination; `UI-007-ST` builds it as an explicit not-yet-designed placeholder.
+
+    **Owned by** `API-005-ST`. Neither `GEN-006-ST` nor `UI-007-ST` may modify this document.
+    Contract changes go back to `API-005-ST` as a new version and both downstream sessions
+    re-pin together.
+
+    **Boundaries enforced by this contract.**
+
+    - Every response is a resident-readable projection. No `2IoThub` payload, device
+      identifier, telemetry value or protocol field crosses this boundary. Enforced
+      mechanically by `forbidden-terms.json` and `tests/fixtures/validate.mjs`.
+    - Every severity value comes from the canonical seven-level enumeration in
+      `severity.json`. No free-text severity, and clients must not derive or override one.
+    - Occurrence time and receipt time are always distinct fields. A consumer must never
+      substitute one for the other.
+    - The statutory disclaimer is server-supplied in both languages. Clients must not
+      hardcode it; the wording is a compliance surface and belongs to the server.
+    - Authorization is resident-to-unit and is encoded here, not left to implementation.
+
+    **Not proof of anything running.** This document plus its fixtures demonstrate internal
+    consistency only. No endpoint, database or client exists.
+  contact:
+    name: PEMO Master Brain — contract owner
+  license:
+    name: UNLICENSED
+
+servers:
+  - url: https://{host}/api/resident-mobile/v0
+    description: Placeholder. Deployment topology is Unresolved in the committed architecture baseline and is not selected here.
+    variables:
+      host:
+        default: pemo.invalid
+
+tags:
+  - name: Home
+    description: "`MOB-02` — Home."
+  - name: Services
+    description: "`MOB-03` — Services and help desk."
+  - name: Safety
+    description: "`MOB-08` and `MOB-09` — Home Safety overview and event detail."
+  - name: Account
+    description: "`MOB-11` — Account and preferences."
+
+security:
+  - residentBearer: []
+
+paths:
+  /home:
+    get:
+      tags: [Home]
+      operationId: getHome
+      summary: Home screen projection (MOB-02).
+      description: |
+        Resident greeting, current unit context, the unit switcher list, the home safety
+        summary, the open case summary, recent notices and the quick-service tiles.
+
+        The safety summary here is the same projection shape as `/safety/overview` returns,
+        so a client cannot render two different safety states on two screens.
+      parameters:
+        - $ref: '#/components/parameters/UnitId'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: Home projection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/HomeResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '503': { $ref: '#/components/responses/IntegrationUnavailable' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /services:
+    get:
+      tags: [Services]
+      operationId: getServices
+      summary: Services screen projection (MOB-03).
+      description: |
+        Help desk availability and typical reply time, the services available now, and the
+        services marked coming-soon with a reason string.
+
+        Coming-soon services carry an explicit `availability` discriminator rather than a
+        single not-live flag, because the design distinguishes two dispositions: a service
+        that will be switched on for this estate once its integration is live, and one that
+        is permanently handled by an external system of record.
+      parameters:
+        - $ref: '#/components/parameters/UnitId'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: Services projection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ServicesResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '503': { $ref: '#/components/responses/IntegrationUnavailable' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /safety/overview:
+    get:
+      tags: [Safety]
+      operationId: getSafetyOverview
+      summary: Safety overview projection (MOB-08).
+      description: |
+        Current safety state for the unit, the installed services with their resident-readable
+        location and per-service state, and recent safety events.
+
+        `severity` and `monitoringCoverage` must both be read. A client that reads only
+        `severity` cannot correctly render a unit with no installed service; see `severity.md`.
+      parameters:
+        - $ref: '#/components/parameters/UnitId'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: Safety overview projection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SafetyOverviewResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '503': { $ref: '#/components/responses/IntegrationUnavailable' }
+        '409': { $ref: '#/components/responses/UnitNotMapped' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /safety/events/{eventId}:
+    get:
+      tags: [Safety]
+      operationId: getSafetyEvent
+      summary: Safety-event detail projection (MOB-09).
+      description: |
+        Severity, plain-language title, bilingual instruction body, location, detection time,
+        reporting source, available response actions, management update timeline,
+        acknowledgement state and the server-supplied statutory disclaimer.
+
+        `location.audienceSource` states how this resident came to be in the audience: either
+        `unit`, for an in-unit event, or `serving_scope`, for an event in a common area,
+        public facility, clubhouse or building service whose audience derives from that
+        location's serving scope under `ADR-003`.
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: Safety-event detail projection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SafetyEventDetailResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '410': { $ref: '#/components/responses/Gone' }
+        '503': { $ref: '#/components/responses/IntegrationUnavailable' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /safety/events/{eventId}/acknowledgement:
+    put:
+      tags: [Safety]
+      operationId: acknowledgeSafetyEvent
+      summary: Record that this resident has seen a safety notification.
+      description: |
+        The single write path in this contract.
+
+        **This is not alarm acknowledgement.** It records that a resident has seen a
+        notification, and it is a PEMO communication record. Alarm detection,
+        acknowledgement, suppression, clearing, reclassification, lifecycle and technical
+        escalation belong to `2IoThub`, and PEMO performs none of them. The two share a word
+        and nothing else.
+
+        **Idempotent on a client-supplied key.** Repeating the same `acknowledgementKey`
+        returns the original outcome and creates nothing new, so a retry after a timeout, a
+        double tap, or an offline replay when connectivity returns are all safe. A different
+        key for the same event and resident is a duplicate submission and is rejected with
+        `409`, rather than silently recording a second acknowledgement.
+      parameters:
+        - $ref: '#/components/parameters/EventId'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AcknowledgementRequest' }
+      responses:
+        '200':
+          description: |
+            Acknowledgement recorded, or the prior outcome replayed for a repeated
+            `acknowledgementKey`. `replayed` distinguishes the two.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AcknowledgementResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/DuplicateSubmission' }
+        '410': { $ref: '#/components/responses/Gone' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /account:
+    get:
+      tags: [Account]
+      operationId: getAccount
+      summary: Account screen projection (MOB-11).
+      description: |
+        Resident identity and pass, unit membership, and notification preferences including
+        locked entries with their lock reasons.
+
+        A locked preference is returned with `locked: true` and a resident-readable
+        `lockReason`. The design requires the control to be shown locked with its reason
+        rather than hidden, so the reason is server-supplied and never client-invented.
+      parameters:
+        - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: Account projection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AccountResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/IntegrationUnavailable' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+
+  /notices:
+    get:
+      tags: [Notices]
+      operationId: getMyNotices
+      summary: The notices this resident was addressed by.
+      description: |
+        **MEMBERSHIP IS THE AUDIENCE SNAPSHOT, never a re-resolution of where the
+        resident lives today.** The two diverge the moment anybody moves: a resident
+        who arrived last week was not told about an interruption that happened
+        before they did, and re-resolving the targeting rule here would show it to
+        them. `GEN-037` takes the snapshot at publication; this is where it does its
+        work.
+
+        **What is ABSENT is deliberate** (`ADR-007`). A resident never receives who
+        approved the notice, why it was declined, corrected or withdrawn, the
+        targeting rule, any other recipient, or the assertion versions. Those are
+        governance facts about staff. The fields are not filtered out downstream --
+        they are never selected, so no serialiser change can leak them.
+
+        Visible states are `live` and `expired` only. An expired notice is FLAGGED
+        rather than hidden: expiry ends visibility of the instruction, not the fact
+        that it was given. A withdrawn notice does not appear at all, because
+        continuing to show it would defeat the withdrawal.
+      responses:
+        '200':
+          description: The notices addressed to this resident.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyNoticesResponse'
+
+  /notices/{noticeId}/read:
+    post:
+      tags: [Notices]
+      operationId: markNoticeRead
+      summary: Record that this resident has read a notice.
+      description: |
+        FIRST WINS, and a duplicate is a no-op rather than an error -- a resident pressing
+        this twice has done nothing wrong. The once-only guarantee is a partial unique
+        index, not application code.
+
+        **Idempotency stance: `derived-key`** on `(notice, resident, kind)`: you cannot
+        first-read a thing twice, so the fact itself is the key and no client has to
+        remember one.
+      parameters:
+        - $ref: '#/components/parameters/NoticeIdParam'
+      responses:
+        '200':
+          description: The fact was recorded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoticeAckResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /notices/{noticeId}/acknowledge:
+    post:
+      tags: [Notices]
+      operationId: acknowledgeNotice
+      summary: Record that this resident acknowledges a notice.
+      description: |
+        Distinct from reading it. Both facts may coexist for one recipient, and a notice
+        marked `mandatoryAck` is asking for this one.
+
+        **Idempotency stance: `derived-key`**, as for reading.
+      parameters:
+        - $ref: '#/components/parameters/NoticeIdParam'
+      responses:
+        '200':
+          description: The fact was recorded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoticeAckResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /notices/{noticeId}/respond:
+    post:
+      tags: [Notices]
+      operationId: respondToNotice
+      summary: Answer the question a notice asked.
+      description: |
+        The answer must be one of the notice DECLARED options; a notice that declares none
+        refuses this outright, because no declared question means there is no answer to
+        record rather than that any answer will do. Free text is deferred behind
+        `ADR-019` `OQ4` (retention).
+
+        **APPEND-ONLY, CURRENT = LATEST.** A resident may change their answer, and the
+        earlier one survives as the record of what they said before.
+
+        **Idempotency stance: `client-key`.** This is the one place the distinction is
+        visible to a person: a resident changing their mind and a phone retrying the
+        first answer are IDENTICAL to the server without a key, and they are different
+        events.
+      parameters:
+        - $ref: '#/components/parameters/NoticeIdParam'
+        - $ref: '#/components/parameters/IdempotencyKeyHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoticeResponseRequest'
+      responses:
+        '200':
+          description: The fact was recorded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoticeAckResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+
+  securitySchemes:
+    residentBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+      description: |
+        Resident session credential. The identity provider is Unresolved in the committed
+        architecture baseline and is not selected here.
+
+        **Authorization is resident-to-unit and is part of this contract, not an
+        implementation detail.**
+
+        - A resident may read only units for which they hold an active, non-expired
+          occupancy or household relationship, or an explicitly granted caregiver scope,
+          evaluated at the time of the operation.
+        - A resident sees only their own cases and only safety events whose audience includes
+          them — resolved from the unit for an in-unit event, or from the location's serving
+          scope for a common-area, public-facility, clubhouse or building-service event.
+        - Server-side scope enforcement is rooted at the Organization tenancy root
+          (`ADR-002`), even though no organization identifier is ever serialized to a
+          resident. Estate is not the tenancy root. `GEN-006-ST` must be able to write
+          cross-organization isolation tests against this contract without contradicting it.
+        - An unauthorized unit or event is `403` where the resident's lack of authorization is
+          itself safe to disclose, and `404` where confirming existence would leak the
+          presence of another resident's unit or event. Implementations must not disclose
+          existence through the choice of status code beyond what is specified per operation.
+
+  parameters:
+    NoticeIdParam:
+      name: noticeId
+      in: path
+      required: true
+      description: The notice instance identifier.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 120
+    IdempotencyKeyHeader:
+      name: Idempotency-Key
+      in: header
+      required: false
+      description: |
+        The client key for `respondToNotice`. Without it a change of mind and a
+        retried first answer are indistinguishable to the server, and they are
+        different events.
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 200
+    UnitId:
+      name: unitId
+      in: query
+      required: true
+      description: |
+        Opaque stable PEMO unit identifier. Only units of `unitClass` `residential`
+        constitute a resident's home and are addressable here; parking and storage units
+        exist in the property model (`ADR-003` Q2) but are never presented as a second home.
+      schema: { $ref: '#/components/schemas/UnitId' }
+    EventId:
+      name: eventId
+      in: path
+      required: true
+      description: Opaque stable PEMO safety-event identifier. Not a `2IoThub` identifier and not a device identifier.
+      schema: { $ref: '#/components/schemas/EventId' }
+    AcceptLanguage:
+      name: Accept-Language
+      in: header
+      required: false
+      description: |
+        Preferred rendering language. Responses always carry **both** `en` and `zh-Hant` for
+        resident-visible copy regardless of this header, so the client can switch language
+        without a refetch and so a missing translation is visible rather than silently
+        substituted. This header influences ordering and server-side formatting only.
+      schema:
+        type: string
+        enum: [en, zh-Hant]
+        default: en
+
+  responses:
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    Unauthorized:
+      description: No valid resident session. The client must re-authenticate; this is the session-expired case.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    Forbidden:
+      description: Authenticated, but this resident is not authorized for the requested unit or event.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    NotFound:
+      description: No such resource, or its existence must not be disclosed to this resident.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    Gone:
+      description: |
+        The safety event was retracted or corrected by its source and is no longer valid to
+        display as it stands. `supersededBy` names the replacement where one exists, so the
+        correction stays linked to the original as design system section 3.1 requires.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    DuplicateSubmission:
+      description: A different acknowledgement already exists for this resident and event.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    InternalError:
+      description: |
+        An unexpected server-side failure. The client must render an explicit error state.
+
+        **It must never fall back to a normal or all-clear presentation** — design system
+        §3.1 forbids missing data rendering as normal, and that applies to a failed request
+        exactly as it applies to stale data.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+
+    UnitNotMapped:
+      description: |
+        The unit is not mapped to a monitored location, so no safety status can be resolved
+        for it. **This is the quarantine path.**
+
+        The committed baseline requires that "unresolved or ambiguous mappings [are] rejected
+        or held for staff review rather than guessed"
+        (`docs/architecture/property-and-identity-model.md`). Guessing the nearest matching
+        unit would send one household's safety alert to another, which is the single worst
+        failure this contract can permit — so the contract returns a distinct status rather
+        than an empty or normal-looking `200`.
+
+        The event is held, visible and unassigned until staff resolve the mapping. The
+        resident is told plainly that status cannot be shown, and is never told that
+        everything is normal.
+
+        Distinct from the `409` on `acknowledgeSafetyEvent`, which means a duplicate
+        acknowledgement. Same status code, unrelated meaning; the `type` URI discriminates.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+
+    IntegrationUnavailable:
+      description: |
+        An upstream integration this projection depends on is unavailable.
+
+        The response still carries a `Problem`, and a client must render an explicit
+        unavailable state. **It must never fall back to a normal or all-clear presentation**;
+        design system section 3.1 forbids missing data rendering as normal.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+
+  schemas:
+    MyNoticeItem:
+      type: object
+      required: [noticeId, noticeType, titleEn, titleZhHant, bodyEn, bodyZhHant, expired, mandatoryAck]
+      description: |
+        WHAT A RESIDENT RECEIVES, and nothing else. There is deliberately no
+        approver, no reason code, no targeting rule, no other recipient and no
+        assertion version -- those are governance facts about staff (`ADR-007`).
+      properties:
+        noticeId:
+          type: string
+        noticeType:
+          type: string
+          enum: [general, planned_interruption, emergency, event_community]
+        titleEn:
+          type: string
+        titleZhHant:
+          type: string
+        bodyEn:
+          type: string
+        bodyZhHant:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+          nullable: true
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        expired:
+          type: boolean
+          description: FLAGGED, not hidden. Expiry ends the instruction, not the record of it.
+        mandatoryAck:
+          type: boolean
+        responseOptions:
+          type: array
+          nullable: true
+          items:
+            type: string
+        myRead:
+          type: string
+          format: date-time
+          nullable: true
+        myAcknowledged:
+          type: string
+          format: date-time
+          nullable: true
+        myResponse:
+          type: string
+          nullable: true
+      additionalProperties: false
+    MyNoticesResponse:
+      type: object
+      required: [notices]
+      properties:
+        notices:
+          type: array
+          items:
+            $ref: '#/components/schemas/MyNoticeItem'
+      additionalProperties: false
+    NoticeResponseRequest:
+      type: object
+      required: [option]
+      properties:
+        option:
+          type: string
+          maxLength: 60
+          description: One of the notice declared response option keys.
+      additionalProperties: false
+    NoticeAckResponse:
+      type: object
+      required: [recorded, firstTime]
+      properties:
+        recorded:
+          type: boolean
+        firstTime:
+          type: boolean
+          description: |
+            False when this repeated an act already recorded. The caller sees the
+            SAME outcome either way -- that is what idempotent means -- and this
+            field simply says which happened.
+      additionalProperties: false
+
+    UnitId:
+      type: string
+      pattern: '^unit_[A-Za-z0-9_]{6,32}$'
+      examples: ['unit_wfg_a_12_a1']
+
+    EventId:
+      type: string
+      pattern: '^evt_[A-Za-z0-9_]{6,32}$'
+      examples: ['evt_20260813_0942_smoke']
+
+    CorrelationId:
+      type: string
+      format: uuid
+      description: Stable workflow trace identifier, per the committed contract-envelope rules.
+
+    Timestamp:
+      type: string
+      format: date-time
+      description: RFC 3339 timestamp with an explicit offset. Never a local time without offset.
+
+    LocalizedText:
+      type: object
+      description: |
+        Resident-visible copy. Both languages are always present. Fragments are never
+        concatenated across languages; each variant is authored whole, per design system
+        section 16.
+      required: [en, zh-Hant]
+      additionalProperties: false
+      properties:
+        en:
+          type: string
+          minLength: 1
+        zh-Hant:
+          type: string
+          minLength: 1
+
+    Severity:
+      type: string
+      description: |
+        Canonical severity. The normative definition, including per-level display rules and
+        colour tokens, is `severity.json`; this enumeration must stay identical to its
+        `levelOrder`.
+
+        Client connectivity is never a severity — the server cannot know it. Monitoring
+        coverage is never a severity — see `monitoringCoverage`.
+      enum: [normal, information, advisory, warning, critical, offline, unknown]
+
+    MonitoringCoverage:
+      type: string
+      description: |
+        Whether the unit has any monitored safety service installed. Read together with
+        `severity`; neither alone renders the state correctly. When `none`, `severity` is
+        `information` and the client renders the explicit not-monitored copy.
+      enum: [full, partial, none]
+
+    Freshness:
+      type: object
+      description: |
+        Data age for a safety projection, so the client can present staleness without
+        inventing a severity for it. This is what makes client-side connectivity handling
+        possible without a phone-offline severity value.
+      required: [status, ageSeconds, windowSeconds]
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum: [current, stale]
+          description: |
+            `stale` means the observation is older than `windowSeconds`. A stale projection
+            must never render as normal, whatever its severity says.
+        ageSeconds:
+          type: integer
+          minimum: 0
+          description: Age of the observation at `meta.generatedAt`.
+        windowSeconds:
+          type: integer
+          minimum: 1
+          description: Contract-defined freshness window beyond which the observation is stale.
+
+    Meta:
+      type: object
+      description: |
+        Response envelope. The committed baseline defines a message envelope for events;
+        this is its HTTP projection — a correlation identifier per response plus explicit
+        generation time, rather than a full event envelope wrapped around every payload.
+        The mapping decision is recorded in `ADR-001`.
+      required: [correlationId, contractVersion, generatedAt]
+      additionalProperties: false
+      properties:
+        correlationId: { $ref: '#/components/schemas/CorrelationId' }
+        contractVersion:
+          type: string
+          const: '0.4.0'
+        generatedAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: |
+            When the server generated this response. This is a receipt-side time. It is never
+            an occurrence time and must never be substituted for `occurredAt` or `observedAt`.
+        partial:
+          type: boolean
+          default: false
+          description: |
+            True when some section of this projection could not be assembled. The affected
+            sections are listed in `degraded`. A partial response is still a valid response;
+            it is not an error, and it must not be rendered as if the missing data were normal.
+        degraded:
+          type: array
+          description: Sections that could not be assembled, when `partial` is true.
+          items:
+            type: object
+            required: [section, reason]
+            additionalProperties: false
+            properties:
+              section:
+                type: string
+                description: Name of the omitted or incomplete section of this projection.
+              reason: { $ref: '#/components/schemas/LocalizedText' }
+
+    Problem:
+      type: object
+      description: RFC 9457 problem detail, with PEMO correlation added.
+      required: [type, title, status, correlationId]
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: |
+            GENERATED from `packages/api-contracts/problem-types.json`, filtered to
+            `surfaces: resident`. Do not edit this enum by hand — the registry is
+            normative and `validate.mjs` asserts the two agree.
+
+            Before `0.3.0` this was an unconstrained `uri-reference`, so a typo such as
+            `session-expried` validated everywhere and silently broke every client
+            branching on the field. A discriminator that is not validated is not a
+            discriminator; it is a string.
+            GENERATED from the shared registry, filtered to `surfaces: resident`.
+            Do not author a type URI here.
+          enum:
+            - https://pemo.local/problems/bad-request
+            - https://pemo.local/problems/caregiver-scope-expired
+            - https://pemo.local/problems/duplicate-acknowledgement
+            - https://pemo.local/problems/event-not-found
+            - https://pemo.local/problems/event-retracted
+            - https://pemo.local/problems/integration-unavailable
+            - https://pemo.local/problems/internal-error
+            - https://pemo.local/problems/invalid-credential
+            - https://pemo.local/problems/not-authorized
+            - https://pemo.local/problems/notice-no-question-asked
+            - https://pemo.local/problems/notice-not-addressed
+            - https://pemo.local/problems/notice-not-this-resident
+            - https://pemo.local/problems/notice-not-yet-visible
+            - https://pemo.local/problems/notice-undeclared-option
+            - https://pemo.local/problems/session-expired
+            - https://pemo.local/problems/unmapped-unit
+        title:
+          type: string
+        status:
+          type: integer
+          minimum: 100
+          maximum: 599
+        detail:
+          type: string
+          description: Diagnostic text. Not resident-facing copy; use `residentMessage` for that.
+        instance:
+          type: string
+          format: uri-reference
+        correlationId: { $ref: '#/components/schemas/CorrelationId' }
+        residentMessage:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Resident-readable explanation, when one is appropriate to show. Plain language,
+            no technical terms, per design system section 16.
+        supersededBy:
+          allOf:
+            - $ref: '#/components/schemas/EventId'
+          description: Replacement event, when this event was corrected or retracted.
+        retryable:
+          type: boolean
+          description: Whether an identical retry may succeed later.
+
+    UnitContext:
+      type: object
+      description: |
+        The resident's current unit. Estate, block, floor and flat only. No organization or
+        portfolio concept is exposed to a resident (`ADR-002`); the tenancy root exists
+        server-side in the authorization scope and is never serialized here.
+      required: [unitId, estateName, blockName, floor, flat, displayLine]
+      additionalProperties: false
+      properties:
+        unitId: { $ref: '#/components/schemas/UnitId' }
+        estateName: { $ref: '#/components/schemas/LocalizedText' }
+        blockName: { $ref: '#/components/schemas/LocalizedText' }
+        floor:
+          type: string
+          description: Resident-readable floor label, for example `12/F`. Not a numeric index.
+        flat:
+          type: string
+          description: Resident-readable flat label, for example `A1`.
+        displayLine:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Server-composed single-line context, for example
+            `Wing Fu Garden · Block A · 12/F Flat A1`. Composed server-side because the
+            component order differs between English and Traditional Chinese and clients must
+            not concatenate translated fragments.
+
+    UnitMembership:
+      type: object
+      required: [unitId, displayLine, role, isCurrent]
+      additionalProperties: false
+      properties:
+        unitId: { $ref: '#/components/schemas/UnitId' }
+        displayLine: { $ref: '#/components/schemas/LocalizedText' }
+        role:
+          type: string
+          enum: [owner_occupier, tenant, household_member, caregiver]
+        isCurrent:
+          type: boolean
+        effectiveTo:
+          anyOf:
+            - $ref: '#/components/schemas/Timestamp'
+            - type: 'null'
+          description: End of the relationship where one is set. A caregiver scope nearing expiry is surfaced to the resident.
+
+    SafetySummary:
+      type: object
+      description: |
+        The unit's current safety state. Identical shape wherever it appears, so `MOB-02` and
+        `MOB-08` cannot disagree.
+      required: [severity, monitoringCoverage, headline, observedAt, receivedAt, freshness, disclaimer]
+      additionalProperties: false
+      properties:
+        severity: { $ref: '#/components/schemas/Severity' }
+        monitoringCoverage: { $ref: '#/components/schemas/MonitoringCoverage' }
+        headline: { $ref: '#/components/schemas/LocalizedText' }
+        detail:
+          $ref: '#/components/schemas/LocalizedText'
+        observedAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: |
+            When the underlying condition was observed at source. **Occurrence time.** Never
+            replaced with a receipt time.
+        receivedAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: |
+            When PEMO received the observation. **Receipt time.** Used for latency and replay
+            analysis, never presented as the time the condition occurred.
+        freshness: { $ref: '#/components/schemas/Freshness' }
+        disclaimer:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Statutory supplementary-notification disclaimer, server-supplied in both
+            languages. The client must not hardcode it: wording is a compliance surface and
+            belongs to the server, and the overview and detail wordings deliberately differ.
+
+    InstalledService:
+      type: object
+      description: |
+        A monitored service as a resident sees it. Resident-readable name and room only.
+        There is no device identifier, serial, model, telemetry value or protocol field here,
+        and `forbidden-terms.json` enforces that mechanically.
+      required: [serviceKey, name, location, state, severity, observedAt]
+      additionalProperties: false
+      properties:
+        serviceKey:
+          type: string
+          description: Stable resident-facing service key for client rendering. Not a device identifier.
+          enum: [smoke_detector, gas_detector, water_leak_sensor, help_button]
+        name: { $ref: '#/components/schemas/LocalizedText' }
+        location:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Resident-readable room, for example `Kitchen`. Not a panel zone or device location identifier.
+        state:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Plain-language state, for example `Normal` or `Not reporting`.
+        severity: { $ref: '#/components/schemas/Severity' }
+        observedAt: { $ref: '#/components/schemas/Timestamp' }
+
+    SafetyLocation:
+      type: object
+      description: |
+        Where a safety event is, and how this resident came to be in its audience.
+
+        `audienceSource` is the field that makes `ADR-003` serving scope real in the
+        contract. `unit` is an in-unit event. `serving_scope` is an event in a common area,
+        public facility, clubhouse or building service, whose audience derives from that
+        location's serving scope rather than from any unit — the mechanism that decides which
+        residents a lobby fire panel or a lift fault reaches.
+      required: [label, locationClass, audienceSource]
+      additionalProperties: false
+      properties:
+        label:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Resident-readable location, for example `Kitchen · 12/F Flat A1` or `Main lobby · Block A`.
+        locationClass:
+          type: string
+          description: Location taxonomy from `ADR-003`. `unit` is the resident's own flat.
+          enum: [unit, common_area, public_area, public_facility, clubhouse, building_service]
+        audienceSource:
+          type: string
+          description: |
+            How this resident's inclusion in the audience was resolved. `serving_scope` must
+            be used whenever `locationClass` is not `unit`.
+          enum: [unit, serving_scope]
+        servingScopeLabel:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Resident-readable description of who this event reaches, for example
+            `All residents of Block A`. Present when `audienceSource` is `serving_scope`, so
+            the resident understands why they received it.
+
+    SafetyEventSummary:
+      type: object
+      required: [eventId, severity, title, occurredAt, receivedAt, location]
+      additionalProperties: false
+      properties:
+        eventId: { $ref: '#/components/schemas/EventId' }
+        severity: { $ref: '#/components/schemas/Severity' }
+        title: { $ref: '#/components/schemas/LocalizedText' }
+        occurredAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: When the event occurred at source. Occurrence time.
+        receivedAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: When PEMO received it. Receipt time. A large gap is a late event and the client says so.
+        location: { $ref: '#/components/schemas/SafetyLocation' }
+        statusNote:
+          $ref: '#/components/schemas/LocalizedText'
+
+    ManagementUpdate:
+      type: object
+      description: A deliberately published, resident-visible update from management. Never automatic.
+      required: [updateId, publishedAt, body]
+      additionalProperties: false
+      properties:
+        updateId:
+          type: string
+        publishedAt: { $ref: '#/components/schemas/Timestamp' }
+        body: { $ref: '#/components/schemas/LocalizedText' }
+        isAllClear:
+          type: boolean
+          default: false
+          description: Whether this update is the all-clear. All-clear stays linked to the original event.
+
+    ResponseAction:
+      type: object
+      description: |
+        An action offered to the resident. Labels are server-supplied so they stay within
+        design system section 8.1, which forbids labelling a safety response merely `OK` or
+        `Confirm`.
+      required: [actionKey, label, kind]
+      additionalProperties: false
+      properties:
+        actionKey:
+          type: string
+          enum: [call_emergency_services, call_management_office, acknowledge_safe, view_latest_update, contact_management]
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        kind:
+          type: string
+          enum: [primary, secondary]
+        telephone:
+          type: string
+          description: |
+            Dialable number for a call action, where policy permits. Emergency services only,
+            or the management office. Never a resident's number.
+          examples: ['999']
+
+    AcknowledgementState:
+      type: object
+      required: [required, acknowledged]
+      additionalProperties: false
+      properties:
+        required:
+          type: boolean
+          description: Whether this event asks the resident to acknowledge that they have seen it.
+        acknowledged:
+          type: boolean
+        acknowledgedAt:
+          anyOf:
+            - $ref: '#/components/schemas/Timestamp'
+            - type: 'null'
+
+    Notice:
+      type: object
+      required: [noticeId, title, publishedAt]
+      additionalProperties: false
+      properties:
+        noticeId:
+          type: string
+        title: { $ref: '#/components/schemas/LocalizedText' }
+        publishedAt: { $ref: '#/components/schemas/Timestamp' }
+        effectiveFrom:
+          $ref: '#/components/schemas/Timestamp'
+        effectiveTo:
+          $ref: '#/components/schemas/Timestamp'
+        severity:
+          allOf:
+            - $ref: '#/components/schemas/Severity'
+          description: |
+            Communication emphasis for the notice. Constrained to the non-alarming levels —
+            a notice is not a safety event and must not borrow critical styling.
+        acknowledgementRequired:
+          type: boolean
+          default: false
+        summary:
+          $ref: '#/components/schemas/LocalizedText'
+
+    CaseSummary:
+      type: object
+      description: |
+        The resident's own open case. A resident sees only their own cases, never internal
+        notes and never another resident.
+      required: [caseReference, title, status, lastActivityAt]
+      additionalProperties: false
+      properties:
+        caseReference:
+          type: string
+          pattern: '^CS-[0-9]{5}$'
+          description: Resident-facing case reference, in the format the design uses.
+          examples: ['CS-24115']
+        title: { $ref: '#/components/schemas/LocalizedText' }
+        status:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Plain-language status, for example `Awaiting your reply`.
+        lastActivityAt: { $ref: '#/components/schemas/Timestamp' }
+        awaitingResident:
+          type: boolean
+
+    QuickService:
+      type: object
+      description: A quick-service tile on Home, or a service row on Services.
+      required: [serviceKey, label, availability]
+      additionalProperties: false
+      properties:
+        serviceKey:
+          type: string
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        state:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Short state line, for example `Open now` or `12 available`.
+        availability:
+          type: string
+          description: |
+            Three dispositions, not two. `available` is live. `coming_soon` will be switched
+            on for this estate once its integration is live. `external` is permanently handled
+            by an external system of record and will never become a PEMO service. The design
+            distinguishes these and a single not-live flag would lose the difference.
+          enum: [available, coming_soon, external]
+        reason:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Why a service is not available. Required whenever `availability` is not
+            `available`, because the design shows these greyed with a reason rather than as
+            buttons that fail.
+
+    HelpDesk:
+      type: object
+      required: [openNow, hours, availability]
+      additionalProperties: false
+      properties:
+        openNow:
+          type: boolean
+        hours:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Resident-readable opening hours, for example `Open 08:00–20:00 daily`.
+        availability:
+          $ref: '#/components/schemas/LocalizedText'
+        typicalReplyMinutes:
+          type: integer
+          minimum: 1
+          description: Typical reply time during office hours. Omitted when no reliable figure exists rather than guessed.
+        telephoneAvailable:
+          type: boolean
+
+    ResidentIdentity:
+      type: object
+      required: [residentId, displayName]
+      additionalProperties: false
+      properties:
+        residentId:
+          type: string
+        displayName:
+          type: string
+          description: The resident's own name as they have given it. Never another resident's name.
+        greeting:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Time-of-day greeting, composed server-side so the phrasing is locale-correct.
+
+    ResidentPass:
+      type: object
+      description: |
+        Counter-identification pass. It carries no door access — access cards remain with the
+        existing access-control system, and the contract says so rather than leaving a client
+        to imply otherwise.
+      required: [passReference, holderName, unitDisplayLine, carriesAccess, note]
+      additionalProperties: false
+      properties:
+        passReference:
+          type: string
+          description: Resident-facing pass reference. Not a credential and not a secret.
+        holderName:
+          type: string
+        unitDisplayLine: { $ref: '#/components/schemas/LocalizedText' }
+        carriesAccess:
+          type: boolean
+          const: false
+        note: { $ref: '#/components/schemas/LocalizedText' }
+
+    NotificationPreference:
+      type: object
+      required: [preferenceKey, label, enabled, locked]
+      additionalProperties: false
+      properties:
+        preferenceKey:
+          type: string
+          enum: [critical_safety, notices_and_advisories, case_replies]
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        description:
+          $ref: '#/components/schemas/LocalizedText'
+        enabled:
+          type: boolean
+        locked:
+          type: boolean
+          description: |
+            A locked preference cannot be changed by the resident. Critical safety alerts are
+            always locked on.
+        lockReason:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Required whenever `locked` is true. Server-supplied and never client-invented: the
+            design requires the control to be shown locked with its reason rather than hidden.
+        channels:
+          type: array
+          items:
+            type: string
+            enum: [in_app, push]
+
+    HomeResponse:
+      type: object
+      required: [meta, resident, unit, unitSwitcher, safety, notices, quickServices]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        resident: { $ref: '#/components/schemas/ResidentIdentity' }
+        unit: { $ref: '#/components/schemas/UnitContext' }
+        unitSwitcher:
+          type: array
+          description: Every residential unit this resident may switch to, including the current one. Parking and storage units never appear.
+          items: { $ref: '#/components/schemas/UnitMembership' }
+        safety: { $ref: '#/components/schemas/SafetySummary' }
+        openCase:
+          anyOf:
+            - $ref: '#/components/schemas/CaseSummary'
+            - type: 'null'
+          description: The resident's open case, or null when they have none.
+        notices:
+          type: array
+          items: { $ref: '#/components/schemas/Notice' }
+        quickServices:
+          type: array
+          items: { $ref: '#/components/schemas/QuickService' }
+
+    ServicesResponse:
+      type: object
+      required: [meta, unit, helpDesk, services]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        unit: { $ref: '#/components/schemas/UnitContext' }
+        helpDesk: { $ref: '#/components/schemas/HelpDesk' }
+        services:
+          type: array
+          description: All services, live and not, each carrying its `availability` and a reason where not available.
+          items: { $ref: '#/components/schemas/QuickService' }
+        comingSoonNote:
+          $ref: '#/components/schemas/LocalizedText'
+
+    SafetyOverviewResponse:
+      type: object
+      required: [meta, unit, safety, installedServices, recentEvents]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        unit: { $ref: '#/components/schemas/UnitContext' }
+        safety: { $ref: '#/components/schemas/SafetySummary' }
+        installedServices:
+          type: array
+          description: Empty when `safety.monitoringCoverage` is `none`. An empty list is not an error.
+          items: { $ref: '#/components/schemas/InstalledService' }
+        installedServicesNote:
+          $ref: '#/components/schemas/LocalizedText'
+        recentEvents:
+          type: array
+          items: { $ref: '#/components/schemas/SafetyEventSummary' }
+
+    SafetyEventDetailResponse:
+      type: object
+      required: [meta, event]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        event: { $ref: '#/components/schemas/SafetyEventDetail' }
+
+    SafetyEventDetail:
+      type: object
+      required:
+        [eventId, severity, title, instruction, location, occurredAt, receivedAt,
+         reportedBy, actions, acknowledgement, disclaimer, revision]
+      additionalProperties: false
+      properties:
+        eventId: { $ref: '#/components/schemas/EventId' }
+        severity: { $ref: '#/components/schemas/Severity' }
+        title:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: Plain-language event name. Never a raw alarm string or a device fault description.
+        instruction:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: What the resident should do. Direct verbs, per design system section 17.
+        location: { $ref: '#/components/schemas/SafetyLocation' }
+        occurredAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: Detection time at source. Occurrence time.
+        receivedAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: When PEMO received the event. Receipt time.
+        reportedBy:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Resident-readable reporting source, for example `Installed smoke detector` or
+            `Building fire panel`. A description of the kind of source, never a device
+            identifier, serial or address.
+        actions:
+          type: array
+          items: { $ref: '#/components/schemas/ResponseAction' }
+        managementUpdates:
+          type: array
+          description: Deliberately published updates, oldest first. Empty while an update is pending.
+          items: { $ref: '#/components/schemas/ManagementUpdate' }
+        managementUpdatePending:
+          type: boolean
+          default: false
+          description: True when management has acknowledged the event but has not yet published an update. The client says so rather than showing silence.
+        acknowledgement: { $ref: '#/components/schemas/AcknowledgementState' }
+        disclaimer:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Server-supplied statutory disclaimer. The detail wording deliberately differs from
+            the overview wording, which is why this is a returned field and not a constant.
+        revision:
+          type: object
+          description: |
+            Update-versus-duplicate handling. A later revision of the same event supersedes
+            an earlier one; a duplicate does not create a second event. Corrections and
+            retractions stay linked to the original.
+          required: [revisionNumber, isCorrection]
+          additionalProperties: false
+          properties:
+            revisionNumber:
+              type: integer
+              minimum: 1
+            isCorrection:
+              type: boolean
+              default: false
+            supersedes:
+              anyOf:
+                - $ref: '#/components/schemas/EventId'
+                - type: 'null'
+            correctionNote:
+              $ref: '#/components/schemas/LocalizedText'
+
+    AcknowledgementRequest:
+      type: object
+      required: [acknowledgementKey, action]
+      additionalProperties: false
+      properties:
+        acknowledgementKey:
+          type: string
+          format: uuid
+          description: |
+            Client-supplied idempotency key. The same key replays the original outcome; a
+            different key for the same resident and event is a duplicate submission and is
+            rejected with `409`.
+        action:
+          type: string
+          enum: [seen, i_am_safe]
+          description: |
+            What the resident is asserting. `seen` records that the notification was read;
+            `i_am_safe` records the resident's own statement about themselves.
+
+            Neither acknowledges, suppresses, clears or reclassifies an alarm. Both are PEMO
+            communication records.
+        occurredAt:
+          allOf:
+            - $ref: '#/components/schemas/Timestamp'
+          description: |
+            When the resident performed the action on their device. Supplied by the client so
+            an acknowledgement made offline and replayed later records the true time, and the
+            server records its own receipt time separately.
+
+    AcknowledgementResponse:
+      type: object
+      required: [meta, eventId, acknowledgement, replayed]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        eventId: { $ref: '#/components/schemas/EventId' }
+        acknowledgement: { $ref: '#/components/schemas/AcknowledgementState' }
+        replayed:
+          type: boolean
+          description: True when this repeated the outcome of an earlier identical key rather than recording something new.
+        confirmation:
+          allOf:
+            - $ref: '#/components/schemas/LocalizedText'
+          description: |
+            Resident-readable confirmation. Factual and calm — design system section 14
+            forbids celebratory animation after a safety acknowledgement, and the copy should
+            match that restraint.
+
+    AccountResponse:
+      type: object
+      required: [meta, resident, pass, memberships, notificationPreferences]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        resident: { $ref: '#/components/schemas/ResidentIdentity' }
+        pass: { $ref: '#/components/schemas/ResidentPass' }
+        memberships:
+          type: array
+          items: { $ref: '#/components/schemas/UnitMembership' }
+        notificationPreferences:
+          type: array
+          items: { $ref: '#/components/schemas/NotificationPreference' }
+        language:
+          type: string
+          enum: [en, zh-Hant]

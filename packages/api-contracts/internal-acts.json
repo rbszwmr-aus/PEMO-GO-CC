@@ -1,0 +1,65 @@
+{
+  "$comment": "ACTS THAT HAVE NO ROUTE YET (GEN-055). The act-id vocabulary is the contract's POST operationIds (GEN-047 A1); an acts-only PID cannot register with canPerform under ids the contract does not carry, and inventing a second id namespace would be the second mechanism A1 forbids. So each act here is DECLARED with the PID that will route it, generate-act-operations.mjs folds them into the one type, and --check refuses an id that also appears as a route (it must be removed from here when it lands) \u2014 a debt with a creditor, the fixture-debt pattern.",
+  "acts": [
+    {
+      "operationId": "postTicketMessage",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "setTicketStatus",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "reopenTicket",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "recordSatisfaction",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "triageTicket",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "linkRelatedTicket",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "openCaseFromTicket",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "submitTicket",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "assignCase",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "addCaseNote",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "setCaseStatus",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "recordExternalCompletion",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "closeCase",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "reopenCase",
+      "routedBy": "C4"
+    },
+    {
+      "operationId": "resolveTicketFromCase",
+      "routedBy": "C4"
+    }
+  ]
+}

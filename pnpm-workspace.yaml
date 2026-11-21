@@ -1,0 +1,38 @@
+# PEMO workspace definition.
+#
+# Created by API-005-ST, which owns the repository root exclusively so that
+# GEN-006-ST and UI-007-ST never edit a root file concurrently. The globs are
+# deliberately empty today; the downstream PIDs populate them.
+#
+#   apps/*      GEN-006-ST populates apps/api; UI-007-ST populates
+#               apps/resident-mobile (a Flutter app, outside this workspace).
+#   modules/*   GEN-006-ST populates the sixteen-module catalogue.
+#   packages/*  API-005-ST owns packages/api-contracts.
+#
+# Package manager selection is recorded in docs/adr/ADR-004.
+
+# Go build: the backend (apps/api, apps/mcp-server, modules/*) is Go under
+# backend/. The workspace now holds only the web UIs and the shared packages.
+packages:
+  - "apps/management-web"
+  - "apps/resident-portal"
+  - "packages/*"
+
+# Install-script policy. Added under a narrow named exception by UI-019-ST,
+# ruled by the Product Owner on 2026-08-14.
+#
+# pnpm 11 appends an `allowBuilds: esbuild: set this to true or false` placeholder
+# here on EVERY install until the question is answered, so leaving it unanswered
+# means a root file silently reappears in every session's working tree — a merge
+# conflict nobody authored. Answering it once converts a recurring mutation into
+# settled configuration.
+#
+# esbuild is DENIED its install script, and the production build is verified to
+# succeed without it: @esbuild/linux-x64 supplies the binary through optional
+# dependencies. Declining an install script is never less safe than allowing it.
+#
+# This is NOT `pnpm.onlyBuiltDependencies` in the root package.json. Deciding
+# which packages may execute install scripts is a supply-chain decision and is
+# recorded as open, not taken here.
+allowBuilds:
+  esbuild: false

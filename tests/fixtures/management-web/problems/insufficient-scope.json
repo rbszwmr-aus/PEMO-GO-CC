@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/insufficient-scope",
+  "title": "Outside your scope",
+  "status": 403,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000018",
+  "staffMessage": {
+    "en": "This estate is outside the scope you have been granted.",
+    "zh-Hant": "此屋苑不在您獲授權的範圍內。"
+  },
+  "retryable": false
+}

@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/session-expired",
+  "title": "Session expired",
+  "status": 401,
+  "correlationId": "3c4d5e6f-0000-4000-8000-000000000012",
+  "residentMessage": {
+    "en": "Your session has timed out. Please sign in again.",
+    "zh-Hant": "您的登入已逾時，請重新登入。"
+  },
+  "retryable": false
+}

@@ -1,0 +1,33 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "node"
+    ],
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@pemo/tickets-demo-store": [
+        "../../packages/tickets-demo-store/src/index.ts"
+      ],
+      "@pemo/notices-visitors-demo-store": [
+        "../../packages/notices-visitors-demo-store/src/index.ts"
+      ]
+    },
+    "baseUrl": "."
+  },
+  "include": [
+    "src",
+    "tool",
+    "test",
+    "vite.config.ts"
+  ]
+}

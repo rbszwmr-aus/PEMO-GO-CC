@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/duplicate-acknowledgement",
+  "title": "Acknowledgement already recorded",
+  "status": 409,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000051",
+  "residentMessage": {
+    "en": "You have already acknowledged this alert. We have not recorded it twice.",
+    "zh-Hant": "您已確認此警報，我們不會重複記錄。"
+  },
+  "retryable": false
+}

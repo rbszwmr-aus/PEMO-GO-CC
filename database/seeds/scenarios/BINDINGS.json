@@ -1,0 +1,66 @@
+{
+  "$comment": "Fixture-to-scenario bindings AUTHORED BY THE SEED SIDE (GEN-018-ST). API-020-ST encodes these into tests/fixtures/**/index.json. Neither party authors both halves. worldInstant is the field no filename and no fixture currently carries, and the two corpora describe different moments.",
+  "generatedBy": "database/seeds/tools/generate-management-scenarios.mjs",
+  "bindings": [
+    {
+      "surface": "management",
+      "fixture": "mob-s1-safety/default.json",
+      "screen": "mob-s1-safety",
+      "state": "default",
+      "scenario": "scenarios/management__mob-s1-safety__default.sql",
+      "scenarioFile": "database/seeds/scenarios/management__mob-s1-safety__default.sql",
+      "worldInstant": "2026-08-12T09:56:00+08:00",
+      "eventIds": [
+        "evt_hs_004417",
+        "evt_hs_004418",
+        "evt_hs_004419",
+        "evt_hs_004420",
+        "evt_hs_004421",
+        "evt_hs_004422"
+      ],
+      "generatedBy": "GEN-018-ST"
+    },
+    {
+      "surface": "management",
+      "fixture": "mob-s1-safety/empty.json",
+      "screen": "mob-s1-safety",
+      "state": "empty",
+      "scenario": "scenarios/management__mob-s1-safety__empty.sql",
+      "scenarioFile": "database/seeds/scenarios/management__mob-s1-safety__empty.sql",
+      "worldInstant": "2026-08-12T09:56:00+08:00",
+      "eventIds": [],
+      "generatedBy": "GEN-018-ST"
+    },
+    {
+      "surface": "management",
+      "fixture": "mob-s1-safety/partial.json",
+      "screen": "mob-s1-safety",
+      "state": "partial",
+      "scenario": "scenarios/management__mob-s1-safety__partial.sql",
+      "scenarioFile": "database/seeds/scenarios/management__mob-s1-safety__partial.sql",
+      "worldInstant": "2026-08-12T09:56:00+08:00",
+      "eventIds": [
+        "evt_hs_004417",
+        "evt_hs_004423",
+        "evt_hs_004424",
+        "evt_hs_004425",
+        "evt_hs_004426"
+      ],
+      "generatedBy": "GEN-018-ST"
+    },
+    {
+      "surface": "management",
+      "fixture": "mob-s1-safety/resolved.json",
+      "screen": "mob-s1-safety",
+      "state": "resolved",
+      "scenario": "scenarios/management__mob-s1-safety__resolved.sql",
+      "scenarioFile": "database/seeds/scenarios/management__mob-s1-safety__resolved.sql",
+      "worldInstant": "2026-08-12T09:56:00+08:00",
+      "eventIds": [
+        "evt_hs_004430",
+        "evt_hs_004431"
+      ],
+      "generatedBy": "GEN-018-ST"
+    }
+  ]
+}

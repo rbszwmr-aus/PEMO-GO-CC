@@ -1,0 +1,481 @@
+openapi: 3.1.0
+
+info:
+  title: PEMO Resident Portal — Amenities & Booking API
+  version: 0.1.0
+  summary: Read surfaces for Explore and Facility detail. No write operations.
+  description: |
+    The third contract package, sibling to `resident-mobile` and `management-web` per
+    `ADR-007` `D2`, and the first surface of the resident **web** portal.
+
+    **Why a separate line rather than a chapter of `resident-mobile`** (API-027-ST
+    Derivation 1, ruled): `ADR-008` Amendment A4 `D6` partitions by what an artifact
+    *determines*, not by audience. A booking client over `searchFacilities` /
+    `getFacility` / `getFacilityAvailability` and a home-safety client over `getHome` /
+    `getSafetyEvent` are different clients over disjoint operations; folding booking into
+    `resident-mobile` would bump its version for changes no safety client can observe —
+    the churn A4 exists to remove. And the resident boundary's value is that it is
+    unconditional; this line adds a booking denylist and an **inverted eligibility rule**
+    (present-with-reason, not absent-when-out-of-scope) that `resident-mobile` does not
+    have. When a rule applies to a subset, apply the mechanism to the subset — never to
+    the container with a condition attached.
+
+    **Read surfaces only.** Booking, checkout, saved facilities, notify-me and saved
+    searches are writes or persistence and are out of this PID; the writes are additionally
+    gated on two open decisions — the identity boundary and the `getScope` location rule
+    (whether a facility may be a scope node at all). See `x-deferred` below.
+
+    **Audience: a resident of this estate** (`R4` deletes `PUBLIC_USER`/`PARK_USER`).
+    Eligibility to book is resolved through the facility's `serving_scope` and household
+    residency, never through `getScope`.
+
+    **The catalogue composes, never copies** (`ADR-003` trap 10). A facility row is
+    booking-module data keyed by a Property Core `location_id`; the Location's name,
+    position and `serving_scope` are composed into the response and owned by Property
+    Core. While a world binding is `pending`, any composed parent value is **provisional**
+    and marked so — it is verified when the seed lands, not asserted here.
+
+  contact:
+    name: PEMO Master Brain — contract owner
+  license:
+    name: UNLICENSED
+
+servers:
+  - url: https://{host}/api/resident-portal/v0
+    description: Placeholder. Deployment topology is Unresolved in the committed baseline.
+    variables:
+      host:
+        default: pemo.invalid
+
+security:
+  - residentBearer: []
+
+# Surfaces deferred WITH REASON (API-027-ST Ruling 5 / plan §"Explicitly out"), so a later
+# reader finds why they are absent rather than concluding they were missed:
+x-deferred:
+  exportResults:
+    request: FR-1.25.1.1 — CSV / XLSX / PDF of a result set
+    reason: A format-negotiation surface over an already-fetched result set, not part of
+      either read screen's data contract. Its own later operation if wanted.
+  notifyMe:
+    request: U-03 partial-availability "Notify me"
+    reason: A write (persisted subscription). Gated with every other write on the identity boundary.
+  savedSearch:
+    request: U-03 saved-search selector
+    reason: Persistence. Same gate.
+
+paths:
+
+  /facilities:
+    get:
+      tags: [Explore]
+      operationId: searchFacilities
+      summary: Facilities the caller may see, with facets and eligibility.
+      description: |
+        The Explore screen. Returns facility cards for facilities whose `serving_scope`
+        reaches the caller's household (out-of-scope facilities are **absent** — the
+        `GEN-018` rule), each card carrying its **eligibility** for the caller: an
+        ineligible facility the caller *could* otherwise see is **present with a
+        machine-readable reason** (`Eligibility`), never silently removed. The reason names
+        the caller's own standing, never another resident, household or device.
+
+        `facets` carries the category and filter counts, each with the `basis` that
+        computes it from the returned set — the counts are computed, never transcribed from
+        a source figure.
+
+        The car park and storage are never bookable (`R6`) and never appear.
+      parameters:
+        - { name: category, in: query, required: false, schema: { $ref: '#/components/schemas/Category' } }
+        - { name: locationParent, in: query, required: false, schema: { type: string }, description: A Property Core container `location_id` (clubhouse or podium). }
+        - { name: durationType, in: query, required: false, schema: { type: string, enum: [hourly, half-day, full-day, session] } }
+        - { name: equipment, in: query, required: false, schema: { type: array, items: { type: string } }, style: form, explode: true }
+        - { name: capacityMin, in: query, required: false, schema: { type: integer, minimum: 1 } }
+        - { name: from, in: query, required: false, schema: { type: string, format: date-time }, description: Start of the desired date-and-time window. }
+        - { name: to, in: query, required: false, schema: { type: string, format: date-time } }
+        - { name: matchMode, in: query, required: false, schema: { type: string, enum: [any-word, all-words], default: any-word } }
+        - { name: q, in: query, required: false, schema: { type: string } }
+        - { name: sort, in: query, required: false, schema: { type: string, enum: [relevance, name, capacity, from-price] } }
+        - { name: onlyBookable, in: query, required: false, schema: { type: boolean, default: false }, description: The onlyBookable filter. Default OFF so ineligible facilities stay present-with-reason. }
+        - { name: page, in: query, required: false, schema: { type: integer, minimum: 1, default: 1 } }
+        - { name: pageSize, in: query, required: false, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        '200':
+          description: The result set, facets, and paging.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SearchResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /facilities/{facilityId}:
+    get:
+      tags: [Facility detail]
+      operationId: getFacility
+      summary: One facility, all six tabs.
+      description: |
+        Overview, Rates, Rules, Equipment, Location and FAQ for one facility, plus its
+        eligibility for the caller (present-with-reason). Every Rules policy field
+        distinguishes **absent / `null`** (the property does not operate this policy) from a
+        **set value** (`R7`) — there is no schema default and no zero fallback.
+      parameters:
+        - { name: facilityId, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The facility.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FacilityDetail' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /facilities/{facilityId}/availability:
+    get:
+      tags: [Facility detail]
+      operationId: getFacilityAvailability
+      summary: The slot grid over the facility's service hours.
+      description: |
+        Slots at day / week / month granularity, each carrying one **server-side**
+        `SlotState`. `selected` is a client interaction state and is not a server fact;
+        `outside-booking-window` is derived from the facility's booking-window policy and is
+        not a stored slot state. A property that operates no booking window has no slot
+        outside it, and the derivation yields that without a special case.
+      parameters:
+        - { name: facilityId, in: path, required: true, schema: { type: string } }
+        - { name: view, in: query, required: true, schema: { type: string, enum: [day, week, month] } }
+        - { name: from, in: query, required: true, schema: { type: string, format: date } }
+      responses:
+        '200':
+          description: The availability grid.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AvailabilityView' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+components:
+
+  securitySchemes:
+    residentBearer:
+      type: http
+      scheme: bearer
+
+  responses:
+    BadRequest: { description: Malformed request., content: { application/json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    Unauthorized: { description: Absent or invalid credential., content: { application/json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    NotFound: { description: No such facility., content: { application/json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    InternalError: { description: Server fault., content: { application/json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+
+  schemas:
+
+    Meta:
+      type: object
+      required: [correlationId, contractVersion, generatedAt]
+      additionalProperties: false
+      properties:
+        correlationId: { type: string, format: uuid }
+        contractVersion: { type: string, const: '0.1.0' }
+        generatedAt: { type: string, format: date-time }
+
+    LocalizedText:
+      type: object
+      required: [en, zh-Hant]
+      additionalProperties: false
+      properties:
+        en: { type: string }
+        zh-Hant: { type: string }
+
+    Money:
+      type: object
+      required: [amount, currency]
+      additionalProperties: false
+      properties:
+        amount: { type: number, minimum: 0 }
+        currency: { type: string, enum: [HKD] }
+
+    Category:
+      type: string
+      description: The five Explore categories. A facility belongs to exactly one.
+      enum: [function-and-event, sports-and-fitness, wellness, outdoor, community]
+
+    # ---- the TWO state enumerations, deliberately separate (Ruling 4) ----
+    FacilityState:
+      type: object
+      description: |
+        A FACILITY-level state — a fact about the whole facility, not about individual
+        slots. Kept separate from `SlotState` so a closed facility is distinguishable from a
+        fully-booked one: expressing closure by marking every slot blocked would show the
+        resident an empty grid with no reason. Carries its own reason and expected return.
+      required: [state]
+      additionalProperties: false
+      properties:
+        state: { type: string, enum: [open, closed, coming-soon] }
+        reason:
+          anyOf: [{ $ref: '#/components/schemas/LocalizedText' }, { type: 'null' }]
+        expectedReturn:
+          anyOf: [{ type: string, format: date }, { type: 'null' }]
+          description: When a `closed` or `coming-soon` facility is expected to open. Null when unknown.
+
+    SlotState:
+      type: string
+      description: |
+        A SLOT-level, SERVER-side state. `unavailable` deliberately COLLAPSES "booked by
+        another party" and "held": the denylist forbids revealing who holds a slot, so the
+        collapse is required, not an omission — do not split it. `selected` is a client
+        interaction state and is absent by design. `outside-booking-window` is DERIVED from
+        the facility's booking-window policy and is not enumerated here.
+      enum: [available, unavailable, past, blocked]
+
+    Eligibility:
+      type: object
+      description: |
+        Whether the caller may book this facility, and if not, why — in the caller's own
+        terms. THE INVERSION (`R4`, trap 8): a facility out of the caller's `serving_scope`
+        is ABSENT from the response entirely; a facility the caller can see but cannot book
+        is PRESENT with `eligible: false` and a reason. The reason names the caller's own
+        standing and never another resident, household, or device.
+      required: [eligible]
+      additionalProperties: false
+      properties:
+        eligible: { type: boolean }
+        reason:
+          anyOf:
+            - type: string
+              enum: [residency-standing-required, membership-required, per-person-quota-reached, booking-window-closed, facility-closed]
+            - type: 'null'
+          description: Present iff `eligible` is false. An enum of the caller's own conditions.
+
+    BookingWindow:
+      type: object
+      description: When bookings open and close relative to a slot. Its ABSENCE (a null `bookingWindow`) means the property operates no booking window (R7), not "zero days".
+      required: [opensDaysBefore, closesHoursBefore]
+      additionalProperties: false
+      properties:
+        opensDaysBefore: { type: integer, minimum: 0 }
+        closesHoursBefore: { type: integer, minimum: 0 }
+
+    CancellationTier:
+      type: object
+      required: [untilHoursBefore, refundPercent]
+      additionalProperties: false
+      properties:
+        untilHoursBefore: { type: integer, minimum: 0 }
+        refundPercent: { type: integer, minimum: 0, maximum: 100 }
+
+    FacilityRules:
+      type: object
+      description: |
+        The policy model (`R7`). EVERY field is nullable, and `null`/omitted means the
+        PROPERTY DOES NOT OPERATE THIS POLICY — distinct from a set value, including a set
+        value of zero. There is no schema `default:` and no zero fallback anywhere; a client
+        must not coerce absence into zero or zero into absence.
+      additionalProperties: false
+      properties:
+        bookingWindow:
+          anyOf: [{ $ref: '#/components/schemas/BookingWindow' }, { type: 'null' }]
+        perPersonQuotaPerMonth:
+          anyOf: [{ type: integer, minimum: 0 }, { type: 'null' }]
+        cancellationLadder:
+          anyOf: [{ type: array, items: { $ref: '#/components/schemas/CancellationTier' } }, { type: 'null' }]
+        adminFee:
+          anyOf: [{ $ref: '#/components/schemas/Money' }, { type: 'null' }]
+        noShowReleaseMinutes:
+          anyOf: [{ type: integer, minimum: 0 }, { type: 'null' }]
+        makeUpAllowed:
+          anyOf: [{ type: boolean }, { type: 'null' }]
+
+    RateCardRow:
+      type: object
+      required: [label, price, appliesTo]
+      additionalProperties: false
+      properties:
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        price: { $ref: '#/components/schemas/Money' }
+        appliesTo: { $ref: '#/components/schemas/LocalizedText' }
+
+    Equipment:
+      type: object
+      required: [label, included]
+      additionalProperties: false
+      properties:
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        included: { type: boolean }
+        addOnPrice:
+          anyOf: [{ $ref: '#/components/schemas/Money' }, { type: 'null' }]
+
+    ComposedLocation:
+      type: object
+      description: |
+        Property Core facts COMPOSED into the response, never owned here (`ADR-003` trap
+        10). `provisional` is true while the facility's world binding is `pending`: the
+        parent and position are a declared expectation of the overlaid world, verified when
+        the seed lands, not asserted now.
+      required: [locationId, provisional]
+      additionalProperties: false
+      properties:
+        locationId: { type: string, description: The Property Core `location_id` this facility is keyed by. }
+        locationClass: { type: string, enum: [clubhouse, public_facility], description: Composed. Never `public_area` — a public_area has no resident audience (ADR-003 Q1). }
+        parentLocationId:
+          anyOf: [{ type: string }, { type: 'null' }]
+          description: Composed container id (clubhouse or podium). Provisional while pending.
+        buildingLabel:
+          anyOf: [{ $ref: '#/components/schemas/LocalizedText' }, { type: 'null' }]
+        floorLabel:
+          anyOf: [{ $ref: '#/components/schemas/LocalizedText' }, { type: 'null' }]
+        provisional: { type: boolean }
+
+    FacilityCard:
+      type: object
+      description: One Explore result card.
+      required: [facilityId, name, category, location, capacity, availability, eligibility]
+      additionalProperties: false
+      properties:
+        facilityId: { type: string }
+        name: { $ref: '#/components/schemas/LocalizedText' }
+        category: { $ref: '#/components/schemas/Category' }
+        location: { $ref: '#/components/schemas/ComposedLocation' }
+        capacity:
+          anyOf: [{ type: integer, minimum: 1 }, { type: 'null' }]
+        fromPrice:
+          anyOf: [{ $ref: '#/components/schemas/Money' }, { type: 'null' }]
+        availability: { $ref: '#/components/schemas/FacilityState' }
+        nextFreeSlot:
+          anyOf: [{ type: string, format: date-time }, { type: 'null' }]
+        eligibility: { $ref: '#/components/schemas/Eligibility' }
+
+    FacetCount:
+      type: object
+      required: [key, count, basis]
+      additionalProperties: false
+      properties:
+        key: { type: string }
+        count: { type: integer, minimum: 0 }
+        basis:
+          type: string
+          description: How the count is COMPUTED from the returned world (test 3). Never a transcribed source figure.
+
+    Facets:
+      type: object
+      description: |
+        Category and filter counts. DERIVED SCOPE (API-027-ST Step 2): resident-portal
+        computes facets over the WORLD — the caller's full accessible facility set — not over
+        the returned page. The facets describe what selecting each facet WOULD yield, so they
+        must survive a query that returns an empty page: an empty `results` with non-zero
+        category counts is only possible over the world, the shape mob-s4-cases/empty.json
+        set the precedent for (an empty page with counts.all 212). A page-scoped
+        implementation cannot produce that response.
+      required: [scope, categories, filters]
+      additionalProperties: false
+      properties:
+        scope:
+          type: string
+          enum: [world, page]
+          description: What the counts are computed over. This contract emits `world`; the field is present so a client branches on the scope rather than assuming it.
+        categories: { type: array, items: { $ref: '#/components/schemas/FacetCount' } }
+        filters: { type: array, items: { $ref: '#/components/schemas/FacetCount' } }
+
+    SearchResponse:
+      type: object
+      required: [meta, results, facets, page]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        results: { type: array, items: { $ref: '#/components/schemas/FacilityCard' } }
+        facets: { $ref: '#/components/schemas/Facets' }
+        page:
+          type: object
+          required: [page, pageSize, total]
+          additionalProperties: false
+          properties:
+            page: { type: integer, minimum: 1 }
+            pageSize: { type: integer, minimum: 1 }
+            total: { type: integer, minimum: 0 }
+
+    FacilityDetail:
+      type: object
+      required: [meta, facilityId, name, category, location, availability, eligibility, overview, rates, rules, equipment, faq]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        facilityId: { type: string }
+        name: { $ref: '#/components/schemas/LocalizedText' }
+        category: { $ref: '#/components/schemas/Category' }
+        location: { $ref: '#/components/schemas/ComposedLocation' }
+        availability: { $ref: '#/components/schemas/FacilityState' }
+        eligibility: { $ref: '#/components/schemas/Eligibility' }
+        overview:
+          type: object
+          required: [description, capacity]
+          additionalProperties: false
+          properties:
+            description: { $ref: '#/components/schemas/LocalizedText' }
+            amenities: { type: array, items: { $ref: '#/components/schemas/LocalizedText' } }
+            accessibility: { type: array, items: { $ref: '#/components/schemas/LocalizedText' } }
+            capacity:
+              anyOf: [{ type: integer, minimum: 1 }, { type: 'null' }]
+            slotGranularityMinutes:
+              anyOf: [{ type: integer, minimum: 1 }, { type: 'null' }]
+            serviceHours:
+              anyOf: [{ $ref: '#/components/schemas/LocalizedText' }, { type: 'null' }]
+        rates: { type: array, items: { $ref: '#/components/schemas/RateCardRow' } }
+        rules: { $ref: '#/components/schemas/FacilityRules' }
+        equipment: { type: array, items: { $ref: '#/components/schemas/Equipment' } }
+        faq:
+          type: array
+          items:
+            type: object
+            required: [question, answer]
+            additionalProperties: false
+            properties:
+              question: { $ref: '#/components/schemas/LocalizedText' }
+              answer: { $ref: '#/components/schemas/LocalizedText' }
+
+    AvailabilitySlot:
+      type: object
+      required: [startsAt, endsAt, state]
+      additionalProperties: false
+      properties:
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        state: { $ref: '#/components/schemas/SlotState' }
+
+    AvailabilityView:
+      type: object
+      required: [meta, facilityId, view, from, facilityState, slots]
+      additionalProperties: false
+      properties:
+        meta: { $ref: '#/components/schemas/Meta' }
+        facilityId: { type: string }
+        view: { type: string, enum: [day, week, month] }
+        from: { type: string, format: date }
+        facilityState: { $ref: '#/components/schemas/FacilityState' }
+        slots: { type: array, items: { $ref: '#/components/schemas/AvailabilitySlot' } }
+
+    Problem:
+      type: object
+      description: |
+        RFC 9457 problem detail. `type` is constrained to the resident-portal projection of
+        `packages/api-contracts/problem-types.json`.
+      required: [type, title, status, correlationId]
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          format: uri-reference
+          description: |
+            GENERATED from the shared registry, filtered to `surfaces: resident-portal`.
+            Do not author a type URI here.
+          enum:
+            - https://pemo.local/problems/bad-request
+            - https://pemo.local/problems/internal-error
+            - https://pemo.local/problems/invalid-credential
+            - https://pemo.local/problems/record-not-found
+            - https://pemo.local/problems/session-expired
+        title: { type: string }
+        status: { type: integer }
+        correlationId: { type: string, format: uuid }
+        residentMessage:
+          allOf: [{ $ref: '#/components/schemas/LocalizedText' }]
+        retryable: { type: boolean }

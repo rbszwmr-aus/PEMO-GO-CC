@@ -1,0 +1,30 @@
+{
+  "name": "pemo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "PEMO monorepo root (Go build). The backend is Go under backend/; this file holds the web UI workspace and contract tooling only.",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "scripts": {
+    "validate:fixtures": "node tests/fixtures/validate.mjs",
+    "gen:enums": "node packages/api-contracts/generate-enums.mjs",
+    "check:enums": "node packages/api-contracts/generate-enums.mjs --check",
+    "gen:notice-types": "node packages/api-contracts/generate-notice-types.mjs",
+    "check:notice-types": "node packages/api-contracts/generate-notice-types.mjs --check",
+    "gen:case-vocabularies": "node packages/api-contracts/generate-case-vocabularies.mjs",
+    "check:case-vocabularies": "node packages/api-contracts/generate-case-vocabularies.mjs --check",
+    "gen:act-operations": "node packages/api-contracts/generate-act-operations.mjs",
+    "gen:notice-reasons": "node packages/api-contracts/generate-notice-reasons.mjs",
+    "backend:build": "cd backend && go build -o bin/ ./cmd/...",
+    "backend:test": "cd backend && go vet ./... && go test ./..."
+  },
+  "devDependencies": {
+    "@readme/openapi-parser": "^7.0.1",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "yaml": "^2.6.1"
+  }
+}

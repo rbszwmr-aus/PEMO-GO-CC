@@ -1,0 +1,122 @@
+/* Resident-portal invoices — list cards, rows, pills, detail tables. Tokens only (no hex). */
+
+.pemo-inv { max-width: 920px; }
+
+.pemo-inv-cards {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pemo-inv-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 14px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-left: 3px solid var(--pemo-neutral-300);
+  border-radius: var(--s4-radius-card);
+  cursor: pointer;
+}
+.pemo-inv-card:hover { background: var(--pemo-neutral-25); border-color: var(--pemo-brand-tintBorder); }
+.pemo-inv-card:focus-visible { outline: 2px solid var(--pemo-brand-primary); outline-offset: 2px; }
+.pemo-inv-card[aria-pressed="true"] {
+  background: var(--pemo-brand-primaryTint);
+  border-color: var(--pemo-brand-primary);
+  box-shadow: inset 0 0 0 1px var(--pemo-brand-primary);
+}
+.pemo-inv-card--all { border-left-color: var(--pemo-brand-primary); }
+.pemo-inv-card--unpaid { border-left-color: var(--pemo-sev-advisory-border); }
+.pemo-inv-card--overdue { border-left-color: var(--pemo-sev-critical-border); }
+.pemo-inv-card--partial { border-left-color: var(--pemo-sev-information-border); }
+.pemo-inv-card--paid { border-left-color: var(--pemo-sev-normal-border); }
+.pemo-inv-card__label { font-size: 13px; font-weight: 650; color: var(--pemo-neutral-700); }
+.pemo-inv-card__value { font-size: 24px; font-weight: 700; line-height: 1.1; color: var(--pemo-neutral-950); }
+
+.pemo-inv-filter-note { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.pemo-inv-rowhead,
+.pemo-inv-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1.6fr 1fr 0.9fr 0.9fr 0.9fr;
+  gap: 10px;
+  align-items: center;
+}
+.pemo-inv-rowhead {
+  padding: 0 16px;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--pemo-neutral-600);
+}
+.pemo-inv-row { font-size: 14px; }
+.pemo-inv-row__id { display: flex; flex-direction: column; min-width: 0; }
+.pemo-inv-row__id .pemo-facility-card__title { margin: 0; }
+.pemo-inv-row__id .pemo-identifier { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pemo-inv-num { text-align: right; font-variant-numeric: tabular-nums; }
+.pemo-inv-strong { font-weight: 650; }
+
+.pemo-inv-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 0;
+  font-size: var(--s4-meta-size);
+  font-weight: 650;
+  white-space: nowrap;
+}
+.pemo-inv-pill--unpaid { color: var(--s4-tag-attention-fg); background: var(--s4-tag-attention-bg); }
+.pemo-inv-pill--overdue { color: var(--s4-tag-urgent-fg); background: var(--s4-tag-urgent-bg); }
+.pemo-inv-pill--partial { color: var(--s4-tag-attention-fg); background: var(--s4-tag-attention-bg); }
+.pemo-inv-pill--paid { color: var(--s4-tag-success-fg); background: var(--s4-tag-success-bg); }
+
+.pemo-inv-tablewrap { overflow-x: auto; margin-top: 8px; }
+.pemo-inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--s4-radius-card);
+  font-size: 14px;
+}
+.pemo-inv-table th,
+.pemo-inv-table td {
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--pemo-neutral-150);
+}
+.pemo-inv-table th { font-size: 12px; font-weight: 650; color: var(--pemo-neutral-600); background: var(--pemo-neutral-25); }
+.pemo-inv-table th.pemo-inv-num,
+.pemo-inv-table td.pemo-inv-num { text-align: right; }
+.pemo-inv-table tbody tr:last-child td { border-bottom: 0; }
+
+.pemo-inv-totals {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 24px;
+  margin: 0 0 0 auto;
+  min-width: 280px;
+  padding: 14px 16px;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--s4-radius-card);
+  font-variant-numeric: tabular-nums;
+}
+.pemo-inv-totals dt { margin: 0; color: var(--pemo-neutral-600); font-size: 14px; }
+.pemo-inv-totals dd { margin: 0; text-align: right; color: var(--pemo-neutral-900); }
+.pemo-inv-totals__balance { font-weight: 700; font-size: 16px; color: var(--pemo-neutral-950); padding-top: 6px; border-top: 1px solid var(--pemo-neutral-150); }
+.pemo-inv-totals dd.pemo-inv-totals__balance { color: var(--pemo-neutral-950); }
+
+.pemo-shell[data-breakpoint="tablet"] .pemo-inv-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pemo-shell[data-breakpoint="mobile"] .pemo-inv-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pemo-shell[data-breakpoint="mobile"] .pemo-inv-rowhead { display: none; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-inv-row { grid-template-columns: 1fr 1fr; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-inv-row__id { grid-column: 1 / -1; }
+.pemo-shell[data-breakpoint="mobile"] .pemo-inv-totals { min-width: 0; width: 100%; }

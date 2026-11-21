@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/scope-not-found",
+  "title": "Scope not found",
+  "status": 404,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000020",
+  "staffMessage": {
+    "en": "No such scope. If you believe you should have access, contact your administrator.",
+    "zh-Hant": "找不到此範圍。如認為應有存取權，請聯絡管理員。"
+  },
+  "retryable": false
+}

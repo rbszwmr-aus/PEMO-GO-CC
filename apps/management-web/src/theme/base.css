@@ -1,0 +1,2211 @@
+/* PEMO management web — layout and typography.
+ *
+ * Every colour is a custom property from palette.g.css or severity-tokens.g.css.
+ * There is no colour literal in this file, and test/tokens/no-hardcoded-hex.test.ts
+ * fails the build if one appears.
+ *
+ * Design system v2.0: section 4 typography, 6.2 management web layout,
+ * 8.4 data grids, 9 management web visual rules. Sections 4.1 and 4.3 are
+ * Accepted; the rest is a Proposed baseline and is consumed as such.
+ */
+
+:root {
+  /* 4S guide section 3: Inter, then Segoe UI and Arial, then the Traditional
+   * Chinese faces. Inter is NOT self-hosted (no npm dependency, no binary in
+   * the repo): index.html loads it from Google Fonts exactly as Libre Franklin
+   * was, and the stack degrades through Segoe UI / Arial when it cannot load.
+   * A host with NO CJK face renders tofu, which the layout suite detects. */
+  --pemo-font-sans: var(--s4-font-sans);
+  /* 4.3 Accepted. Identifiers only — never prose, never Traditional Chinese. */
+  --pemo-font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* 5.1 spacing, 5.2 radius, 6.2 management web metrics */
+  --pemo-space-1: 4px;
+  --pemo-space-2: 8px;
+  --pemo-space-3: 12px;
+  --pemo-space-4: 16px;
+  --pemo-space-5: 24px;
+  --pemo-space-6: 32px;
+  --pemo-radius: var(--s4-radius-control);
+  --pemo-radius-card: var(--s4-radius-card);
+  --pemo-sidebar-width: var(--s4-sidebar-width-expanded);
+  --pemo-sidebar-collapsed: var(--s4-sidebar-width-rail);
+  --pemo-scope-rail-width: 264px;
+  --pemo-scope-rail-collapsed: 44px;
+  --pemo-page-padding: 24px;
+  --pemo-row-height: 48px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--pemo-font-sans);
+  font-size: var(--s4-body-size);     /* 4S section 3: body 14px / 600 */
+  font-weight: var(--s4-body-weight);
+  line-height: 1.5;
+  color: var(--pemo-neutral-950);
+  background: var(--pemo-neutral-50);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Latin and Traditional Chinese are set at the SAME numeric weight within a
+ * text style — 4.1. Never Libre Franklin 600 beside Noto Sans TC 400: mixed
+ * weight in bilingual copy reads as accidental emphasis on the Latin half. */
+:lang(zh-Hant), :lang(zh-Hans) { font-synthesis-weight: none; }
+/* Simplified Chinese asks for the Simplified face first, so shared Han characters draw in their mainland forms. */
+html:lang(zh-Hans) { --pemo-font-sans: Inter, "Segoe UI", Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+
+/* ---------------------------------------------------------------- shell — 4S green sidebar */
+
+.pemo-shell {
+  display: grid;
+  grid-template-columns: var(--pemo-sidebar-width) var(--pemo-scope-rail-width) 1fr;
+  min-height: 100%;
+}
+/* 4S section 5: 228px expanded, 240px from 1600px, 190px at 800px and below, 76px icon rail. */
+@media (min-width: 1600px) { .pemo-shell { --pemo-sidebar-width: var(--s4-sidebar-width-wide); } }
+@media (max-width: 800px) { .pemo-shell { --pemo-sidebar-width: var(--s4-sidebar-width-narrow); } }
+.pemo-shell[data-nav-collapsed="true"] { --pemo-sidebar-width: var(--pemo-sidebar-collapsed); }
+.pemo-shell[data-scope-collapsed="true"] { --pemo-scope-rail-width: var(--pemo-scope-rail-collapsed); }
+.pemo-shell[data-scope-hidden="true"] {
+  grid-template-columns: var(--pemo-sidebar-width) 1fr;
+}
+
+.pemo-sidebar {
+  background: var(--pemo-sidebar-ground);
+  color: var(--s4-sidebar-text);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  /* Pinned to the viewport: only the nav list scrolls, the collapse control stays reachable. */
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pemo-sidebar__brandRow {
+  padding: 16px 12px 14px;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  flex: none;
+}
+
+.pemo-sidebar__mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--pemo-brand-accent);
+  flex: none;
+}
+
+.pemo-sidebar__brandText { flex: 1 1 auto; min-width: 0; }
+
+.pemo-sidebar__brandName {
+  font-family: var(--pemo-font-sans);
+  font-weight: var(--s4-small-heading-weight);
+  font-size: var(--s4-small-heading-size);
+  line-height: 1;
+  color: var(--s4-white);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.pemo-sidebar__brandSub {
+  font-family: var(--pemo-font-sans);
+  font-weight: 650;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  color: var(--s4-sidebar-section-label);
+  margin-top: 5px;
+}
+
+.pemo-sidebar__scope {
+  margin: 0 12px 12px;
+  padding: 10px 12px;
+  border-radius: var(--s4-radius-control);
+  background: var(--pemo-sidebar-scopeSurface);
+  flex: none;
+}
+
+.pemo-sidebar__scopeLabel {
+  font-family: var(--pemo-font-sans);
+  font-weight: 650;
+  font-size: 11px;
+  color: var(--s4-sidebar-section-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pemo-sidebar__scopeTitle {
+  font-family: var(--pemo-font-sans);
+  font-weight: 750;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--s4-white);
+  margin-top: 3px;
+}
+
+.pemo-sidebar__scopeMeta {
+  font-family: var(--pemo-font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--s4-sidebar-text);
+  margin-top: 1px;
+}
+
+.pemo-sidebar__nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 8px 16px;
+  /* 4S section 5: the scrollbar belongs inside the menu - 6px, green track. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--s4-sidebar-scroll-thumb) transparent;
+}
+.pemo-sidebar__nav::-webkit-scrollbar { width: 6px; }
+.pemo-sidebar__nav::-webkit-scrollbar-track { background: transparent; }
+.pemo-sidebar__nav::-webkit-scrollbar-thumb { background: var(--s4-sidebar-scroll-thumb); border-radius: 3px; }
+.pemo-sidebar__nav::-webkit-scrollbar-thumb:hover { background: var(--s4-sidebar-scroll-thumb-hover); }
+.pemo-sidebar__nav::-webkit-scrollbar-button { display: none; }
+
+.pemo-navGroup { margin-bottom: 8px; }
+
+.pemo-navGroup__label {
+  font-family: var(--pemo-font-sans);
+  font-weight: 750;
+  font-size: 11px;
+  color: var(--pemo-sidebar-sectionLabel);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 12px 6px;
+}
+
+.pemo-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: var(--s4-radius-control);
+  margin-bottom: 2px;
+  color: var(--s4-sidebar-text);
+  text-decoration: none;
+  font-family: var(--pemo-font-sans);
+  font-weight: var(--s4-menu-weight);
+  font-size: var(--s4-menu-size);
+  line-height: 1.3;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.pemo-nav__item:hover { background: var(--pemo-sidebar-hoverSurface); color: var(--s4-sidebar-hover-text); }
+.pemo-nav__item:focus-visible { outline: 2px solid var(--s4-white); outline-offset: -2px; }
+
+.pemo-nav__item--active,
+.pemo-nav__item[aria-current="page"] {
+  background: var(--pemo-sidebar-activeSurface);
+  color: var(--pemo-sidebar-activeText);
+}
+.pemo-nav__item--active:hover,
+.pemo-nav__item[aria-current="page"]:hover { background: var(--pemo-sidebar-activeSurface); color: var(--pemo-sidebar-activeText); }
+.pemo-nav__item--active:focus-visible { outline-color: var(--pemo-sidebar-activeText); }
+
+/* Children: 16px margin + 8px padding, subtle rule (4S section 5). */
+.pemo-nav__item--child {
+  width: auto;
+  margin: 0 0 0 16px;
+  padding: 7px 8px;
+  border-radius: 0 var(--s4-radius-control) var(--s4-radius-control) 0;
+  border-left: 1px solid var(--s4-sidebar-child-rule);
+  font-weight: 600;
+  font-size: 14px;
+}
+.pemo-nav__item--child.pemo-nav__item--active { border-left-color: transparent; border-radius: var(--s4-radius-control); }
+
+.pemo-nav__icon {
+  width: 18px;
+  text-align: center;
+  flex: none;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.pemo-nav__icon--img {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* The approved icon PNGs are silhouettes: draw them as a mask so they take the
+   item's text colour (white on green, dark green on the active surface). */
+.pemo-nav__icon-mask {
+  display: block;
+  width: 17px;
+  height: 17px;
+  background: currentColor;
+  -webkit-mask: var(--pemo-icon-url) center / contain no-repeat;
+  mask: var(--pemo-icon-url) center / contain no-repeat;
+}
+.pemo-nav__item--child .pemo-nav__icon--img { width: 18px; height: 18px; }
+.pemo-nav__item--child .pemo-nav__icon-mask { width: 15px; height: 15px; }
+
+.pemo-nav__label { flex: 1; min-width: 0; }
+
+.pemo-nav__chevron {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-size: 12px;
+  color: inherit;
+  opacity: 0.85;
+}
+.pemo-nav__chevron:hover { background: var(--pemo-sidebar-hoverSurface); opacity: 1; }
+
+.pemo-nav__dot { display: none; }
+
+.pemo-sidebar__section { padding: 0 12px; font-size: 12px; color: var(--pemo-brand-onDeepSubtle); }
+
+.pemo-sidebar__toggle {
+  margin-left: auto;
+  align-self: flex-start;
+}
+
+.pemo-sidebar[data-collapsed="true"] .pemo-sidebar__brandRow {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 8px;
+  gap: 8px;
+}
+.pemo-sidebar[data-collapsed="true"] .pemo-sidebar__toggle {
+  margin-left: 0;
+  align-self: center;
+}
+.pemo-sidebar[data-collapsed="true"] .pemo-sidebar__nav { padding: 0 8px 12px; }
+.pemo-sidebar[data-collapsed="true"] .pemo-nav__item {
+  justify-content: center;
+  padding: 9px 0;
+  gap: 0;
+}
+.pemo-sidebar[data-collapsed="true"] .pemo-navGroup { margin-bottom: 4px; }
+
+.pemo-sidebar__scopeIcon {
+  margin: 0 8px 10px;
+  width: calc(100% - 16px);
+  height: 36px;
+  border: 0;
+  border-radius: var(--s4-radius-control);
+  background: var(--pemo-sidebar-scopeSurface);
+  color: var(--s4-white);
+  cursor: pointer;
+  font: inherit;
+}
+.pemo-sidebar__scopeIcon:hover { background: var(--pemo-sidebar-hoverSurface); }
+
+.pemo-rail-cap {
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+  border-bottom: 1px solid var(--pemo-sidebar-collapseBorder);
+}
+.pemo-scope-rail[data-collapsed="true"] .pemo-rail-cap {
+  justify-content: center;
+  padding: 8px 4px;
+}
+
+.pemo-rail-toggle {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--s4-radius-control);
+  border: 0;
+  background: var(--pemo-sidebar-collapseSurface);
+  color: var(--s4-white);
+  cursor: pointer;
+  font: 700 16px var(--pemo-font-sans);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.pemo-rail-toggle:hover { background: var(--pemo-sidebar-hoverSurface); }
+.pemo-scope-rail .pemo-rail-toggle {
+  color: var(--pemo-neutral-800);
+  border: 1px solid var(--pemo-neutral-300);
+  background: var(--pemo-common-white);
+}
+.pemo-scope-rail .pemo-rail-toggle:hover { background: var(--pemo-brand-primaryTint); border-color: var(--s4-hover-border); }
+
+/* ---------------------------------------------------------------- scope / properties rail */
+
+/* 4S section 7: the list panel is a pale grey (--s4-list-panel) behind white list cards. */
+.pemo-scope-rail {
+  background: var(--pemo-neutral-100);
+  border-right: 1px solid var(--pemo-neutral-200);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.pemo-scope-rail__head {
+  padding: 14px 14px 8px;
+  flex: none;
+}
+.pemo-scope-rail__kicker {
+  font-family: var(--pemo-font-sans);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pemo-neutral-500);
+}
+.pemo-scope-rail__title {
+  font-weight: var(--s4-small-heading-weight);
+  font-size: var(--s4-small-heading-size);
+  color: var(--pemo-neutral-950);
+  margin-top: 2px;
+}
+.pemo-scope-rail__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 14px 10px;
+  flex: none;
+}
+.pemo-scope-rail__search-field {
+  flex: 1;
+  min-width: 0;
+}
+.pemo-scope-rail__search input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 14px;
+  color: var(--pemo-neutral-950);
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--s4-radius-control);
+  padding: 9px 30px 9px 11px;
+  min-width: 0;
+  appearance: none;
+}
+.pemo-scope-rail__search input::placeholder { color: var(--pemo-neutral-500); }
+.pemo-scope-rail__search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+.pemo-scope-rail__search-clear {
+  position: absolute;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  color: var(--pemo-neutral-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: 600 16px var(--pemo-font-sans);
+  line-height: 1;
+}
+.pemo-scope-rail__search-clear:hover {
+  background: var(--pemo-brand-primaryTint);
+  color: var(--pemo-neutral-900);
+}
+.pemo-scope-rail__prompt,
+.pemo-scope-rail__clear {
+  margin: 0 14px 8px;
+  font-size: 13px;
+  color: var(--pemo-neutral-600);
+}
+.pemo-scope-rail__clear {
+  display: inline-block;
+  width: calc(100% - 28px);
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--s4-selected-text);
+}
+.pemo-scope-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px 12px;
+  flex: 1;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.pemo-scope-tree__row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+}
+.pemo-scope-tree__pick {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  padding: 5px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  font: 600 14px var(--pemo-font-sans);
+  color: var(--pemo-neutral-900);
+}
+.pemo-scope-tree__pick:hover { background: var(--pemo-brand-primaryTint); }
+.pemo-scope-tree__row--selected .pemo-scope-tree__pick {
+  background: var(--pemo-common-white);
+  border-color: var(--s4-selected-border);
+  color: var(--s4-selected-text);
+  font-weight: 750;
+}
+.pemo-scope-tree__block-actions {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0;
+}
+.pemo-scope-tree__block-action {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+  color: var(--pemo-neutral-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 15px var(--pemo-font-sans);
+  line-height: 1;
+}
+.pemo-scope-tree__block-action:hover {
+  background: var(--pemo-brand-primaryTint);
+  color: var(--pemo-neutral-900);
+}
+.pemo-scope-rail__icon {
+  flex: 1;
+  margin: 12px 6px 0;
+  height: 34px;
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--s4-radius-control);
+  background: var(--pemo-common-white);
+  color: var(--pemo-neutral-800);
+  cursor: pointer;
+  font: inherit;
+}
+.pemo-scope-rail__icon:hover { background: var(--pemo-brand-primaryTint); border-color: var(--s4-hover-border); }
+.pemo-scope-rail[data-collapsed="true"] {
+  align-items: stretch;
+}
+.pemo-scope-rail .pemo-rail-cap {
+  border-bottom-color: var(--pemo-neutral-200);
+}
+
+/* ---------------------------------------------------------------- page */
+
+.pemo-content { display: flex; flex-direction: column; min-width: 0; min-height: 100%; background: var(--s4-canvas); }
+
+/* 4S section 4: account controls top right, breadcrumbs on the row beneath,
+   top-bar controls transparent and borderless. */
+.pemo-header {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px var(--pemo-page-padding) 0;
+  background: transparent;
+}
+.pemo-header__account {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pemo-header__crumb { min-width: 0; }
+.pemo-crumbs {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 4px;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+}
+.pemo-crumbs > li { display: inline-flex; align-items: center; gap: 4px; min-width: 0; }
+.pemo-crumb-link {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--s4-selected-text);
+  background: none;
+  border: 0;
+  padding: 3px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pemo-crumb-link:hover { background: var(--pemo-brand-primaryTint); }
+.pemo-header__crumbMuted { font-size: 13px; color: var(--pemo-neutral-600); padding: 3px 6px; }
+.pemo-header__crumbSep { font-size: 13px; color: var(--pemo-neutral-400); }
+.pemo-header__crumbCurrent { font-size: 13px; font-weight: 750; color: var(--pemo-neutral-950); padding: 3px 6px; }
+
+.pemo-main { padding: 6px var(--pemo-page-padding) var(--pemo-page-padding); min-width: 0; }
+
+.pemo-page-title {
+  font-family: var(--pemo-font-sans);
+  font-weight: var(--s4-page-heading-weight);
+  font-size: var(--s4-page-heading-size);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--pemo-accent-heading);
+  margin: 0 0 var(--pemo-space-4);
+}
+
+/* Language tab: a top-bar control, so transparent and borderless. */
+.pemo-lang {
+  display: flex;
+  gap: 2px;
+  border: 0;
+  border-radius: var(--s4-radius-control);
+}
+.pemo-lang__seg {
+  padding: 6px 10px;
+  min-height: 34px;
+  font: 700 13px var(--pemo-font-sans);
+  cursor: pointer;
+  background: transparent;
+  color: var(--pemo-neutral-800);
+  border: 0;
+  border-radius: var(--s4-radius-control);
+  font-family: inherit;
+}
+.pemo-lang__seg:hover:not(:disabled) { background: var(--pemo-brand-primaryTint); }
+.pemo-lang__seg[aria-pressed="true"] {
+  background: var(--pemo-brand-primaryTint);
+  color: var(--s4-selected-text);
+  font-weight: 750;
+}
+.pemo-lang__seg:disabled { color: var(--pemo-neutral-500); cursor: not-allowed; }
+
+.pemo-account { position: relative; flex: none; }
+.pemo-account__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px 0 4px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--pemo-neutral-900);
+  font-family: var(--pemo-font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pemo-account__btn:hover,
+.pemo-account__btn[aria-expanded="true"] { background: var(--pemo-brand-primaryTint); }
+.pemo-account__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--pemo-brand-primary);
+  color: var(--s4-white);
+  font-family: var(--pemo-font-sans);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.pemo-account__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 228px;
+  z-index: 20;
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--pemo-radius-card);
+  box-shadow: 0 10px 28px var(--pemo-neutral-200);
+  padding: 10px 0 6px;
+}
+.pemo-account__identity { padding: 2px 14px 10px; }
+.pemo-account__name {
+  font-family: var(--pemo-font-sans);
+  font-size: 14px;
+  font-weight: 750;
+  color: var(--pemo-neutral-950);
+  line-height: 1.3;
+}
+.pemo-account__role {
+  margin-top: 2px;
+  font-family: var(--pemo-font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pemo-neutral-600);
+}
+.pemo-account__rule {
+  height: 1px;
+  margin: 0 0 4px;
+  background: var(--pemo-neutral-200);
+}
+.pemo-account__logout {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 9px 14px;
+  font-family: var(--pemo-font-sans);
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--pemo-neutral-900);
+  cursor: pointer;
+}
+.pemo-account__logout:hover { background: var(--pemo-brand-primaryTint); }
+
+.pemo-signed-out {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--pemo-neutral-50);
+}
+.pemo-signed-out__main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--pemo-page-padding);
+}
+.pemo-signed-out__panel { width: min(440px, 100%); margin-top: 48px; }
+.pemo-signed-out__panel .pemo-actions { margin-top: var(--pemo-space-5); }
+
+.pemo-panel {
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--pemo-radius-card);
+  padding: var(--pemo-space-5);
+  margin-bottom: var(--pemo-space-5);
+  min-width: 0;
+}
+.pemo-panel__title { font-size: var(--s4-card-heading-size); font-weight: var(--s4-card-heading-weight); line-height: 1.25; margin: 0 0 var(--pemo-space-3); }
+.pemo-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pemo-space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--pemo-space-3);
+}
+.pemo-panel__head .pemo-panel__title { margin: 0; }
+.pemo-tree-actions { display: flex; gap: var(--pemo-space-4); }
+.pemo-tree-action,
+.pemo-text-action {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pemo-brand-primary);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.pemo-panel--secondary { background: var(--pemo-neutral-100); }
+
+.pemo-note { color: var(--pemo-neutral-600); font-size: 14px; margin: var(--pemo-space-2) 0 0; }
+.pemo-meta { color: var(--pemo-neutral-600); font-size: var(--s4-meta-size); font-weight: var(--s4-meta-weight); }
+
+.pemo-identifier { font-family: var(--pemo-font-mono); font-size: 13px; font-weight: 500; }
+
+.pemo-toolbar { display: flex; gap: var(--pemo-space-3); flex-wrap: wrap; align-items: center; margin-bottom: var(--pemo-space-4); }
+.pemo-toolbar--membership { align-items: flex-end; }
+.pemo-field { display: flex; flex-direction: column; gap: var(--pemo-space-1); font-size: 13px; font-weight: 650; color: var(--pemo-neutral-700); }
+.pemo-field select {
+  font: inherit; font-size: 14px; color: var(--pemo-neutral-950);
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--pemo-radius);
+  padding: var(--pemo-space-2) var(--pemo-space-3);
+  min-height: 44px;                     /* 4S section 6: form and filter controls are at least 44px */
+}
+.pemo-field input[type="date"] {
+  font: inherit; font-size: 14px; color: var(--pemo-neutral-950);
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--pemo-radius);
+  padding: var(--pemo-space-2) var(--pemo-space-3);
+  min-height: 44px;
+}
+.pemo-field select:hover, .pemo-field input:hover, .pemo-field textarea:hover { border-color: var(--s4-hover-border); }
+:focus-visible { outline: 2px solid var(--pemo-brand-primary); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------- tables */
+
+.pemo-table-wrap { overflow-x: auto; position: relative; }
+
+.pemo-table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+.pemo-table th, .pemo-table td {
+  text-align: left;
+  padding: var(--pemo-space-2) var(--pemo-space-3);
+  border-bottom: 1px solid var(--pemo-neutral-200);
+  vertical-align: top;
+  min-height: var(--pemo-row-height);
+}
+.pemo-table thead th {
+  position: sticky; top: 0;                     /* 8.4 sticky header */
+  background: var(--pemo-neutral-150);
+  color: var(--pemo-neutral-800);
+  font-size: var(--s4-table-heading-size); font-weight: var(--s4-table-heading-weight);
+  white-space: nowrap;                          /* no mid-word header clip */
+  overflow: visible;
+}
+/* Notices list (s5-table): prefer horizontal scroll over crushing ACKNOWLEDGEMENT / ACTIONS.
+ * Percent col widths sum to 100% of this floor (or the container if wider). */
+.pemo-table[data-testid="s5-table"] { min-width: 68rem; }
+.pemo-table[data-testid="s5-table"] th:nth-child(6),
+.pemo-table[data-testid="s5-table"] td:nth-child(6) { min-width: 9.5rem; }
+.pemo-table[data-testid="s5-table"] th:nth-child(7),
+.pemo-table[data-testid="s5-table"] td.pemo-cell--actions { min-width: 8.5rem; }
+.pemo-table[data-testid="residents-table"] { min-width: 56rem; }
+.pemo-table[data-testid="resident-occupancies-table"] { min-width: 48rem; }
+.pemo-table[data-testid="admin-users-table"] { min-width: 52rem; }
+.pemo-table[data-testid="admin-groups-table"] { min-width: 56rem; }
+.pemo-table[data-testid="admin-roles-matrix"] { min-width: 48rem; }
+.pemo-table[data-testid="admin-roles-matrix"] th,
+.pemo-table[data-testid="admin-roles-matrix"] td.pemo-matrix-cell { text-align: center; }
+.pemo-table[data-testid="admin-roles-matrix"] th:first-child,
+.pemo-table[data-testid="admin-roles-matrix"] th[scope="row"] { text-align: left; }
+.pemo-table[data-testid="admin-group-rights-table"] { min-width: 36rem; }
+.pemo-table[data-testid="admin-group-rights-table"] td.pemo-matrix-cell { text-align: center; }
+.pemo-table[data-testid="admin-group-rights-table"] th[scope="row"] { text-align: left; }
+.pemo-table[data-testid="admin-group-parkcore-rights-table"] { min-width: 36rem; }
+.pemo-table[data-testid="admin-group-parkcore-rights-table"] td.pemo-matrix-cell { text-align: center; }
+.pemo-table[data-testid="admin-group-parkcore-rights-table"] th[scope="row"] { text-align: left; }
+.pemo-calendar-table { min-width: 0; }
+
+.pemo-table td.pemo-cell--actions .pemo-actions--row {
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+.pemo-table td.pemo-cell--actions .pemo-actions--row .pemo-button {
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.pemo-table tbody tr { height: var(--pemo-row-height); }
+.pemo-table tbody tr:hover > td { background: var(--pemo-brand-primaryTint); }
+/* 8.4: no full-row red background for overdue records. Nothing here sets one. */
+
+/* DENSE CELL TRUNCATION.
+ *
+ * Traditional Chinese breaks between characters and English breaks between
+ * words, so the same column width truncates the two differently. Both are given
+ * an explicit break policy rather than being left to the default:
+ *   - line-break: strict keeps CJK from breaking before closing punctuation
+ *   - overflow-wrap: break-word breaks a long Latin token only when needed,
+ *     without the letter-by-letter wrap that overflow-wrap:anywhere caused when
+ *     a column was squeezed (Notices TITLE stacking one character per line)
+ * The layout suite asserts no cell overflows its column in either locale. */
+.pemo-cell--dense {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* General wrap (DL bodies, flex rows, non-table spans): word boundaries only. */
+.pemo-cell--wrap {
+  line-break: strict;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+/* Table title/subject WrapCell: keep a usable column floor and cap row height.
+ * min-width stops the fixed-layout TITLE column collapsing to 1-2 chars;
+ * 2-line clamp + ellipsis replaces unlimited wrap; full text stays on title=. */
+.pemo-table td.pemo-cell--wrap {
+  min-width: 12rem;
+  max-width: 0; /* with table-layout:fixed, honor col % width for overflow */
+  overflow: hidden;
+  vertical-align: top;
+}
+.pemo-table td.pemo-cell--wrap > .pemo-cell--wrap__inner {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-break: strict;
+}
+.pemo-table td.pemo-cell--wrap > .pemo-cell--wrap__inner > a {
+  color: inherit;
+}
+
+/* ---------------------------------------------------------------- chips */
+
+.pemo-chip {
+  display: inline-flex; align-items: center; gap: var(--pemo-space-1);
+  padding: 2px var(--pemo-space-2);
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: var(--s4-meta-size); font-weight: 700;
+  white-space: nowrap;
+}
+.pemo-chip__glyph { font-size: 12px; line-height: 1; }
+.pemo-chip--plain { background: var(--s4-tag-neutral-bg); border-color: transparent; color: var(--s4-tag-neutral-fg); } /* PT §6: tags have no visible border */
+.pemo-chip--plain[data-tone='success'] { background: var(--s4-tag-success-bg); color: var(--s4-tag-success-fg); }
+.pemo-chip--plain[data-tone='attention'] { background: var(--s4-tag-attention-bg); color: var(--s4-tag-attention-fg); }
+.pemo-chip--plain[data-tone='critical'] { background: var(--s4-tag-critical-bg); color: var(--s4-tag-critical-fg); }
+.pemo-chip--plain[data-tone='unknown'] { background: var(--s4-tag-unknown-bg); color: var(--s4-tag-unknown-fg); }
+.pemo-chip--plain[data-tone='urgent'] { background: var(--s4-tag-urgent-bg); color: var(--s4-tag-urgent-fg); }
+button.pemo-chip {
+  cursor: pointer;
+  font: inherit;
+  appearance: none;
+}
+/* Selected ordinary filter: soft green surface and border (4S section 6). */
+.pemo-chip--selected {
+  background: var(--pemo-brand-primaryTint);
+  border-color: var(--s4-selected-border);
+  color: var(--s4-selected-text);
+}
+.pemo-function-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pemo-space-1);
+  margin: var(--pemo-space-4) 0;
+}
+.pemo-rights-modules {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pemo-space-2);
+  margin-top: var(--pemo-space-3);
+}
+.pemo-function-tabs--modules {
+  margin: 0;
+}
+.pemo-rights-modules + .pemo-domain-tabbar {
+  margin-top: var(--pemo-space-2);
+}
+.pemo-function-tab {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  padding: var(--pemo-space-2) var(--pemo-space-3);
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--pemo-radius);
+  background: var(--pemo-common-white);
+  color: var(--pemo-neutral-800);
+  cursor: pointer;
+}
+.pemo-function-tab:hover { background: var(--pemo-brand-primaryTint); border-color: var(--s4-hover-border); }
+.pemo-function-tab[aria-selected="true"] {
+  background: var(--pemo-brand-primaryTint);
+  color: var(--s4-selected-text);
+  border-color: var(--s4-selected-border);
+}
+.pemo-function-tab-sep {
+  align-self: center;
+  padding: 0 var(--pemo-space-2);
+  color: var(--pemo-neutral-600);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Rights domain tabs: underline strip, granted/total badges, overflow arrows. */
+.pemo-domain-tabbar {
+  display: flex;
+  align-items: stretch;
+  gap: var(--pemo-space-1);
+  min-width: 0;
+  max-width: 100%;
+  margin: var(--pemo-space-4) 0;
+  border-bottom: 1px solid var(--pemo-neutral-200);
+}
+.pemo-domain-tabbar__scroller {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: var(--pemo-space-1);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.pemo-domain-tabbar__scroller::-webkit-scrollbar { display: none; }
+.pemo-domain-tabbar__arrow {
+  flex: none;
+  align-self: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--pemo-radius);
+  background: var(--pemo-common-white);
+  color: var(--pemo-neutral-700);
+  cursor: pointer;
+}
+.pemo-domain-tabbar__arrow:hover:not(:disabled) {
+  background: var(--pemo-neutral-50);
+  color: var(--pemo-neutral-950);
+}
+.pemo-domain-tabbar__arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pemo-domain-tabbar[data-overflow="false"] .pemo-domain-tabbar__arrow { display: none; }
+.pemo-domain-tabbar__chevron {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+.pemo-domain-tabbar__chevron--prev { border-right: 7px solid currentColor; }
+.pemo-domain-tabbar__chevron--next { border-left: 7px solid currentColor; }
+.pemo-domain-tab {
+  appearance: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.3;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pemo-space-2);
+  padding: var(--pemo-space-3) var(--pemo-space-3) 10px;
+  margin-bottom: -1px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--pemo-neutral-600);
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+}
+.pemo-domain-tab:hover {
+  color: var(--pemo-neutral-900);
+}
+.pemo-domain-tab[aria-selected="true"] {
+  color: var(--s4-selected-text);
+  font-weight: 750;
+  border-bottom-color: var(--pemo-brand-primary);
+  background: transparent;
+}
+.pemo-domain-tab__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--pemo-brand-primaryTint);
+  color: var(--pemo-brand-primary);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.pemo-chip-row { display: flex; flex-wrap: wrap; gap: var(--pemo-space-1); }
+.pemo-admin-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--pemo-space-2); }
+.pemo-matrix-cell { text-align: center; }
+.pemo-matrix-mark[data-granted="true"] { color: var(--pemo-neutral-950); font-weight: 700; }
+.pemo-matrix-mark[data-granted="false"] { color: var(--pemo-neutral-400); }
+.pemo-field--search { min-width: 16rem; }
+
+/* ---------------------------------------------------------------- states */
+
+/* The lazy screen's fallback holds the content area open while a chunk loads. */
+.pemo-screen-loading { min-height: calc(var(--pemo-space-4) * 20); }
+
+.pemo-state {
+  border: 1px solid var(--pemo-neutral-300);
+  border-left-width: 4px;
+  border-radius: var(--pemo-radius);
+  background: var(--pemo-common-white);
+  padding: var(--pemo-space-4);
+  margin-bottom: var(--pemo-space-4);
+}
+.pemo-state__title { font-weight: 650; margin: 0 0 var(--pemo-space-2); font-size: 15px; }
+.pemo-state__body { margin: 0; color: var(--pemo-neutral-700); font-size: 14px; }
+.pemo-state--gap { background: var(--pemo-neutral-100); border-left-color: var(--pemo-neutral-500); }
+.pemo-state--deferred { background: var(--pemo-neutral-100); border-left-color: var(--pemo-neutral-400); }
+
+.pemo-skeleton {
+  background: var(--pemo-neutral-150);
+  border-radius: var(--pemo-radius);
+  height: var(--pemo-row-height);
+  margin-bottom: var(--pemo-space-2);
+}
+
+.pemo-dl { display: grid; grid-template-columns: minmax(140px, max-content) 1fr; gap: var(--pemo-space-2) var(--pemo-space-4); margin: 0; }
+.pemo-dl > div { display: contents; }
+.pemo-dl dt { color: var(--pemo-neutral-600); font-size: 13px; }
+.pemo-dl dd { margin: 0; font-size: 14px; min-width: 0; }
+
+.pemo-counters { display: flex; flex-wrap: wrap; gap: var(--pemo-space-4); }
+.pemo-counter { flex: 1 1 180px; border: 1px solid var(--pemo-neutral-200); border-radius: var(--pemo-radius-card); padding: var(--pemo-space-4); background: var(--pemo-common-white); }
+.pemo-counter__value { font-size: 28px; font-weight: 750; line-height: 1.2; }
+.pemo-counter__label { color: var(--pemo-neutral-600); font-size: 13px; }
+
+.pemo-counter--action {
+  cursor: pointer;
+  text-align: inherit;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+}
+.pemo-counter--action:hover {
+  border-color: var(--s4-hover-border);
+  background: var(--pemo-brand-primaryTint);
+}
+
+
+.pemo-tree { list-style: none; margin: 0; padding: 0; }
+.pemo-tree__row { display: flex; align-items: center; gap: var(--pemo-space-2); padding: var(--pemo-space-2) 0; border-bottom: 1px solid var(--pemo-neutral-150); }
+.pemo-tree__toggle {
+  flex: none;
+  width: var(--pemo-space-4);
+  height: var(--pemo-space-4);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--pemo-neutral-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+}
+.pemo-tree__toggle--leaf { cursor: default; }
+.pemo-tree__toggle-pad { flex: none; width: var(--pemo-space-4); height: var(--pemo-space-4); }
+.pemo-tree__chevron {
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid currentColor;
+}
+.pemo-tree__toggle[aria-expanded="true"] .pemo-tree__chevron { transform: rotate(90deg); }
+.pemo-tree__attention { width: 8px; height: 8px; border-radius: 50%; background: var(--pemo-sev-warning-strong); flex: none; }
+
+.pemo-steps { list-style: none; margin: 0; padding: 0; }
+.pemo-step { display: flex; gap: var(--pemo-space-3); padding: var(--pemo-space-3) 0; border-bottom: 1px solid var(--pemo-neutral-150); align-items: baseline; }
+
+.pemo-visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------------------------------------------------------- UI-051 write flow */
+/* Buttons and fields. Tokens only, no literal colour; the primary control carries
+ * a filled surface AND a label — brand.primary is never the sole indicator. */
+/* 4S section 6: ordinary button = white, 1px light grey border, dark text, light
+   green hover. Typical radius 8px; padding 11x16 (compact text actions 6x10). */
+.pemo-button {
+  font: inherit; font-size: 14px; font-weight: 650;
+  color: var(--pemo-neutral-900);
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--pemo-radius);
+  padding: 10px 16px;
+  min-height: 44px;
+  cursor: pointer;
+  transition: background-color 0.12s, border-color 0.12s;
+}
+a.pemo-button { display: inline-block; text-decoration: none; }
+/* Major action: solid green, white text, darker green on hover. Used selectively for the one main task of a screen. */
+.pemo-button--primary { color: var(--s4-white); background: var(--pemo-brand-primary); border-color: var(--pemo-brand-primary); font-weight: 750; }
+.pemo-button:disabled { opacity: 0.6; cursor: not-allowed; }
+.pemo-actions { display: flex; flex-wrap: wrap; gap: var(--pemo-space-2); align-items: center; }
+.pemo-actions--row { gap: var(--pemo-space-1); }
+.pemo-actions--row .pemo-button { font-size: 13px; padding: 6px 10px; min-height: 32px; }
+.pemo-field-masked { -webkit-text-security: disc; text-security: disc; }
+.pemo-field input, .pemo-field textarea {
+  font: inherit; font-size: 14px; color: var(--pemo-neutral-950);
+  background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-300);
+  border-radius: var(--pemo-radius);
+  padding: var(--pemo-space-2) var(--pemo-space-3);
+  min-width: 0;
+}
+.pemo-field textarea { min-height: 96px; resize: vertical; }
+.pemo-form { display: grid; gap: var(--pemo-space-4); }
+.pemo-form__languages { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pemo-space-4); }
+.pemo-form__language { border: 1px solid var(--pemo-neutral-200); border-radius: var(--pemo-radius); padding: var(--pemo-space-4); display: grid; gap: var(--pemo-space-3); }
+.pemo-form__language[data-missing="true"] { border-left: 4px solid var(--pemo-neutral-500); background: var(--pemo-neutral-50); }
+.pemo-flag { font-size: 12px; font-weight: 600; color: var(--pemo-neutral-700); }
+.pemo-check { display: flex; flex-direction: row; align-items: center; gap: var(--pemo-space-2); font-size: 14px; color: var(--pemo-neutral-950); }
+.pemo-check--grant {
+  justify-content: center;
+  cursor: pointer;
+  margin: 0;
+}
+.pemo-check--grant input {
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+}
+.pemo-form fieldset.pemo-field {
+  border: 1px solid var(--pemo-neutral-200);
+  border-radius: var(--pemo-radius);
+  padding: var(--pemo-space-3);
+  margin: 0;
+  display: grid;
+  gap: var(--pemo-space-2);
+}
+.pemo-form fieldset.pemo-field legend {
+  padding: 0 var(--pemo-space-1);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pemo-neutral-700);
+}
+.pemo-state--recorded { border-left-color: var(--pemo-brand-primary); }
+
+/* Help desk (OPERATE) — queue chrome */
+.pemo-helpdesk-actions { display: flex; flex-wrap: wrap; gap: var(--pemo-space-2); margin: var(--pemo-space-3) 0; }
+.pemo-helpdesk-stats { align-items: stretch; }
+.pemo-helpdesk-stat { text-align: left; }
+.pemo-helpdesk-timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--pemo-space-3); }
+.pemo-helpdesk-timeline li { padding: var(--pemo-space-3); border: 1px solid var(--pemo-neutral-200); border-radius: var(--pemo-radius); background: var(--pemo-common-white); }
+
+/* ------------------------------------------------ v3 declutter (finance) */
+/* Inline lucide icons (components/Icon.tsx). One family, currentColor. */
+.pemo-icon { display: inline-block; flex: none; vertical-align: -0.2em; }
+.pemo-nav__icon--svg { width: 19px; height: 19px; display: inline-flex; align-items: center; justify-content: center; opacity: 0.9; }
+.pemo-nav__item--active .pemo-nav__icon--svg { opacity: 1; }
+/* Refund composite: Banknote dominant, Undo2 tucked bottom-right on a knockout. */
+.pemo-icon-refund { position: relative; display: inline-flex; flex: none; vertical-align: -0.2em; }
+.pemo-icon-refund__arrow {
+  position: absolute; right: -2px; bottom: -1px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--pemo-common-white);
+  color: var(--pemo-neutral-800);
+}
+.pemo-sidebar .pemo-icon-refund__arrow { background: var(--pemo-sidebar-ground); color: inherit; }
+.pemo-sidebar .pemo-nav__item--active .pemo-icon-refund__arrow { background: var(--pemo-sidebar-activeSurface); }
+
+/* PT bot guideline §6 (2026-10-14): tags have a LIGHT SOLID background and NO
+   border. Strong solid colour is reserved for urgent items (tone=urgent). */
+.pemo-tag {
+  display: inline-flex; align-items: center; gap: var(--pemo-space-1);
+  padding: 1px 8px;
+  border-radius: 6px;
+  border: 0;
+  background: var(--s4-tag-neutral-bg);
+  color: var(--s4-tag-neutral-fg);
+  cursor: default;
+  font-size: var(--s4-meta-size); font-weight: 700; line-height: 18px;
+  white-space: nowrap;
+}
+.pemo-tag[data-tone='alert'] { background: var(--pemo-sev-critical-surface); color: var(--pemo-sev-critical-strong); }
+.pemo-tag[data-tone='attention'] { background: var(--s4-tag-attention-bg); color: var(--s4-tag-attention-fg); }
+.pemo-tag[data-tone='positive'] { background: var(--pemo-sev-normal-surface); color: var(--pemo-sev-normal-strong); }
+.pemo-tag[data-tone='info'] { background: var(--pemo-sev-information-surface); color: var(--pemo-sev-information-strong); }
+.pemo-tag[data-tone='urgent'] { background: var(--s4-tag-urgent-bg); color: var(--s4-tag-urgent-fg); }
+.pemo-tag[data-tone='unknown'] { background: var(--s4-tag-unknown-bg); color: var(--s4-tag-unknown-fg); }
+.pemo-tagrow { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+
+/* Finance tables: fixed layout with a floor width; below it the table
+   scrolls inside its card (.pemo-table-wrap), never the page. */
+.pemo-table[data-testid="charges-table"] :is(th, td) { padding-left: var(--pemo-space-2); padding-right: var(--pemo-space-2); }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"]) th { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"]) td { vertical-align: top; }
+.pemo-table .pemo-tag { max-width: 100%; }
+/* Charges Unit wraps at word boundaries; it is never truncated (re-check 1). */
+.pemo-table td.pemo-cell--unit > *, .pemo-table td.pemo-cell--unit .pemo-cell--wrap { display: block; }
+/* Headers wrap at word boundaries so a long label never clips. */
+.pemo-table[data-testid="booking-rates-table"] th { white-space: normal; overflow-wrap: normal; hyphens: manual; }
+.pemo-table .pemo-tag > span { overflow: hidden; text-overflow: ellipsis; }
+
+.pemo-infotip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%; padding: 0; border: 0; background: transparent;
+  color: var(--pemo-neutral-600); cursor: help;
+}
+.pemo-infotip:hover, .pemo-infotip:focus-visible { background: var(--pemo-brand-primaryTint); color: var(--s4-selected-text); }
+.pemo-help { display: inline-flex; }
+.pemo-help__bubble {
+  white-space: pre-line;
+  position: fixed; z-index: 60;
+  padding: 9px 12px; border-radius: var(--s4-radius-control);
+  background: var(--s4-text); color: var(--s4-white);
+  font-size: 13px; font-weight: 600; line-height: 1.4;
+  box-shadow: 0 8px 24px var(--pemo-neutral-300);
+  pointer-events: none;
+}
+.pemo-source { display: inline-flex; align-items: center; gap: 2px; }
+
+/* Card heading (4S section 3): 19.55px / 750 on the white card itself. No
+   green strip, no rule: the heading is the hierarchy. */
+.pemo-titlestrip {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--pemo-space-2);
+  flex-wrap: wrap;
+  min-height: 0; padding: 0;
+  margin: 0 0 var(--pemo-space-3);
+  background: transparent;
+  border: 0;
+}
+.pemo-titlestrip__title {
+  display: inline-flex; align-items: center; gap: var(--pemo-space-2);
+  margin: 0; font-size: var(--s4-card-heading-size); font-weight: var(--s4-card-heading-weight); line-height: 1.25;
+  color: var(--pemo-neutral-950);
+}
+.pemo-titlestrip__title > svg { color: var(--pemo-brand-primary); }
+.pemo-titlestrip__aside { display: inline-flex; align-items: center; gap: var(--pemo-space-2); flex-wrap: wrap; }
+
+/* Icon + label + chevron links and ← back links. */
+.pemo-rowlink, .pemo-backlink {
+  display: inline-flex; align-items: center; gap: var(--pemo-space-1);
+  text-decoration: none; color: var(--pemo-neutral-900);
+  border-radius: var(--pemo-radius); padding: 2px var(--pemo-space-2);
+  white-space: nowrap;
+}
+.pemo-rowlink { border: 1px solid var(--pemo-neutral-300); background: var(--pemo-common-white); color: var(--pemo-neutral-900); font-size: 13px; font-weight: 600; }
+.pemo-rowlink:hover, .pemo-backlink:hover { background: var(--pemo-brand-primaryTint); }
+.pemo-rowlink:hover { border-color: var(--s4-hover-border); }
+.pemo-rowlink:focus-visible, .pemo-backlink:focus-visible { outline: 2px solid var(--pemo-brand-primary); outline-offset: 1px; }
+.pemo-cell--action { text-align: right; }
+
+.pemo-button { display: inline-flex; align-items: center; gap: var(--pemo-space-1); }
+.pemo-button--quiet { color: var(--pemo-neutral-800); border-color: var(--pemo-neutral-300); margin-top: var(--pemo-space-2); }
+.pemo-button:not(:disabled):hover { background: var(--pemo-brand-primaryTint); border-color: var(--s4-hover-border); }
+.pemo-button--primary:not(:disabled):hover { background: var(--pemo-brand-deep); border-color: var(--pemo-brand-deep); }
+
+.pemo-filtermark { display: inline-flex; align-items: center; color: var(--pemo-neutral-600); align-self: flex-end; padding-bottom: 6px; }
+
+/* Amounts compare in columns: tabular numerals. */
+.pemo-num { font-variant-numeric: tabular-nums; text-align: right; }
+.pemo-table td.pemo-cell--money { white-space: nowrap; overflow: visible; }
+.pemo-table td.pemo-num, .pemo-dl dd.pemo-num { font-variant-numeric: tabular-nums; }
+.pemo-dl dd.pemo-num { text-align: left; }
+
+/* Count tiles as filter chips. */
+.pemo-counter--chip { flex: 0 1 auto; display: inline-flex; align-items: baseline; gap: var(--pemo-space-2); padding: var(--pemo-space-1) var(--pemo-space-3); }
+.pemo-counter--chip .pemo-counter__value { font-size: 16px; font-variant-numeric: tabular-nums; }
+.pemo-counter--chip[aria-pressed='true'] { background: var(--pemo-brand-primaryTint); border-color: var(--s4-selected-border); color: var(--s4-selected-text); }
+
+/* Send review → confirm. */
+.pemo-review { margin-top: var(--pemo-space-3); border: 1px solid var(--pemo-neutral-300); border-radius: var(--pemo-radius); padding: var(--pemo-space-3); background: var(--pemo-neutral-25); }
+.pemo-review__title { margin: 0 0 var(--pemo-space-2); font-size: 14px; }
+.pemo-toolbar--finance { align-items: flex-end; margin-bottom: 0; }
+.pemo-source .pemo-backlink { font-size: 12px; font-weight: 600; }
+
+/* PT guideline §6: table rows alternate white and light grey. */
+.pemo-table tbody tr:nth-child(even) > td { background: var(--pemo-neutral-50); }
+
+/* IT details: system ids live here, collapsed, on detail screens only. */
+.pemo-itdetails { margin-top: var(--pemo-space-4); border-top: 1px solid var(--pemo-neutral-200); padding-top: var(--pemo-space-2); color: var(--pemo-neutral-700); font-size: 13px; }
+.pemo-itdetails > summary { cursor: pointer; font-weight: 600; }
+.pemo-itdetails .pemo-dl { margin-top: var(--pemo-space-2); }
+.pemo-itdetails__row { display: contents; }
+
+/* UX re-check 1 G2: the deferred-actions notice is one quiet line. */
+
+/* UX re-check 1: finance and facility-booking tables fit their card and never
+   truncate. Text wraps at word boundaries; no ellipsis, no line clamp, no floor
+   width. Money and tags stay on one line (see .pemo-cell--money, .pemo-tag). */
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"]) { min-width: 0; }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"]) :is(th, td) { padding-left: var(--pemo-space-2); padding-right: var(--pemo-space-2); }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"]) th { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: normal; }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"]) td.pemo-cell--dense { white-space: normal; overflow: visible; text-overflow: clip; }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"]) td.pemo-cell--wrap { min-width: 0; overflow: visible; overflow-wrap: break-word; }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"]) td.pemo-cell--wrap > .pemo-cell--wrap__inner { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"], [data-testid="integration-systems-table"], [data-testid="integration-history"]) .pemo-tag > span { overflow: visible; text-overflow: clip; }
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"]) td.pemo-cell--money > div { white-space: nowrap; }
+.pemo-nowrap { white-space: nowrap; }
+/* Floors sized so each table still fits a 1440 screen with both rails open
+   (~53.5rem card); below that the table scrolls inside its card, never the
+   page, and nothing inside it is squeezed into truncation. Payments has no
+   floor: it fits a 1024 screen. */
+
+/* UX re-check 2: no finance or booking table scrolls inside its card at any
+   width. Each wrap is a size container; Table drops `hideBelow` columns below
+   their width and shows the row's data-alt context line instead. */
+.pemo-table-wrap:has(> table:is(.pemo-calendar-table, [data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="charges-outbox-table"], [data-testid="charge-outbox-table"], [data-testid="payments-outbox-table"], [data-testid="charge-receipts-table"], [data-testid="payment-allocations-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="booking-rates-table"], [data-testid="facility-zones-table"])) { container-type: inline-size; overflow-x: visible; }
+.pemo-cell--email { overflow-wrap: anywhere; word-break: break-word; }
+.pemo-table.pemo-calendar-table :is(thead th, tbody td) { padding-left: 4px; padding-right: 4px; white-space: normal; overflow-wrap: break-word; }
+@container (max-width: 799px) {
+  .pemo-table.pemo-calendar-table thead th { font-size: 11px; letter-spacing: 0; overflow-wrap: normal; }
+}
+/* A tag may wrap onto a second line in a narrow cell rather than spill into
+   the next column (fonts differ between machines; never overlap). */
+.pemo-table:is([data-testid="charges-table"], [data-testid="payments-table"], [data-testid="refunds-table"], [data-testid="bookings-table"], [data-testid="booking-checkin-table"], [data-testid="booking-facilities-table"], [data-testid="payment-allocations-table"], .pemo-calendar-table) .pemo-chip { white-space: nowrap; overflow-wrap: normal; word-break: keep-all; box-sizing: border-box; }
+/* fix7: a tag is ONE line and never breaks mid-word; tags wrap only as whole tags. */
+.pemo-table :is(.pemo-tag, .pemo-tag > span) { white-space: nowrap; overflow-wrap: normal; word-break: keep-all; overflow: visible; text-overflow: clip; }
+
+/* Row-level compose actions in the Properties tree: quiet text actions, not a column of bordered buttons. */
+[data-testid='compose-on-node'] {
+  border-color: transparent;
+  background: transparent;
+  color: var(--pemo-brand-primary);
+  font-weight: 650;
+  min-height: 32px;
+  padding: 0 var(--pemo-space-2);
+}
+[data-testid='compose-on-node']:not(:disabled):hover { background: var(--pemo-brand-primaryTint); border-color: var(--s4-hover-border); }
+
+/* ------------------------------------------------- tables fit their card
+ * 4S guide: no table scrolls inside its card. The 14px/600 body and the larger
+ * table headings are wider than the old base, so the per-table min-width
+ * floors above no longer fit beside the sidebar and the scope tree. Every
+ * table now fits its card: columns wrap instead of clipping or scrolling,
+ * money and tags stay on one line (rules above), and the full text stays on
+ * title= for the cells that still clamp. */
+.pemo-table-wrap { overflow-x: visible; }
+.pemo-table.pemo-table[data-testid] { min-width: 0; }
+.pemo-table th, .pemo-table td { padding-left: var(--pemo-space-2); padding-right: var(--pemo-space-2); }
+.pemo-table thead th { white-space: normal; overflow-wrap: break-word; hyphens: manual; }
+.pemo-table td.pemo-cell--dense { white-space: normal; overflow: visible; overflow-wrap: break-word; }
+.pemo-table td.pemo-cell--wrap { min-width: 0; }
+.pemo-table td.pemo-cell--actions { min-width: 0; }
+.pemo-table .pemo-chip { max-width: 100%; }
+.pemo-table td > .pemo-chip, .pemo-table td > .pemo-severity { vertical-align: top; }
+.pemo-table td.pemo-cell--money { white-space: nowrap; overflow-wrap: normal; }
+/* Links outside the nav read as quiet green text, underlined on hover and focus. */
+main a:not(.pemo-button):not(.pemo-nav__link) { color: var(--pemo-brand-primary); text-underline-offset: 2px; }
+main a:not(.pemo-button):hover { color: var(--pemo-brand-deep); }
+.pemo-table .pemo-chip { white-space: normal; }
+.pemo-table td.pemo-cell--actions .pemo-actions--row .pemo-button { white-space: normal; text-align: center; justify-content: center; }
+
+/* A help bubble standing in for a note paragraph: small, right-aligned, takes one short row. */
+.pemo-pagehead__title { display: flex; align-items: center; gap: var(--pemo-space-2); min-width: 0; }
+.pemo-pagehead__info { display: inline-flex; align-items: center; gap: var(--pemo-space-1); }
+.pemo-hint-row { display: flex; justify-content: flex-end; margin: 0 0 var(--pemo-space-1); min-height: 0; }
+.pemo-panel > .pemo-hint-row:first-child { margin-bottom: 0; }
+
+/* A panel with a title carries its help bubble on the title row, at the right. */
+.pemo-panel:has(> .pemo-panel__title) { position: relative; }
+.pemo-panel:has(> .pemo-panel__title) > .pemo-hint-row { position: absolute; top: var(--pemo-space-4); right: var(--pemo-space-4); margin: 0; }
+.pemo-panel__title .pemo-help { margin-left: 6px; vertical-align: middle; }
+
+/* Forms never push the page sideways: grid tracks may shrink below their content, and fields stay inside their card. */
+.pemo-form__languages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 1180px) { .pemo-form__languages { grid-template-columns: minmax(0, 1fr); } }
+.pemo-form > *, .pemo-form__language { min-width: 0; }
+.pemo-form input:not([type='checkbox']):not([type='radio']), .pemo-form textarea, .pemo-form select { max-width: 100%; min-width: 0; box-sizing: border-box; }
+/* An email address wraps at any character rather than clamping to an ellipsis. */
+.pemo-table[data-testid='admin-users-table'] td:nth-child(2) > .pemo-cell--wrap__inner { display: block; -webkit-line-clamp: unset; overflow: visible; overflow-wrap: anywhere; }
+.pemo-table-wrap { container-type: inline-size; }
+.pemo-table[data-testid='s5-table'] td.pemo-cell--wrap > .pemo-cell--wrap__inner { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.pemo-table[data-testid='residents-table'] td.pemo-cell--wrap > .pemo-cell--wrap__inner { display: block; -webkit-line-clamp: unset; overflow: visible; }
+
+[data-testid="booking-checkin-table"] .pemo-actions--row .pemo-button { white-space: nowrap; }
+.pemo-table[data-testid='visitor-table'] td.pemo-cell--wrap > .pemo-cell--wrap__inner { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.pemo-table[data-testid='visitor-table'] thead th { overflow-wrap: normal; word-break: normal; }
+.pemo-table[data-testid='s5-table'] thead th { overflow-wrap: normal; word-break: normal; hyphens: none; }
+
+/* ================================================================ reference match (PT, 18 Nov 2026)
+   The live reference app on :18121 wins over the 4S guide where they differ. Every value
+   below was read from that app's rendered DOM (computed style) and is held as data in
+   tokens/style-4s.json (sidebar.* and ref.*): a light teal sidebar, a one-row white top bar,
+   the Locations tree panel. Tables and body copy keep our size: the reference runs its
+   main column at a 1.4 UI scale (16.8px), which would push 25 table layouts back into
+   scrolling. */
+
+.pemo-shell {
+  grid-template-columns: var(--pemo-sidebar-width) var(--pemo-scope-rail-width) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  background: var(--s4-canvas);
+  font-family: var(--s4-font-sans);
+}
+.pemo-shell[data-scope-hidden="true"] { grid-template-columns: var(--pemo-sidebar-width) minmax(0, 1fr); }
+.pemo-shell { --pemo-scope-rail-width: 314px; }
+.pemo-shell[data-scope-collapsed="true"] { --pemo-scope-rail-width: 60px; }
+.pemo-shell > .pemo-sidebar { grid-column: 1; grid-row: 1 / span 2; }
+.pemo-shell > .pemo-header { grid-column: 2 / -1; grid-row: 1; }
+.pemo-shell > .pemo-scope-rail { grid-column: 2; grid-row: 2; }
+.pemo-shell > .pemo-content { grid-column: 3; grid-row: 2; }
+.pemo-shell[data-scope-hidden="true"] > .pemo-content { grid-column: 2; }
+
+/* The sidebar column is tinted for the full height of the page. The sidebar itself stays sticky at 100vh
+   with its own scrolling nav, so it is always in view; this paints the column behind it, so a full-page or
+   tall capture (where 100vh is only the first screen) never shows the page canvas under the nav. */
+.pemo-shell {
+  background:
+    linear-gradient(to right, var(--s4-sidebar-ground) var(--pemo-sidebar-width), transparent var(--pemo-sidebar-width)),
+    var(--s4-canvas);
+}
+
+/* ---- sidebar */
+.pemo-shell .pemo-sidebar {
+  padding: 24px 12px;
+  background: var(--s4-sidebar-ground);
+  color: var(--s4-sidebar-text);
+  font-family: var(--s4-font-sans);
+  position: sticky;
+}
+.pemo-shell .pemo-sidebar[data-collapsed="true"] { padding: 20px 8px; }
+.pemo-shell .pemo-sidebar__brandRow { padding: 0 0 0 6px; gap: 9px; height: 51px; }
+.pemo-shell .pemo-sidebar__mark {
+  width: 31px; height: 31px; border-radius: 8px; background: var(--ref-brand-mark);
+  display: grid; place-items: center; color: var(--s4-white);
+  font: 600 16px/24px var(--s4-font-sans);
+}
+.pemo-shell .pemo-sidebar__mark::after { content: "P"; }
+.pemo-shell .pemo-sidebar__brandName {
+  font: 600 23px/34.5px var(--s4-font-sans); letter-spacing: 1px; color: var(--s4-sidebar-text);
+}
+.pemo-shell .pemo-sidebar__brandSub {
+  font: 400 11px/16.5px var(--s4-font-sans); letter-spacing: 0; text-transform: none; margin: 0; color: var(--ref-brand-sub);
+}
+.pemo-shell .pemo-sidebar__toggle {
+  position: absolute; top: 22px; right: 10px; margin: 0;
+  width: 29px; height: 29px; padding: 5px; border-radius: 7px;
+  border: 1px solid var(--s4-sidebar-collapse-border);
+  background: var(--s4-sidebar-collapse-surface); color: var(--s4-sidebar-collapse-text);
+  display: flex; align-items: center; justify-content: center;
+}
+.pemo-shell .pemo-sidebar__toggle:hover { background: var(--s4-sidebar-hover); }
+.pemo-shell .pemo-sidebar[data-collapsed="true"] .pemo-sidebar__brandRow {
+  position: static; height: auto; padding: 0; gap: 15px; margin: 0 0 16px;
+}
+.pemo-shell .pemo-sidebar[data-collapsed="true"] .pemo-sidebar__toggle { position: static; }
+
+.pemo-shell .pemo-sidebar__scope {
+  margin: 20px 0 0; padding: 12px; border-radius: 8px;
+  background: var(--s4-sidebar-scope-surface); border: 1px solid var(--s4-sidebar-scope-border);
+}
+.pemo-shell .pemo-sidebar__scopeLabel {
+  font: 650 12px/18px var(--s4-font-sans); letter-spacing: 0; color: var(--s4-sidebar-section-label);
+  text-transform: uppercase; margin: 0 0 6px;
+}
+.pemo-shell .pemo-sidebar__scopeTitle {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  min-height: 44px; margin: 0; padding: 8px; border-radius: 6px;
+  background: var(--ref-select-bg); border: 1px solid var(--ref-select-border);
+  font: 700 14.4px/21.6px var(--s4-font-sans); color: var(--ref-select-text);
+}
+.pemo-shell .pemo-sidebar__scopeMeta { display: none; }
+.pemo-shell .pemo-sidebar__scopeIcon {
+  margin: 16px auto; width: 44px; height: 44px; border-radius: 7px;
+  background: var(--ref-select-bg); border: 1px solid var(--ref-select-border); color: var(--ref-select-text);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.pemo-shell .pemo-sidebar__nav {
+  padding: 0; scrollbar-width: auto; scrollbar-color: auto; /* Chromium: the 4px ::-webkit-scrollbar below; the standard properties would override it */
+}
+@supports not selector(::-webkit-scrollbar) {
+  .pemo-shell .pemo-sidebar__nav { scrollbar-width: thin; scrollbar-color: var(--s4-sidebar-scroll-thumb) transparent; }
+}
+/* A thin 4px scrollbar inside the menu: rounded muted-green thumb, no track, no arrow buttons. */
+.pemo-shell .pemo-sidebar__nav::-webkit-scrollbar { width: 4px; height: 4px; }
+.pemo-shell .pemo-sidebar__nav::-webkit-scrollbar-track { background: transparent; }
+.pemo-shell .pemo-sidebar__nav::-webkit-scrollbar-thumb { background: var(--s4-sidebar-scroll-thumb); border: 0; border-radius: 2px; }
+.pemo-shell .pemo-sidebar__nav::-webkit-scrollbar-thumb:hover { background: var(--s4-sidebar-scroll-thumb-hover); }
+.pemo-shell .pemo-sidebar__nav::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+.pemo-shell .pemo-sidebar[data-collapsed="true"] .pemo-sidebar__nav { padding: 0; }
+
+.pemo-shell .pemo-navGroup { margin: 0; }
+.pemo-shell .pemo-navGroup__label {
+  font: 500 12px/18px var(--s4-font-sans); letter-spacing: 1px; text-transform: uppercase;
+  color: var(--s4-sidebar-section-label); padding: 0 10px; margin: 24px 0 7px;
+}
+.pemo-shell .pemo-nav__item {
+  width: 100%; margin: 0; padding: 7px 10px; gap: 9px; border-radius: 6px;
+  font: 400 15.6px/23.4px var(--s4-font-sans); color: var(--s4-sidebar-text);
+}
+.pemo-shell .pemo-nav__item:hover { background: var(--s4-sidebar-hover); color: var(--s4-sidebar-hover-text); }
+.pemo-shell .pemo-nav__item:focus-visible { outline: 2px solid var(--s4-sidebar-active-edge); outline-offset: -2px; }
+.pemo-shell .pemo-nav__item--active,
+.pemo-shell .pemo-nav__item[aria-current="page"],
+.pemo-shell .pemo-nav__item--active:hover,
+.pemo-shell .pemo-nav__item[aria-current="page"]:hover {
+  background: var(--s4-sidebar-active-surface); color: var(--s4-sidebar-active-text);
+  box-shadow: inset 3px 0 0 0 var(--s4-sidebar-active-edge); font-weight: 400;
+}
+.pemo-shell .pemo-nav__item--child {
+  width: 100%; margin: 0; padding: 7px 10px 7px 33px; border: 0; border-radius: 6px;
+  font: 400 14.4px/21.6px var(--s4-font-sans);
+}
+.pemo-shell .pemo-nav__item--child.pemo-nav__item--active { border-radius: 6px; }
+.pemo-shell .pemo-nav__icon,
+.pemo-shell .pemo-nav__icon--img,
+.pemo-shell .pemo-nav__icon--svg { width: 20.4px; height: 20.4px; font-size: 15.6px; }
+.pemo-shell .pemo-nav__icon-mask,
+.pemo-shell .pemo-nav__item--child .pemo-nav__icon-mask { width: 20.4px; height: 20.4px; }
+.pemo-shell .pemo-nav__item--child .pemo-nav__icon--img { width: 20.4px; height: 20.4px; }
+.pemo-shell .pemo-nav__icon > svg { width: 20.4px; height: 20.4px; }
+.pemo-shell .pemo-nav__chevron { width: 14.4px; height: 20.4px; border-radius: 0; opacity: 1; }
+.pemo-shell .pemo-nav__chevron svg { width: 14.4px; height: 14.4px; }
+.pemo-shell .pemo-nav__chevron:hover { background: transparent; }
+.pemo-shell .pemo-sidebar[data-collapsed="true"] .pemo-nav__item { justify-content: center; padding: 7px 0; }
+
+/* ---- top bar: one white row, breadcrumb left, date, language and account right */
+.pemo-shell .pemo-header {
+  flex-direction: row; align-items: center; gap: 16px;
+  min-height: 57px; padding: 6px 18px; background: var(--s4-white);
+  border-bottom: 1px solid var(--ref-control-line);
+}
+.pemo-shell .pemo-header__crumb { flex: 1 1 0; min-width: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: thin; }
+.pemo-shell .pemo-crumbs { flex-wrap: nowrap; gap: 8px; font: 400 15.4px/23.1px var(--s4-font-sans); color: var(--ref-crumb); }
+.pemo-shell .pemo-crumbs > li { gap: 8px; }
+.pemo-shell .pemo-crumb-link,
+.pemo-shell .pemo-header__crumbMuted {
+  font: 400 15.4px/23.1px var(--s4-font-sans); color: var(--ref-crumb); padding: 0; border-radius: 0; background: none;
+}
+.pemo-shell .pemo-crumb-link:hover { background: none; text-decoration: underline; }
+.pemo-shell .pemo-header__crumbSep { color: var(--ref-crumb); flex: none; }
+.pemo-shell .pemo-header__crumbCurrent { font: 650 15.4px/23.1px var(--s4-font-sans); color: var(--ref-crumb-current); padding: 0; }
+.pemo-shell .pemo-header__date { flex: none; font: 400 11px/16.5px var(--s4-font-sans); color: var(--ref-date); }
+.pemo-shell .pemo-header__account { flex-wrap: nowrap; gap: 8px; }
+.pemo-shell .pemo-account__btn {
+  gap: 7px; min-height: 44px; padding: 4px 6px; border-radius: 7px;
+  font: 400 12px/18px var(--s4-font-sans); color: var(--ref-control);
+}
+.pemo-shell .pemo-account__btn:hover,
+.pemo-shell .pemo-account__btn[aria-expanded="true"] { background: var(--ref-row-hover); }
+.pemo-shell .pemo-account__avatar {
+  width: 30px; height: 30px; background: var(--ref-avatar-bg); color: var(--ref-avatar-fg);
+  font: 400 11px/16.5px var(--s4-font-sans); letter-spacing: 0;
+}
+.pemo-shell .pemo-account__label { font-weight: 400; }
+
+.pemo-shell .pemo-content { background: var(--s4-canvas); }
+.pemo-shell .pemo-main { padding: 28px 30px; }
+.pemo-shell .pemo-page-title {
+  font: 750 36.4px/54.6px var(--s4-font-sans); letter-spacing: -0.5px; margin: 6px 0; color: var(--s4-text);
+}
+
+/* ---- buttons: white, 7px radius, green-grey line, soft green hover; primary solid */
+.pemo-button, .pemo-btn {
+  border-radius: 7px; border: 1px solid var(--ref-button-border); background: var(--s4-white); color: var(--ref-control);
+}
+.pemo-button:not(:disabled):hover { background: var(--ref-row-hover); border-color: var(--ref-button-border); }
+.pemo-button--primary { background: var(--ref-button-primary); border-color: var(--ref-button-primary); color: var(--s4-white); }
+.pemo-button--primary:not(:disabled):hover { background: var(--ref-button-primary); border-color: var(--ref-button-primary); filter: brightness(0.94); }
+
+/* ---- Locations tree panel (left rail and the Properties page share it) */
+.pemo-shell .pemo-scope-rail {
+  background: var(--s4-canvas); border: 0; padding: 28px 12px 12px;
+  position: sticky; top: 0; overflow: hidden auto; scrollbar-width: auto;
+  scrollbar-color: var(--s4-sidebar-scroll-thumb) var(--s4-sidebar-scroll-track);
+}
+.pemo-shell .pemo-scope-rail[data-collapsed="true"] { padding: 28px 8px 12px; align-items: center; }
+.pemo-tree-panel {
+  background: var(--s4-white); border: 1px solid var(--ref-panel-border); border-radius: 10px;
+  color: var(--s4-text); overflow: hidden; min-width: 0; margin-bottom: 18px;
+}
+.pemo-tree-panel__head {
+  display: flex; align-items: center; gap: 12px; min-height: 38px; padding: 4px 12px;
+  background: var(--ref-panel-head); color: var(--ref-panel-head-text);
+  font: 750 16.8px/25.2px var(--s4-font-sans); margin: 0;
+}
+.pemo-tree-panel__title { font: inherit; margin: 0; color: inherit; }
+.pemo-tree-controls { display: flex; gap: 5px; padding: 0 10px; margin: 10px 0; position: relative; }
+.pemo-tree-controls .pemo-scope-rail__search { flex: 1 1 auto; min-width: 0; margin: 0; }
+.pemo-tree-controls .pemo-scope-rail__search-field { display: block; position: relative; width: 100%; }
+.pemo-tree-controls__lens { position: absolute; left: 12px; top: 9px; color: var(--ref-icon-muted); pointer-events: none; }
+.pemo-tree-controls .pemo-scope-rail__search input {
+  width: 100%; height: 34px; padding: 8px 10px 8px 37px; border: 1px solid var(--ref-control-line); border-radius: 6px;
+  background: var(--s4-white); color: var(--ref-control); font: 400 16.8px/25.2px var(--s4-font-sans);
+}
+.pemo-tree-controls .pemo-scope-rail__search input::placeholder { color: var(--ref-icon-muted); }
+.pemo-tree-controls .pemo-scope-rail__search-clear { right: 4px; top: 5px; }
+.pemo-tree-controls__btn, .pemo-tree-controls__slot {
+  flex: none; width: 27px; height: 34px; padding: 4px; border-radius: 7px;
+  border: 1px solid var(--ref-control-line); background: var(--s4-white); color: var(--ref-control);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.pemo-tree-controls__btn:hover { background: var(--ref-row-hover); }
+.pemo-tree-controls__slot { border: 0; background: none; cursor: default; }
+.pemo-tree-panel--page .pemo-tree-controls__slot { display: none; }
+/* The rail's collapse control stays a direct child of the rail (tests and keyboard order);
+   it is drawn in the last slot of the controls row. */
+.pemo-shell .pemo-scope-rail[data-collapsed="false"] > .pemo-rail-cap {
+  position: absolute; top: 77px; right: 23px; z-index: 1; padding: 0; border: 0; background: none;
+}
+.pemo-shell .pemo-scope-rail .pemo-rail-toggle {
+  width: 27px; height: 34px; padding: 4px; border-radius: 7px; font: inherit;
+  border: 1px solid var(--ref-control-line); background: var(--s4-white); color: var(--ref-control);
+}
+.pemo-shell .pemo-scope-rail .pemo-rail-toggle:hover { background: var(--ref-row-hover); border-color: var(--ref-control-line); }
+.pemo-shell .pemo-scope-rail[data-collapsed="true"] > .pemo-rail-cap { padding: 0; border: 0; margin-bottom: 12px; }
+.pemo-shell .pemo-scope-rail[data-collapsed="true"] .pemo-rail-toggle { width: 44px; height: 44px; }
+.pemo-shell .pemo-scope-rail__icon {
+  width: 44px; height: 44px; border-radius: 7px; border: 1px solid var(--ref-control-line);
+  background: var(--s4-white); color: var(--ref-control);
+  display: flex; align-items: center; justify-content: center; padding: 0;
+}
+
+.pemo-shell .pemo-scope-tree, .pemo-tree-panel .pemo-tree {
+  list-style: none; margin: 0; padding: 0 0 8px; flex: none; overflow: visible;
+}
+.pemo-shell .pemo-scope-tree {
+  overflow: auto; scrollbar-width: auto; scrollbar-color: var(--s4-sidebar-scroll-thumb) var(--s4-sidebar-scroll-track);
+}
+.pemo-shell .pemo-scope-tree__row, .pemo-tree-panel .pemo-tree__row {
+  position: relative; display: flex; align-items: center; gap: 0; min-height: 38px; padding-top: 0; padding-bottom: 0; padding-right: 6px;
+  border-bottom: 1px solid var(--ref-row-divider); background: transparent; color: var(--s4-text);
+}
+.pemo-shell .pemo-scope-tree__row:nth-child(even), .pemo-tree-panel .pemo-tree__row:nth-child(even) { background: var(--ref-row-alt); }
+.pemo-shell .pemo-scope-tree__row--selected,
+.pemo-shell .pemo-scope-tree__row--selected:nth-child(even) {
+  background: var(--ref-row-chosen); box-shadow: inset 2px 0 0 0 var(--ref-row-chosen-edge);
+}
+.pemo-tree-panel .pemo-tree__toggle, .pemo-shell .pemo-tree-panel .pemo-tree__toggle {
+  flex: none; width: 22px; height: 30px; padding: 4px; border: 0; border-radius: 3px; background: transparent;
+  color: var(--ref-control); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit;
+}
+.pemo-tree-panel .pemo-tree__toggle--leaf { cursor: default; }
+.pemo-tree-panel .pemo-tree__toggle:hover { background: var(--ref-row-hover); }
+.pemo-shell .pemo-scope-tree__pick, .pemo-tree-panel .pemo-tree__label {
+  flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 7px; padding: 4px; border: 0; border-radius: 3px;
+  background: transparent; color: var(--ref-control); font: 400 16.8px/25.2px var(--s4-font-sans); text-align: left; cursor: pointer;
+}
+.pemo-shell .pemo-scope-tree__pick:hover, .pemo-tree-panel .pemo-tree__label:hover { background: var(--ref-row-hover); }
+.pemo-shell .pemo-scope-tree__row--selected .pemo-scope-tree__pick { background: transparent; font-weight: 400; color: var(--ref-control); }
+.pemo-shell .pemo-scope-tree__row--selected .pemo-scope-tree__pick:hover { background: var(--ref-row-hover); }
+.pemo-tree__kind { flex: none; color: var(--ref-icon-muted); }
+.pemo-tree__text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pemo-tree__count {
+  flex: none; margin-left: 8px; font: 750 13.5px/20.25px var(--s4-font-sans); color: var(--ref-row-count);
+}
+.pemo-tree__summary { flex: none; margin-left: 8px; font: 400 12px/18px var(--s4-font-sans); color: var(--ref-icon-muted); white-space: nowrap; }
+.pemo-tree-panel .pemo-tree__attention { margin-right: 2px; }
+.pemo-tree-panel .pemo-tree__row .pemo-button, .pemo-tree-panel .pemo-tree__row [data-testid="compose-on-node"] {
+  flex: none; margin: 0 0 0 8px; padding: 2px 8px; min-height: 26px; font-size: 12px; line-height: 18px;
+}
+/* Per-block expand/collapse appear on hover or focus, in place of the count's gap. */
+.pemo-shell .pemo-scope-tree__block-actions {
+  flex: none; display: inline-flex; gap: 2px; margin-left: 4px; opacity: 0; transition: opacity 0.1s;
+}
+.pemo-shell .pemo-scope-tree__row:hover .pemo-scope-tree__block-actions,
+.pemo-shell .pemo-scope-tree__row:focus-within .pemo-scope-tree__block-actions { opacity: 1; }
+.pemo-shell .pemo-scope-tree__block-action {
+  width: 22px; height: 22px; padding: 0; border: 1px solid var(--ref-control-line); border-radius: 5px;
+  background: var(--s4-white); color: var(--ref-control); display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.pemo-shell .pemo-scope-rail__prompt, .pemo-shell .pemo-scope-rail__clear { margin: 0 12px 8px; font-size: 13px; }
+.pemo-tree-panel--page { max-width: none; margin-bottom: 0; }
+
+/* ---- panels and buttons at the reference's size */
+.pemo-shell .pemo-main { color: var(--s4-text); }
+.pemo-shell .pemo-panel { border-color: var(--ref-panel-border); border-radius: 10px; }
+.pemo-shell .pemo-main .pemo-button:not(td .pemo-button) {
+  font: 400 16.8px/25.2px var(--s4-font-sans); min-height: 38px; padding: 6px 12px; gap: 7px;
+}
+.pemo-shell .pemo-main .pemo-button--primary:not(td .pemo-button) { font-weight: 400; }
+.pemo-shell .pemo-main .pemo-actions--row .pemo-button { font-size: 13px; line-height: 19.5px; min-height: 32px; padding: 6px 10px; }
+.pemo-shell .pemo-main .pemo-tree-panel .pemo-button { font-size: 12px; line-height: 18px; min-height: 26px; padding: 2px 8px; }
+
+@media (max-width: 1279px) {
+  .pemo-shell { --pemo-scope-rail-width: 264px; }
+  .pemo-shell[data-scope-collapsed="true"] { --pemo-scope-rail-width: 60px; }
+  .pemo-shell .pemo-scope-rail[data-collapsed="false"] > .pemo-rail-cap { right: 23px; }
+  .pemo-shell .pemo-main { padding: 28px 24px; }
+}
+.pemo-shell .pemo-main .pemo-tree-panel .pemo-tree__row .pemo-button.pemo-button {
+  font: 400 12px/18px var(--s4-font-sans); min-height: 26px; padding: 2px 8px; margin: 0 0 0 8px;
+}
+
+/* Long scope paths shrink their earlier crumbs with an ellipsis; the current page always shows. */
+.pemo-shell .pemo-header__crumb { overflow: hidden; }
+.pemo-shell .pemo-crumbs > li { flex: 0 1 auto; min-width: 0; }
+.pemo-shell .pemo-crumbs > li:last-child { flex: none; }
+.pemo-shell .pemo-crumb-link {
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* ================================================================ Properties: stat cards, Locations tree and detail pane */
+.pemo-shell .pemo-sidebar__scopeSelect {
+  width: 100%; min-height: 44px; margin: 0; padding: 8px; border-radius: 6px;
+  background: var(--ref-select-bg); border: 1px solid var(--ref-select-border);
+  font: 700 12px/18px var(--s4-font-sans); color: var(--ref-select-text); cursor: pointer;
+}
+.pemo-shell .pemo-sidebar__scopeSelect:focus-visible { outline: 2px solid var(--s4-sidebar-active-edge); outline-offset: 1px; }
+
+/* Properties: the three stat cards are the shared StatCard row, three equal columns above the tree. */
+.pemo-props .pemo-statcards { flex-wrap: nowrap; gap: 18px; margin: 0 0 24px; }
+.pemo-props .pemo-statcards > .pemo-statcard { flex: 1 1 0; min-width: 0; padding: 20px; }
+.pemo-props .pemo-statcard__value { font-size: 32px; }
+
+.pemo-props__layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 18px; align-items: start; }
+.pemo-props__layout[data-shut="true"] { grid-template-columns: 44px minmax(0, 1fr); }
+.pemo-props__shut { grid-column: 1; }
+
+.pemo-tree-panel .pemo-tree__row--chosen,
+.pemo-tree-panel .pemo-tree__row--chosen:nth-child(even) { background: var(--ref-row-chosen); box-shadow: inset 2px 0 0 0 var(--ref-row-chosen-edge); }
+
+.pemo-pane { background: var(--s4-white); border: 1px solid var(--ref-panel-border); border-radius: 10px; overflow: hidden; min-width: 0; }
+.pemo-pane__head {
+  display: flex; align-items: center; min-height: 38px; padding: 4px 12px;
+  background: var(--ref-panel-head); color: var(--ref-panel-head-text); font: 750 16.8px/25.2px var(--s4-font-sans);
+}
+.pemo-pane__path {
+  padding: 15px 16px; font: 400 15.4px/23.1px var(--s4-font-sans); color: var(--ref-crumb);
+  border-bottom: 1px solid var(--ref-control-line);
+}
+.pemo-pane__actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 18px 0; }
+.pemo-pane__tabs { display: flex; gap: 25px; margin-top: 18px; padding: 0 18px; border-bottom: 1px solid var(--ref-tab-rule); }
+.pemo-pane__tab {
+  padding: 14px 1px; border: 0; border-bottom: 4px solid transparent; background: none; cursor: pointer;
+  font: 400 16.8px/25.2px var(--s4-font-sans); color: var(--ref-tab-idle);
+}
+.pemo-pane__tab[aria-selected="true"] { font-weight: 750; color: var(--ref-tab-active); border-bottom-color: var(--ref-tab-active); }
+.pemo-pane__tab:not([aria-selected="true"]):hover { color: var(--ref-control); }
+.pemo-pane__empty { margin: 0; padding: 18px; font: 400 16.8px/25.2px var(--s4-font-sans); color: var(--ref-icon-muted); }
+.pemo-pane__facts { margin: 0; padding: 18px; font-size: 16.8px; }
+
+.pemo-pane__list {
+  margin: 18px 0 0; background: var(--s4-white); border: 1px solid var(--ref-nav-panel-border); border-radius: 8px; overflow: hidden;
+}
+.pemo-view-tabs { display: flex; gap: 5px; padding: 8px 12px; border-bottom: 2px solid var(--ref-sub-tab-rule); background: var(--s4-white); }
+.pemo-view-tab {
+  display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 10px 12px; border: 0; border-radius: 5px;
+  background: none; cursor: pointer; font: 400 16.8px/25.2px var(--s4-font-sans); color: var(--ref-view-idle-text);
+}
+.pemo-view-tab[aria-selected="true"] { background: var(--ref-view-active-bg); color: var(--ref-view-active-text); font-weight: 750; }
+.pemo-view-tab:not([aria-selected="true"]):hover { background: var(--ref-row-hover); }
+
+.pemo-pane__list .pemo-table-wrap { margin: 0; }
+.pemo-pane__list .pemo-table { font: 400 16.8px/25.2px var(--s4-font-sans); color: var(--s4-text); }
+.pemo-pane__list .pemo-table thead th {
+  padding: 11px 16px; font: 700 15.435px/23.1525px var(--s4-font-sans); color: var(--ref-icon-muted); background: var(--ref-table-head);
+  border: 0; text-align: left;
+}
+.pemo-pane__list .pemo-table td { padding: 13px 16px; border: 0; border-bottom: 1px solid var(--ref-control-line); }
+.pemo-pane__list .pemo-table tbody tr:nth-child(even) td { background: var(--s4-canvas); border-bottom-color: transparent; }
+.pemo-pane__list .pemo-table tbody tr:hover td { background: var(--ref-row-hover); }
+.pemo-link-button { padding: 0; border: 0; background: none; cursor: pointer; font: inherit; color: var(--s4-text); text-align: left; }
+.pemo-link-button:hover strong { text-decoration: underline; }
+.pemo-pane__summary { padding-top: 8px; padding-bottom: 8px; font-size: 14px; line-height: 21px; }
+.pemo-link-button strong { font-weight: 700; }
+
+.pemo-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); gap: 14px; padding: 18px; }
+.pemo-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 8px 12px; min-height: 150px;
+  background: var(--s4-white); border: 1px solid var(--ref-panel-border); border-radius: 7px; cursor: pointer; text-align: left;
+  font: 400 16.8px/25.2px var(--s4-font-sans); color: var(--ref-control);
+}
+.pemo-card:hover { background: var(--ref-row-hover); }
+.pemo-card__n { align-self: flex-end; font: 400 14px/21px var(--s4-font-sans); color: var(--ref-tab-idle); }
+.pemo-card strong { font-weight: 750; }
+.pemo-card small { font: 400 14px/21px var(--s4-font-sans); }
+
+.pemo-pager {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px;
+  border-top: 1px solid var(--ref-control-line); font: 400 15.4px/23.1px var(--s4-font-sans); color: var(--ref-icon-muted);
+}
+.pemo-pager__controls { display: flex; align-items: center; gap: 7px; }
+.pemo-pager__controls select {
+  height: 32px; padding: 0 12px; border: 1px solid var(--ref-control-line); border-radius: 6px; background: var(--s4-white);
+  font: 400 15.4px var(--s4-font-sans); color: var(--ref-control);
+}
+.pemo-shell .pemo-main .pemo-pager .pemo-button { min-height: 32px; padding: 0 12px; }
+
+@media (max-width: 1279px) {
+  .pemo-props .pemo-statcards { gap: 14px; }
+}
+
+/* ---- page head: the title with its header actions beside it (Properties puts Compose here) */
+.pemo-pagehead { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 22px; }
+.pemo-shell .pemo-pagehead .pemo-page-title { margin: 6px 0; min-width: 0; }
+.pemo-pagehead__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; flex: none; }
+.pemo-pagehead__actions:empty { display: none; }
+
+/* ---- reference type scale (--ui-scale 1.4): body 16.8px, table header 15.4px, small
+   text 14px, in the main column only. The sidebar and top bar keep their own sizes.
+   Tables that would scroll at this size drop low-priority columns (hideBelow). */
+.pemo-main { font-size: 16.8px; }
+.pemo-main .pemo-table { font-size: 16.8px; }
+.pemo-main .pemo-table thead th { font-size: 15.4px; }
+.pemo-main .pemo-button,
+.pemo-main .pemo-field input,
+.pemo-main .pemo-field select,
+.pemo-main .pemo-field textarea,
+.pemo-main .pemo-check,
+.pemo-main .pemo-dl dd,
+.pemo-main .pemo-note,
+.pemo-main .pemo-state__body { font-size: 16.8px; }
+.pemo-main .pemo-field,
+.pemo-main .pemo-dl dt,
+.pemo-main .pemo-counter__label { font-size: 15.4px; }
+.pemo-main .pemo-actions--row .pemo-button { font-size: 14px; }
+/* The booking calendar grid is seven narrow day columns; it keeps the compact size. */
+.pemo-main .pemo-calendar-table { font-size: 14px; }
+.pemo-main .pemo-calendar-table thead th { font-size: 13px; }
+
+/* Narrow windows (the 1024 laptop): the top bar spends its width on the scope path.
+   The date goes (it is in the page and the clock), the crumbs and gaps tighten. */
+@media (max-width: 1279px) {
+  .pemo-shell .pemo-header__date { display: none; }
+  .pemo-shell .pemo-crumbs { gap: 4px; font-size: 14px; }
+  .pemo-shell .pemo-crumbs > li { gap: 4px; }
+  .pemo-shell .pemo-crumb-link,
+  .pemo-shell .pemo-header__crumbMuted,
+  .pemo-shell .pemo-header__crumbCurrent { font-size: 14px; }
+}
+
+/* The header Compose button: icon and short label on one line. */
+.pemo-pagehead__actions [data-testid='compose-on-node'] { display: inline-flex; align-items: center; gap: 8px; }
+
+/* ================================================================ Visitors: front counter */
+.pemo-counter { display: grid; gap: var(--pemo-space-4); }
+.pemo-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--pemo-neutral-200); }
+.pemo-tab {
+  padding: 10px 18px; border: 0; border-bottom: 3px solid transparent; background: none; cursor: pointer;
+  font: inherit; font-weight: 650; color: var(--ref-view-idle-text);
+}
+.pemo-tab[aria-selected="true"] { color: var(--ref-tab-active); border-bottom-color: var(--ref-tab-active); }
+.pemo-tab:hover { background: var(--pemo-brand-primaryTint); }
+.pemo-counter-form { max-width: 760px; }
+.pemo-counter-form__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--pemo-space-4); }
+@media (max-width: 720px) { .pemo-counter-form__pair { grid-template-columns: minmax(0, 1fr); } }
+.pemo-chiprow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.pemo-choicechip {
+  position: relative; display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 999px;
+  border: 1px solid var(--pemo-neutral-300); background: var(--pemo-common-white); cursor: pointer; font-weight: 600;
+}
+.pemo-choicechip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.pemo-choicechip[data-checked="true"] { background: var(--ref-view-active-bg); border-color: var(--ref-tab-active); color: var(--ref-view-active-text); }
+.pemo-choicechip:focus-within { outline: 2px solid var(--s4-sidebar-active-edge); outline-offset: 2px; }
+.pemo-hostpick { display: grid; gap: 8px; }
+.pemo-hostpick--chosen { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border: 1px solid var(--pemo-neutral-300); border-radius: 8px; background: var(--pemo-common-white); }
+.pemo-hostpick__label { font-weight: 650; }
+.pemo-hostpick__search { display: flex; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid var(--pemo-neutral-300); border-radius: 8px; background: var(--pemo-common-white); }
+.pemo-hostpick__search input { border: 0; outline: 0; flex: 1; min-height: 40px; background: none; font: inherit; }
+.pemo-hostpick__blocks, .pemo-democodes { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pemo-hostpick__block {
+  padding: 4px 12px; border-radius: 999px; border: 1px solid var(--pemo-neutral-300); background: var(--pemo-common-white);
+  font: inherit; font-size: 14px; cursor: pointer;
+}
+.pemo-hostpick__block[aria-pressed="true"] { background: var(--ref-view-active-bg); border-color: var(--ref-tab-active); color: var(--ref-view-active-text); font-weight: 650; }
+.pemo-hostpick__list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--pemo-neutral-200); border-radius: 8px; overflow: hidden; }
+.pemo-hostpick__option { width: 100%; text-align: left; padding: 10px 14px; border: 0; background: var(--pemo-common-white); font: inherit; cursor: pointer; }
+.pemo-hostpick__list li + li .pemo-hostpick__option { border-top: 1px solid var(--pemo-neutral-200); }
+.pemo-hostpick__option:hover { background: var(--pemo-brand-primaryTint); }
+.pemo-field--chips { border: 0; padding: 0; margin: 0; }
+.pemo-verifycard { margin-top: var(--pemo-space-3); padding: 14px 18px; border-radius: 8px; }
+.pemo-verifycard__state { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin: 0 0 8px; }
+.pemo-verifycard__state strong { font-size: 1.25em; }
+.pemo-counter__toast { margin: 0; padding: 10px 14px; border-radius: 6px; border-left: 4px solid var(--pemo-sev-normal-border); background: var(--pemo-sev-normal-surface); color: var(--pemo-sev-normal-strong); font-weight: 600; }
+.pemo-counter__toast--error { border-left-color: var(--pemo-sev-critical-border); background: var(--pemo-sev-critical-surface); color: var(--pemo-sev-critical-strong); }
+.pemo-scan__video { width: min(100%, 420px); border-radius: 8px; background: var(--pemo-neutral-900); }
+.pemo-inlineform { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0; }
+.pemo-note--error { color: var(--pemo-sev-critical-strong); }
+.pemo-verifycard .pemo-toolbar { margin-top: var(--pemo-space-3); }
+.pemo-sample-note { margin: 0; font-size: 0.8125rem; color: var(--ref-view-idle-text); }
+
+/* ---- sortable headers and the filter bar above list tables */
+.pemo-th-sort {
+  display: inline-flex; align-items: center; gap: 4px; max-width: 100%;
+  padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: inherit; cursor: pointer;
+  letter-spacing: inherit; text-transform: inherit;
+}
+.pemo-th-sort:hover { text-decoration: underline; }
+.pemo-th-sort:focus-visible { outline: 2px solid var(--s4-sidebar-active-edge); outline-offset: 2px; border-radius: 3px; }
+.pemo-th-sort .pemo-icon { flex: none; }
+.pemo-table-filters { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 var(--pemo-space-3); }
+.pemo-table-filters__search { flex: 1 1 220px; max-width: 320px; min-width: 0; margin: 0; }
+.pemo-table-filters__search input { width: 100%; min-width: 0; box-sizing: border-box; }
+.pemo-table-filters__select { flex: 0 1 auto; min-width: 150px; margin: 0; }
+.pemo-table-filters__clear {
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: 0.875rem;
+  color: var(--ref-button-primary); text-decoration: underline;
+}
+.pemo-table-filters__clear:hover { filter: brightness(0.85); }
+/* Narrow: the dropdowns move behind one Filters button; a small badge counts the ones in use. */
+.pemo-table-filters__toggle {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; cursor: pointer;
+  font: inherit; font-size: 0.875rem; color: inherit;
+  background: var(--pemo-common-white); border: 1px solid var(--pemo-neutral-300); border-radius: 8px;
+}
+.pemo-table-filters__toggle[aria-expanded='true'] { border-color: var(--ref-button-primary); }
+.pemo-table-filters__badge {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px;
+  border-radius: 10px; font-size: 0.75rem; font-weight: 600; color: var(--pemo-common-white); background: var(--ref-button-primary);
+}
+.pemo-table-filters__panel {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 20; display: flex; flex-direction: column; gap: 10px;
+  width: min(300px, 100%); padding: 12px; background: var(--pemo-common-white);
+  border: 1px solid var(--pemo-neutral-300); border-radius: 10px; box-shadow: 0 8px 24px var(--pemo-neutral-300);
+}
+.pemo-table-filters__panel .pemo-table-filters__select { flex: 0 0 auto; min-width: 0; width: 100%; }
+.pemo-table-filters__panel .pemo-table-filters__clear { align-self: flex-start; }
+
+/* ---- field labels: one muted grey-green, regular weight, a step smaller than the values.
+   --text-label is the 4S guide's secondary text colour. The guide notes it is 3.93:1 on white;
+   to get AA instead, point it at --s4-secondary-text-aa. Values keep their dark colour; headings are untouched. */
+:root { --text-label: var(--s4-secondary-text); }
+.pemo-dl dt,
+.pemo-main .pemo-dl dt,
+.pemo-field,
+.pemo-main .pemo-field,
+.pemo-form fieldset.pemo-field legend,
+.pemo-field > legend {
+  color: var(--text-label);
+  font-weight: 400;
+  font-size: 14.4px;
+}
+.pemo-field :is(input, select, textarea) { color: var(--pemo-neutral-950); font-weight: 650; }
+.pemo-field .pemo-meta { color: var(--text-label); font-weight: 400; }
+
+/* Admin > Lists: a modal for adding, renaming and deleting a managed type. */
+.pemo-dialog-scrim {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--pemo-neutral-900) 38%, transparent);
+  padding: var(--pemo-space-4);
+}
+.pemo-dialog {
+  width: min(460px, 100%); max-height: 100%; overflow: auto;
+  background: var(--pemo-common-white); border-radius: var(--pemo-radius-card);
+  box-shadow: 0 18px 50px color-mix(in srgb, var(--pemo-neutral-900) 22%, transparent);
+  padding: var(--pemo-space-5);
+}
+.pemo-dialog__actions { display: flex; justify-content: flex-end; gap: var(--pemo-space-2); margin-top: var(--pemo-space-4); }
+
+/* ---------------------------------------------------------------- Audit log (S04) */
+
+.pemo-audit-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); align-items: end; }
+.pemo-audit-filters .pemo-field { min-width: 0; }
+.pemo-audit-filters .pemo-field select, .pemo-audit-filters .pemo-field input { width: 100%; box-sizing: border-box; }
+.pemo-audit-filters__end { grid-column: 1 / -1; justify-content: flex-end; display: flex; gap: var(--pemo-space-3); align-items: center; flex-wrap: wrap; }
+.pemo-audit-filters__end .pemo-button--quiet { margin-top: 0; }
+.pemo-audit-detail > td { background: var(--pemo-neutral-50); padding: var(--pemo-space-3) var(--pemo-space-4); }
+.pemo-audit-more { display: flex; justify-content: center; padding-top: var(--pemo-space-4); }
+
+/* Integration status (S05): the Hub card, its numbers, the systems and one system's history. */
+.pemo-integration { display: grid; gap: var(--pemo-space-4); }
+.pemo-integration__hubline { display: flex; flex-wrap: wrap; align-items: center; gap: var(--pemo-space-3); margin: 0 0 var(--pemo-space-2); }
+.pemo-integration__kpis { margin-top: var(--pemo-space-3); }
+.pemo-integration__kpis .pemo-counter[data-alert='true'] { border-color: var(--pemo-sev-critical-surface); }
+.pemo-integration__history { list-style: none; margin: 0; padding: 0; }
+.pemo-integration__history li {
+  display: grid;
+  grid-template-columns: minmax(8rem, 11rem) max-content 1fr;
+  gap: var(--pemo-space-4);
+  align-items: center;
+  padding: var(--pemo-space-3) 0;
+  border-top: 1px solid var(--pemo-neutral-200);
+}
+.pemo-integration__history li:first-child { border-top: 0; }
+.pemo-integration__when { color: var(--pemo-neutral-600); font-size: 13px; }
+.pemo-integration__change { display: inline-flex; align-items: center; gap: var(--pemo-space-2); }
+@media (max-width: 40rem) {
+  .pemo-integration__history li { grid-template-columns: 1fr; gap: var(--pemo-space-2); }
+}
+.pemo-table[data-testid="integration-systems-table"] .pemo-rowlink { white-space: normal; text-align: left; }
+
+/* ---------------------------------------------------------------- Shared page hierarchy (L1 line tabs, L2 button tabs, stat cards, L3 dialog) */
+
+.pemo-linetabs { display: flex; flex-wrap: wrap; gap: 25px; border-bottom: 1px solid var(--ref-tab-rule); }
+.pemo-linetab {
+  display: inline-flex; align-items: center; gap: 6px; padding: 10px 1px; border: 0; border-bottom: 4px solid transparent;
+  background: none; cursor: pointer; font: 400 16.8px/25.2px var(--s4-font-sans); color: var(--ref-tab-idle);
+}
+.pemo-linetab[aria-selected="true"] { font-weight: 750; color: var(--ref-tab-active); border-bottom-color: var(--ref-tab-active); }
+.pemo-linetab:not([aria-selected="true"]):hover { color: var(--ref-control); }
+.pemo-linetab:focus-visible, .pemo-buttontab:focus-visible { outline: 3px solid var(--pemo-brand-primary); outline-offset: 2px; }
+
+.pemo-buttontabs { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 0; }
+.pemo-buttontab {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 4px; min-width: 96px; padding: 8px 14px;
+  border: 0; border-radius: 5px; background: none; cursor: pointer;
+  font: 400 15px/1.3 var(--s4-font-sans); color: var(--ref-view-idle-text);
+}
+.pemo-buttontab__head { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
+.pemo-buttontab[aria-selected="true"] { background: var(--ref-view-active-bg); color: var(--ref-view-active-text); font-weight: 750; }
+.pemo-buttontab:not([aria-selected="true"]):hover { background: var(--ref-row-hover); }
+.pemo-tab__count {
+  min-width: 22px; padding: 0 7px; border-radius: 999px; font-size: 12.5px; line-height: 20px; text-align: center;
+  font-variant-numeric: tabular-nums; background: var(--pemo-neutral-100); color: var(--pemo-neutral-700);
+}
+.pemo-linetab[aria-selected="true"] .pemo-tab__count, .pemo-buttontab[aria-selected="true"] .pemo-tab__count {
+  background: var(--pemo-brand-primaryTint); color: var(--s4-selected-text);
+}
+.pemo-tab__count[data-alert="true"] { background: var(--pemo-sev-warning-surface); color: var(--pemo-sev-warning-strong); }
+
+.pemo-statcards { display: flex; flex-wrap: wrap; gap: var(--pemo-space-4); margin: var(--pemo-space-4) 0; }
+.pemo-statcard {
+  flex: 1 1 180px; display: grid; gap: 2px; text-align: start; font: inherit; color: inherit; appearance: none;
+  border: 1px solid var(--pemo-neutral-200); border-radius: var(--pemo-radius-card); padding: var(--pemo-space-4);
+  background: var(--pemo-common-white);
+}
+.pemo-statcard__value { font-size: 28px; font-weight: 750; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.pemo-statcard[data-tone="warning"] .pemo-statcard__value { color: var(--pemo-sev-warning-strong); }
+.pemo-statcard[data-tone="critical"] .pemo-statcard__value { color: var(--pemo-sev-critical-strong); }
+.pemo-statcard__label { display: inline-flex; align-items: center; gap: 8px; color: var(--pemo-neutral-600); font-size: 14px; }
+/* The icon chip: one style on every card: a small rounded square in the 4S light tint with the primary glyph; a warning card tints it as a warning. */
+.pemo-statcard__chip { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 7px; background: var(--pemo-brand-primaryTint); color: var(--pemo-brand-primary); }
+.pemo-statcard[data-tone="warning"] .pemo-statcard__chip { background: var(--pemo-sev-warning-surface); color: var(--pemo-sev-warning-strong); }
+.pemo-statcard[data-tone="critical"] .pemo-statcard__chip { background: var(--pemo-sev-critical-surface); color: var(--pemo-sev-critical-strong); }
+.pemo-statcard--press:hover .pemo-statcard__chip { background: var(--pemo-common-white); }
+.pemo-statcard__note { color: var(--pemo-neutral-600); font-size: 12.5px; }
+.pemo-statcard--press { cursor: pointer; }
+.pemo-statcard--press:hover { border-color: var(--s4-hover-border); background: var(--pemo-brand-primaryTint); }
+.pemo-statcard--press:focus-visible { outline: 3px solid var(--pemo-brand-primary); outline-offset: 2px; }
+.pemo-statcard--press[aria-pressed="true"] { border-color: var(--s4-selected-border); background: var(--pemo-brand-primaryTint); box-shadow: inset 0 0 0 1px var(--s4-selected-border); }
+.pemo-statcard--press[aria-pressed="true"] .pemo-statcard__label { color: var(--s4-selected-text); font-weight: 650; }
+
+.pemo-filterrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--pemo-space-2); margin: var(--pemo-space-2) 0 var(--pemo-space-3); }
+.pemo-filterrow__lead { color: var(--pemo-neutral-600); font-size: 14px; }
+.pemo-filterchip {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 4px 2px 10px; border-radius: 999px; font-size: 14px; font-weight: 650;
+  background: var(--pemo-brand-primaryTint); color: var(--s4-selected-text);
+}
+.pemo-filterchip__x { display: inline-flex; padding: 2px; border: 0; border-radius: 999px; background: none; color: inherit; cursor: pointer; }
+.pemo-filterchip__x:hover { background: var(--ref-row-hover); }
+.pemo-filterchip__x:focus-visible, .pemo-filterrow__clear:focus-visible, .pemo-dialog__close:focus-visible { outline: 3px solid var(--pemo-brand-primary); outline-offset: 2px; }
+.pemo-filterrow__clear { border: 0; background: none; padding: 2px 6px; cursor: pointer; font: inherit; font-size: 14px; color: var(--ref-tab-active); text-decoration: underline; }
+
+/* A pop-up is a size container: its own width, not the window's, decides one column or two. Only input forms (FormGrid) use two columns; read-only detail lists stay one column. */
+.pemo-dialog { container: pemo-dialog / inline-size; }
+.pemo-dialog--wide { width: min(760px, 100%); }
+/* A short input form (a few fields): wide enough for two columns. */
+.pemo-dialog--form { width: min(760px, 100%); }
+
+/* Two-column field grid (components/FormGrid.tsx). One column until the pop-up is about 720px wide (672px of content). */
+.pemo-formgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--pemo-space-4) var(--pemo-space-5); align-items: end; }
+.pemo-formgrid > * { min-width: 0; }
+.pemo-formgrid__span { grid-column: 1 / -1; }
+@container pemo-dialog (min-width: 672px) {
+  .pemo-formgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.pemo-dialog__head { display: flex; align-items: center; justify-content: space-between; gap: var(--pemo-space-3); margin-bottom: var(--pemo-space-3); }
+.pemo-dialog__title { margin: 0; font-size: 20px; }
+.pemo-dialog__close { display: inline-flex; padding: 6px; border: 0; border-radius: 6px; background: none; cursor: pointer; color: var(--pemo-neutral-600); }
+.pemo-dialog__close:hover { background: var(--ref-row-hover); }
+.pemo-dialog__confirm { display: flex; flex-wrap: wrap; align-items: center; gap: var(--pemo-space-2); margin-top: var(--pemo-space-3); padding: var(--pemo-space-3); border-radius: 6px; background: var(--pemo-sev-warning-surface); color: var(--pemo-sev-warning-strong); }
+
+.pemo-tabrow { display: flex; align-items: flex-end; gap: var(--pemo-space-4); }
+.pemo-tabrow > .pemo-linetabs { flex: 1 1 auto; }
+.pemo-tabrow > .pemo-button { margin-bottom: 6px; }
+.pemo-tabrow__actions, .pemo-tabrow__counter { display: inline-flex; align-items: center; gap: var(--pemo-space-2); }
+.pemo-tabrow__actions { margin-bottom: 6px; }
+
+/* ---------------------------------------------------------------- Reports */
+.pemo-reports__bar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--pemo-space-3); padding: var(--pemo-space-3) 0; }
+.pemo-reports__actions { display: inline-flex; gap: var(--pemo-space-2); }
+.pemo-reports__actions .pemo-button { display: inline-flex; align-items: center; gap: 6px; }
+.pemo-reports__period { margin: var(--pemo-space-2) 0 0; }
+.pemo-reports__hint { display: inline-flex; align-items: center; gap: 6px; margin: var(--pemo-space-2) 0 var(--pemo-space-3); padding: 2px 10px; border-radius: 999px; font-size: 13.5px; background: var(--pemo-sev-information-surface); color: var(--pemo-sev-information-strong); }
+.pemo-reports__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--pemo-space-4); }
+.pemo-reportcard { border: 1px solid var(--pemo-neutral-200); border-radius: var(--pemo-radius-card); background: var(--pemo-common-white); overflow: hidden; }
+.pemo-reportcard__title { display: flex; align-items: center; gap: 8px; margin: 0; padding: 10px 14px; font-size: 15.5px; background: var(--pemo-neutral-100); border-bottom: 1px solid var(--pemo-neutral-200); }
+.pemo-reportmetric { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: var(--pemo-space-3); padding: 10px 14px; border: 0; border-bottom: 1px solid var(--pemo-neutral-150); background: none; cursor: pointer; font: inherit; color: inherit; text-align: start; appearance: none; }
+.pemo-reportmetric:last-child { border-bottom: 0; }
+.pemo-reportmetric:hover { background: var(--pemo-brand-primaryTint); }
+.pemo-reportmetric:focus-visible { outline: 3px solid var(--pemo-brand-primary); outline-offset: -3px; }
+.pemo-reportmetric__label { display: grid; gap: 1px; flex: 1 1 auto; min-width: 0; }
+.pemo-reportmetric__label small { color: var(--pemo-neutral-600); font-size: 12.5px; }
+.pemo-reportmetric__value { display: inline-flex; align-items: center; gap: 6px; font-size: 22px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pemo-reportmetric__value svg { color: var(--pemo-neutral-600); }
+.pemo-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: var(--pemo-space-2) 0; font-size: 14.5px; color: var(--pemo-neutral-700); }
+.pemo-crumbs__link { border: 0; background: none; padding: 0; cursor: pointer; font: inherit; color: var(--ref-tab-active); text-decoration: underline; }
+.pemo-reports__tools { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--pemo-space-3); margin: var(--pemo-space-2) 0; }
+.pemo-reports__tools > :last-child { flex: 1 1 320px; }
+.pemo-reports__pager { display: flex; align-items: center; justify-content: flex-end; gap: var(--pemo-space-2); padding-top: var(--pemo-space-3); }
+
+/* Facility calendar v2: taller light-tinted chips, no border; count pills; legend; month / week / day / year. */
+.pemo-calbar { align-items: flex-end; flex-wrap: wrap; gap: var(--pemo-space-3); }
+.pemo-calnav, .pemo-calmodes { display: inline-flex; gap: 4px; }
+.pemo-calcrumb { font-size: 16px; min-width: 12ch; align-self: center; }
+.pemo-callegend { display: flex; flex-wrap: wrap; gap: var(--pemo-space-3); list-style: none; margin: var(--pemo-space-3) 0 0; padding: 0; font-size: 13px; }
+.pemo-callegend li { display: inline-flex; align-items: center; gap: 6px; }
+.pemo-calswatch { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+.pemo-calchip--t1 { background: color-mix(in srgb, var(--pemo-brand-primary) 16%, var(--s4-white)); }
+.pemo-calchip--t2 { background: color-mix(in srgb, var(--pemo-sev-advisory-strong) 20%, var(--s4-white)); }
+.pemo-calchip--t3 { background: color-mix(in srgb, var(--pemo-sev-critical-strong) 14%, var(--s4-white)); }
+.pemo-calchip--t4 { background: color-mix(in srgb, var(--pemo-sev-unknown-strong) 16%, var(--s4-white)); }
+.pemo-calchip--t5 { background: color-mix(in srgb, var(--pemo-sev-information-strong) 18%, var(--s4-white)); }
+.pemo-calchip__t { white-space: nowrap; }
+.pemo-calmonth .pemo-calchip, .pemo-calweek .pemo-calchip { padding-left: 6px; padding-right: 6px; }
+.pemo-calmonth td, .pemo-calweek td { padding-left: 4px; padding-right: 4px; }
+.pemo-calchip {
+  display: block; box-sizing: border-box; width: 100%; margin: 0 0 4px; padding: 7px 8px; border: 0; border-radius: 6px;
+  color: var(--pemo-neutral-900); text-decoration: none; font-size: 12px; line-height: 1.35; font-weight: 500;
+  white-space: normal; overflow-wrap: anywhere;
+}
+.pemo-calchip:hover { filter: brightness(0.96); }
+.pemo-calchip:focus-visible, .pemo-calpill:focus-visible, .pemo-calmore:focus-visible, .pemo-calday:focus-visible, .pemo-calyear__tile:focus-visible { outline: 2px solid var(--s4-selected-border); outline-offset: 1px; }
+.pemo-calmore { display: block; border: 0; background: none; padding: 2px 4px; font-size: 12px; color: var(--s4-selected-text); cursor: pointer; text-align: left; }
+.pemo-calmore:hover { text-decoration: underline; }
+.pemo-calpills { display: flex; flex-wrap: wrap; gap: 4px; }
+.pemo-calpill { border: 0; border-radius: 999px; padding: 3px 9px; font-size: 11px; line-height: 1.3; color: var(--pemo-neutral-900); cursor: pointer; white-space: nowrap; }
+.pemo-calpill:hover { filter: brightness(0.94); }
+.pemo-calday { border: 0; background: none; padding: 0 2px 4px; font-size: 13px; font-weight: 600; color: var(--pemo-neutral-700); cursor: pointer; }
+.pemo-calday:hover { color: var(--s4-selected-text); }
+.pemo-calmonth td, .pemo-calweek td { vertical-align: top; height: 4.25rem; width: 14.28%; }
+.pemo-calweek td { height: 10rem; }
+.pemo-calmonth td[data-outside="true"] { background: var(--pemo-neutral-50); }
+.pemo-calmonth td[data-outside="true"] .pemo-calday { color: var(--pemo-neutral-500); }
+.pemo-calmonth td[data-today="true"] .pemo-calday, .pemo-calweek td[data-today="true"] { color: var(--s4-selected-text); }
+.pemo-calmonth td[data-today="true"] .pemo-calday { text-decoration: underline; }
+.pemo-calday-grid th.pemo-calhour { width: 5rem; text-align: right; font-weight: 400; color: var(--pemo-neutral-700); }
+.pemo-calday-grid td { height: 2.6rem; vertical-align: top; }
+.pemo-calyear { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: var(--pemo-space-3); }
+.pemo-calyear__tile { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; padding: var(--pemo-space-3); border: 1px solid var(--pemo-neutral-300); border-radius: var(--pemo-radius); background: var(--s4-white); cursor: pointer; text-align: left; }
+.pemo-calyear__tile:hover { border-color: var(--s4-hover-border); }
+
+/* Less words, more icons (2026-11-19): a field whose label is an icon sits on one row;
+   the report period line keeps its glyphs and chips on one line. */
+.pemo-field--icon { flex-direction: row; align-items: center; gap: var(--pemo-space-2); }
+.pemo-reports__period { display: flex; align-items: center; flex-wrap: wrap; gap: var(--pemo-space-2); }
+.pemo-reports__period .pemo-source { display: inline-flex; align-items: center; gap: var(--pemo-space-1); }
+
+.pemo-ellip { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* A status chip never leaves its cell: in a narrow column its words wrap inside it instead of running into the next column. */
+td .pemo-chip, td .pemo-tag { max-width: 100%; white-space: normal; overflow-wrap: anywhere; text-align: left; }
+
+/* Round 4: inside a pop-up the pop-up is the card; a detail's own panel draws no second frame. */
+.pemo-dialog .pemo-panel { border: 0; padding: 0; background: transparent; box-shadow: none; margin: 0; }
+.pemo-dialog .pemo-panel + .pemo-panel { margin-top: var(--pemo-space-4); padding-top: var(--pemo-space-4); border-top: 1px solid var(--pemo-neutral-200); }
+/* The tab already names the pane: the first panel's heading in it is kept for assistive technology only. */
+.pemo-detail-pane > .pemo-panel:first-child > .pemo-panel__title:first-child { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* A list's empty label (a note that belongs under the value above it) takes no cell. */
+
+/* Pop-up detail lists breathe below a tab bar or heading instead of touching it. */
+.pemo-dialog .pemo-dl { margin-top: var(--pemo-space-3); }
+
+/* The same grid on a full-page form (no pop-up around it): two columns from a 1100px window up. */
+@media (min-width: 1100px) {
+  .pemo-formgrid--page { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

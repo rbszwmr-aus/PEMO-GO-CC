@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/integration-unavailable",
+  "title": "Integration unavailable",
+  "status": 503,
+  "correlationId": "1a2b3c4d-0000-4000-8000-000000000025",
+  "residentMessage": {
+    "en": "Safety status is unavailable right now. This does not mean your home is safe or unsafe — we cannot check it.",
+    "zh-Hant": "目前無法顯示安全狀態。這不表示您的居所安全或不安全，只是我們無法檢查。"
+  },
+  "retryable": true
+}

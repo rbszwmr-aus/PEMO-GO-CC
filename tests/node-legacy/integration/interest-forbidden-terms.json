@@ -1,0 +1,40 @@
+{
+  "$comment": "D5's denylist for resident.interest — GEN-029-ST. NOT a contract file: the interest has no endpoint (ADR-011 D10), so this is not in packages/api-contracts and scans the SCHEMA column names + seed values, not a response corpus. Derived by diffing the THREE existing lists (resident-mobile, management-web, resident-portal), API-027-ST's method, with every decision recorded in `diffDecisions`.",
+  "pid": "GEN-029-ST",
+  "appliesTo": ["resident.party columns", "resident.interest columns", "the demonstration seed's string values"],
+  "purpose": "ADR-011 D5 made mechanical: the interest carries party, unit, kind, effective range, provenance and audit — and NOTHING ELSE. A column or seed value named for money or an instrument is a defect, because the money is exactly what PEMO does not hold (D1).",
+  "theInversion": "This runs OPPOSITE to API-027-ST's booking inversion. Booking moved {price, cost, tariff, fee} OUT of its denylist (into allowedExceptions) because rate cards are resident-facing by design. The interest moves the whole money/instrument family IN, because D1: PEMO holds the relationship, never the instrument.",
+  "forbiddenPropertyNames": {
+    "money": {
+      "reason": "Any monetary amount or charge. D1: if a fact would change when the money changes, it is not PEMO's.",
+      "terms": ["rent", "deposit", "premium", "servicecharge", "managementfee", "arrears", "charge", "price", "cost", "tariff", "fee", "invoice", "amount", "balance", "payment", "mortgage", "commission", "stampduty"]
+    },
+    "instrument": {
+      "reason": "The lease/title instrument and its clauses. PEMO records that a party holds an interest; the deed, the lease and their terms are outside (ADR-011 'what this ADR deliberately does not model').",
+      "terms": ["lease", "leasereference", "tenancyagreement", "breakclause", "renewal", "renewaloption", "rentreview", "agent", "agentname", "deed", "titledeed", "landregistry", "memorial", "chargee", "mortgagee", "assignment"]
+    },
+    "secrets": {
+      "reason": "Universal, kept verbatim from all three lists. No credential in any row.",
+      "terms": ["password", "passwd", "secret", "apikey", "apitoken", "accesstoken", "refreshtoken", "bearertoken", "privatekey", "clientsecret", "credential", "credentials", "authorization", "cookie", "sessionsecret"]
+    }
+  },
+  "allowedExceptions": [
+    { "term": "source", "why": "Provenance: how PEMO learned the fact (human_entry|bulk_import|external_reconciliation). D6." },
+    { "term": "reference", "why": "external_reference is a PROVENANCE pointer — the external system's id for this fact — NOT a lease reference. Distinct from the forbidden 'leasereference'." },
+    { "term": "unit", "why": "PEMO's own entity name; interest.unit_id is the whole point of D4. Same exception the three lists carry." },
+    { "term": "company", "why": "DELIBERATELY NOT FORBIDDEN — the mirror of booking's ADD. resident-portal forbade 'company'/'employer' as HKSTP residential residue; a resident.party of kind legal_person IS a company (D3's 'Company' label), and Novatek Ltd is a legitimate display_name. Forbidding it would make the legal-person case unrepresentable." }
+  ],
+  "diffDecisions": {
+    "keptVerbatim": ["secrets — universal across all three; an interest row must carry no credential"],
+    "invertedIn": ["money and instrument families — the D1 inversion, opposite to API-027-ST's {price,cost,tariff,fee} allowance for booking rate cards"],
+    "dropped": [
+      "deviceIdentity, telemetry, protocol, alarmLifecycle, mappingIdentifiers, correlationTrace, rawPayload — IoT/device/message-transport concerns; an interest is (party x unit x kind) with no device surface, so these cannot appear as an interest column or a seed value",
+      "carParkOperations — the car park is a Location/Unit concern, not an interest",
+      "bookingParty (heldby, bookedby, holdername) — booking-specific; no booking concept on an interest",
+      "crossTenant (otherorganization) — cross-org isolation is structural (organization_id scoping), not a column-name risk here"
+    ],
+    "modified": [
+      "hkstpResidue: booking ADDED company/employer/department as forbidden residential residue; the interest DROPS company/companyname/employer as forbidden and lists 'company' as an allowedException instead — a legal_person party is a company by design (D3). The mirror-image decision, recorded because it is the one a reviewer would expect to be inherited and must not be."
+    ]
+  }
+}

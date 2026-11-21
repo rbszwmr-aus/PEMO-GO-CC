@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/communications-unavailable",
+  "title": "Communications unavailable",
+  "status": 503,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000026",
+  "staffMessage": {
+    "en": "Mail cannot be sent right now because communications are not configured. This is not a successful send.",
+    "zh-Hant": "目前無法寄出郵件，因為通訊尚未設定。這不是一次成功的發送。"
+  },
+  "retryable": true
+}

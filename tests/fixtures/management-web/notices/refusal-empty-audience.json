@@ -1,0 +1,11 @@
+{
+  "type": "https://pemo.local/problems/notice-empty-audience",
+  "title": "This notice would reach nobody",
+  "status": 422,
+  "correlationId": "2b3c4d5e-0000-4000-8000-000000000030",
+  "staffMessage": {
+    "en": "The targeting rule resolves to no residents. Check the targets before publishing.",
+    "zh-Hant": "目標規則未涵蓋任何住戶，請於發佈前檢查目標。"
+  },
+  "retryable": false
+}
